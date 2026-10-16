@@ -33,26 +33,26 @@ If you skip this step, the app still works, but the Admin must share the sheet m
 
 After changing Code.gs: Deploy -> Manage deployments -> Edit -> New version.
 
-## Admin flow (when someone installs the app)
-1. On first open, press **I am the Admin**.
-2. **Sign in with Google** (the Gmail account that owns the Google Sheet) and allow access. The Google password is never seen by the app.
-3. Paste the link of the Google Sheet, enter the names of all workshops, and choose the Admin ID + password. Press **Create**.
-4. The app automatically shares the sheet (Anyone with the link -> Editor), creates the tabs `DATA`, `Users`, `Drivers` (Driver Master), `Config`, `ARCHIVE`
-   (data columns go only up to **REPLACEMENT DATE + TIME**), logs the Admin in, and discards the Google access.
-5. In the app's **Users** tab the Admin copies the "Link for users" and sends it to the users.
+## How the app works
+**Home page (the only page everybody sees)**
+- **Complaint status** (no login): the person selects their **DISCOM**, types a complaint / PR number (3+ characters) and sees the status.
+  The search covers the data of **every Division Head (Admin) registered under that DISCOM**, whichever workshop pasted it.
+- **Staff login**: Admin and users log in with just ID + password. Nothing else to select or paste.
+- Small text at the bottom: **Division Head? Setup here**.
 
-## Who has installed it? (Admin registry)
-Every time someone sets up the app, a row is added to a Google Sheet in YOUR Drive named **Transformer Tracking - Admin Registry**:
-time, the Admin's verified Google email, Admin ID, organisation, workshops and Sheet link. The sheet is created automatically on the first setup.
+**Division Head (Admin) setup**
+1. Press **Setup here**, then **Sign in with Google** (the Gmail that owns the Google Sheet) and allow access.
+2. Paste the Google Sheet link, enter the **DISCOM**, the names of all workshops, and the **Profit Center**. The Profit Center is always the Admin ID. Choose a password and press **Create**.
+3. The app shares the sheet, creates the tabs `DATA`, `Users`, `Drivers`, `Config`, `ARCHIVE` (data only up to **REPLACEMENT DATE + TIME**), registers the Admin, and logs in.
+4. In the **Users** tab the Admin creates users (each ID must be unique, e.g. start with the Profit Center). Users log in directly from the home page.
+
+**Pasting data**: columns in this order: Workshop, DIVISION, SUBSTATION, ... TIME. A leading **DISCOM** column (before Workshop) is accepted and ignored; the DISCOM is the one entered at setup.
+
+## Who has installed it? (Registry)
+Every setup adds a row to a Google Sheet in YOUR Drive named **TF-Tracker - Registry** (tab *Admins*): time, the Admin's verified Google email, Profit Center, DISCOM, workshops and Sheet link.
+The tab *Users* maps every User ID to its sheet (this is how login works with just ID + password). The registry is created automatically on the first setup.
 To find it: in Apps Script, select the function `registryUrl` and press Run; the link appears in the Execution log.
 For anyone with a Gmail to be able to become an Admin, publish the OAuth app (Google Auth Platform -> Audience -> Publish app); in Testing mode only listed Test users can sign in.
-
-## User flow
-The user opens the link (or presses **I am a User** and pastes the Sheet link), lands directly on the **login page**, and logs in with ID + password.
-
-## Complaint / PR status
-It is on the login page itself and works **without login**. The data comes from the `DATA` tab of the Google Sheet the Admin connected
-(fresh data on every search, auto-refresh every 5 minutes, offline cache).
 
 ## Please note
 - The Sheet is shared as "Anyone with the link", so anyone who has the link can open the Sheet directly (the Users tab also holds password hashes). Share the link only with your own people and use strong passwords.
