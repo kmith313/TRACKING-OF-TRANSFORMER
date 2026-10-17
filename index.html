@@ -455,6 +455,17 @@ a.call:active{transform:scale(.96)}
 .a-people.late{animation:a-slideup .5s ease both}
 .a-people.late .a-person{animation:a-fadeblur .6s ease both}
 #cs-ov.a-overlay{z-index:120}
+#cs-ov,#cs-ov .a-detail,#h-res{color:#e8eefc}
+#cs-ov .a-kv__v,#cs-ov .a-ids__val,#cs-ov .a-person__name,#cs-ov .a-banner b,#cs-ov .a-step__label{color:#e8eefc}
+#cs-ov .a-step:not(.a-on) .a-step__label{color:#8fa0c0}
+#cs-ov .a-cap .a-kv__v{color:#7dd3fc}
+#cs-ov .a-banner span:not(.a-banner__ring):not(.a-bolt){color:#a7f3d0}
+#cs-ov .a-people{grid-template-columns:1fr!important}
+#cs-ov .a-person{min-width:0}
+#cs-ov .a-person__txt{min-width:0;flex:1}
+#cs-ov .a-person__name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cs-ov .a-call{flex:none;max-width:55%}
+@media(max-width:400px){#cs-ov .a-call span{font-size:12.5px}}
 @media (prefers-reduced-motion:reduce){#h-res *,#cs-ov *{animation-duration:.01ms!important;animation-delay:0s!important}.a-row,.a-detail,.a-banner{opacity:1!important;transform:none!important}.a-track__fill{width:var(--p)}.a-step.a-on .a-dot{transform:none}.a-step.a-on .a-dot svg,.a-banner__ring svg{stroke-dashoffset:0}}
 /* ---------- Card ---------- */
 .a-detail {
