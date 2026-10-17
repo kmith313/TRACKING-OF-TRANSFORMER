@@ -389,6 +389,245 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 #h-status .cmeta{margin-top:8px}
 #h-status .crow{border-radius:13px;padding:12px;box-shadow:0 2px 8px rgba(20,32,74,.06)}
 @media(max-width:480px){#login.scr.home{padding-top:3vh}}
+
+/* ===== summary v2 (cards, return, animation) + skeleton + call buttons ===== */
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes shim{to{background-position:-200% 0}}
+@keyframes grow{from{width:0}to{width:var(--w)}}
+.sk{display:block;background:linear-gradient(90deg,#e6ebf6 25%,#f6f8fd 37%,#e6ebf6 63%);background-size:200% 100%;animation:shim 1.15s linear infinite;border-radius:14px}
+.skg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}.skg .sk{height:74px}
+.skb{height:120px;margin-bottom:12px}.sktd{border:0!important;padding:10px!important}.sktd .skb{height:34px;margin-bottom:8px}
+#sout.stale{opacity:.82}
+#sout.noanim *{animation:none!important}
+#sout .kx{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+#sout .kxt{position:relative;overflow:hidden;border-radius:16px;padding:13px 14px 11px;background:linear-gradient(145deg,#fff 30%,var(--k,#eef2ff) 160%);box-shadow:0 6px 18px rgba(40,60,120,.11),inset 0 0 0 1px rgba(60,80,140,.08);animation:rise .55s both;animation-delay:calc(var(--i,0)*65ms);border-top:4px solid var(--a,#4c6ef5)}
+#sout .kxt .ki{position:absolute;right:10px;top:8px;font-size:22px;opacity:.5}
+#sout .kxt .kv{font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.5px;color:var(--a,#4c6ef5)}
+#sout .kxt .kv a.n{color:inherit;text-decoration:none}
+#sout .kxt .kl{font-size:10.5px;font-weight:800;color:#5c6785;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
+.k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-td{--a:#1c7ed6;--k:#dcecff}
+#sout .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
+#sout .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
+#sout .card>h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--acc,var(--pri))}
+#sout .wcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+#sout .wc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 22px rgba(40,60,120,.12),inset 0 0 0 1px rgba(60,80,140,.08);animation:rise .6s both;animation-delay:calc(var(--i,0)*90ms + .2s);--wa:#4c6ef5;--wb:#7c9dff}
+#sout .wc.w1{--wa:#0c9a9a;--wb:#4fd1c5}#sout .wc.w2{--wa:#e8890c;--wb:#ffc06b}#sout .wc.wt0{--wa:#1f2a52;--wb:#4c5fb0}
+#sout .wh{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:linear-gradient(100deg,var(--wa),var(--wb));color:#fff}
+#sout .wh b{font-size:15px;letter-spacing:.3px}#sout .wh span{background:rgba(255,255,255,.22);border-radius:99px;padding:2px 10px;font-size:11.5px;font-weight:700}
+#sout .wbars{padding:11px 14px 2px;display:grid;gap:7px}
+#sout .wbar{display:grid;grid-template-columns:64px 1fr 40px;align-items:center;gap:8px;font-size:11px;font-weight:700;color:#5c6785}
+#sout .wbar u{display:block;height:9px;border-radius:99px;background:#e8ecf6;overflow:hidden}
+#sout .wbar u i{display:block;height:100%;width:var(--w);border-radius:99px;background:linear-gradient(90deg,var(--wa),var(--wb));animation:grow 1s cubic-bezier(.2,.8,.2,1) both;animation-delay:.5s}
+#sout .wbar.r u i{background:linear-gradient(90deg,#0f8a5f,#5fd3a2)}
+#sout .wbar em{font-style:normal;text-align:right;color:var(--ink)}
+#sout .wsec{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#7a85a0;padding:10px 14px 4px}#sout .wsec small{font-weight:600;text-transform:none;letter-spacing:0}
+#sout .wg{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:7px;padding:0 12px 4px}
+#sout .wc .wg:last-child{padding-bottom:13px}
+#sout .wt{background:#f3f6fd;border-radius:12px;padding:8px 4px 7px;text-align:center;min-width:0}
+#sout .wt b{display:block;font-size:19px;line-height:1.15}#sout .wt b a.n{text-decoration:none}
+#sout .wt>span{display:block;font-size:9px;color:#6a7690;font-weight:700;text-transform:uppercase;line-height:1.2;margin-top:2px}
+#sout .wt.pw{background:#fff1dc}#sout .wt.rt{background:#efe9ff}
+#sout .tdet{margin-top:12px}#sout .tdet>summary{cursor:pointer;font-weight:700;font-size:12px;color:var(--pri);padding:6px 2px}
+#sout td.rt{background:#f6f2ff}
+@media(max-width:900px){#sout .kx{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){#sout .wcs{grid-template-columns:1fr}#sout .kxt .kv{font-size:25px}#sout .card{padding:10px 8px}}
+a.call{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#12b886,#0f8a5f);color:#fff!important;text-decoration:none;border-radius:99px;padding:3px 11px;font-size:11.5px;font-weight:700;box-shadow:0 2px 6px rgba(15,138,95,.3);white-space:nowrap}
+a.call:active{transform:scale(.96)}
+.pc .je{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 8px;background:#f3f6fd;border-radius:9px}.pc .je label{margin:0}
+.pc .je .jv{flex:1;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:700;font-size:12.5px}
+.pc .je small,#lt small{color:var(--mut);font-weight:600}
+.pc .mob{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap}
+.hfp{text-align:center;margin-top:12px;font-size:12.5px}.hfp a{color:#5b6786;font-weight:600}
+.fpt{font-weight:800;font-size:16px;color:#16306b;margin-bottom:4px}.fps{font-size:12.5px;color:#5b6786;margin-bottom:6px;line-height:1.45}
+/* ===== animated complaint status (home) ===== */
+:root{--a-bg:#0a1020}
+#h-res,#cs-ov{--card:#111a2e;--card2:#16223b;--text:#e8eefc;--muted:#8fa0c0;--border:rgba(143,160,192,.16);--brand:#38bdf8;--ok:#22c55e;--warn:#f59e0b;--wait:#f97316;--radius:20px}
+#h-res{max-width:460px;margin:0 auto;padding:0 16px 8px;color:#e8eefc}
+#h-res .cmeta{color:#aebbe6;margin:2px 4px 6px;font-size:12px}
+.a-results{display:grid;gap:14px;margin-top:6px}
+.a-empty{text-align:center;color:#8fa0c0;padding:26px 10px;line-height:1.6;font-size:13.5px}
+.a-empty b{display:block;font-size:34px;animation:a-float 3s ease-in-out infinite}
+.a-none{text-align:center;color:#aebbe6;padding:26px 10px}
+.a-row.noanim{animation:none;opacity:1;transform:none}
+.a-sk{height:84px;border-radius:18px;background:linear-gradient(90deg,#14203a 25%,#1c2b4d 37%,#14203a 63%);background-size:200% 100%;animation:a-shim 1.15s linear infinite}
+@keyframes a-shim{to{background-position:-200% 0}}
+.a-people .a-sk{height:52px;border-radius:14px}
+.a-people.late{animation:a-slideup .5s ease both}
+.a-people.late .a-person{animation:a-fadeblur .6s ease both}
+#cs-ov.a-overlay{z-index:120}
+@media (prefers-reduced-motion:reduce){#h-res *,#cs-ov *{animation-duration:.01ms!important;animation-delay:0s!important}.a-row,.a-detail,.a-banner{opacity:1!important;transform:none!important}.a-track__fill{width:var(--p)}.a-step.a-on .a-dot{transform:none}.a-step.a-on .a-dot svg,.a-banner__ring svg{stroke-dashoffset:0}}
+/* ---------- Card ---------- */
+.a-detail {
+  position: relative; overflow: hidden; padding: 16px; border-radius: var(--radius);
+  background: linear-gradient(160deg, var(--card2), var(--card));
+  border: 1px solid var(--border); box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+@keyframes a-rise { to { opacity: 1; transform: none; } }
+.a-detail::before { /* left accent */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  background: linear-gradient(180deg, var(--wait), var(--warn));
+}
+.a-detail.a-done::before { background: linear-gradient(180deg, #4ade80, #16a34a); }
+.a-detail.a-done { border-color: rgba(34, 197, 94, 0.45); animation: a-glowpulse 2.8s ease-in-out 1s 2; }
+@keyframes a-glowpulse { 50% { box-shadow: 0 0 0 1px rgba(34,197,94,.6), 0 0 38px rgba(34,197,94,.35); } }
+.a-detail__glow {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.12) 50%, transparent 65%);
+  transform: translateX(-100%);
+}
+.a-detail.a-done .a-detail__glow { opacity: 1; animation: a-sheen 1.4s ease .8s 1; }
+@keyframes a-sheen { to { transform: translateX(100%); } }
+
+.a-detail__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.a-ids__label { font-size: 10px; letter-spacing: 1.2px; color: var(--muted); font-weight: 700; }
+.a-ids__val { font-size: 19px; font-weight: 800; letter-spacing: .3px; word-break: break-all; }
+
+.a-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.a-chip--ok { background: rgba(34, 197, 94, .16); color: #4ade80; border: 1px solid rgba(34,197,94,.4); }
+.a-chip--ok i { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: a-ping 1.4s infinite; }
+@keyframes a-ping { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.7); } 100% { box-shadow: 0 0 0 9px rgba(74,222,128,0); } }
+.a-chip--go { background: rgba(245, 158, 11, .15); color: #fbbf24; border: 1px solid rgba(245,158,11,.35); }
+.a-chip--wait { background: rgba(249, 115, 22, .15); color: #fb923c; border: 1px solid rgba(249,115,22,.35); }
+
+/* ---------- Info grid ---------- */
+.a-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.a-kv--wide { grid-column: 1 / -1; }
+.a-kv__k { font-size: 10px; letter-spacing: .9px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.a-kv__v { font-size: 14.5px; font-weight: 600; margin-top: 2px; word-break: break-word; }
+.a-kv.a-cap .a-kv__v { display: inline-block; padding: 1px 10px; border-radius: 8px; background: rgba(56,189,248,.14); color: #7dd3fc; }
+
+/* ---------- People ---------- */
+.a-people { display: grid; gap: 8px; margin-top: 14px; }
+.a-person { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 14px; background: rgba(143,160,192,.07); border: 1px solid var(--border); }
+.a-avatar { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; font-weight: 800; background: linear-gradient(135deg,#6366f1,#38bdf8); flex: none; }
+.a-person__txt { flex: 1; min-width: 0; }
+.a-person__role { font-size: 10px; letter-spacing: .9px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.a-person__name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-call {
+  display: inline-flex; align-items: center; gap: 6px; padding: 8px 11px; border-radius: 11px; text-decoration: none;
+  background: rgba(34,197,94,.14); color: #4ade80; font-weight: 700; font-size: 13px; border: 1px solid rgba(34,197,94,.3); flex: none;
+}
+.a-call svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+.a-call:active { transform: scale(.96); }
+
+/* ---------- Tracker ---------- */
+.a-track { position: relative; margin-top: 18px; padding-top: 6px; }
+.a-track__line { position: absolute; left: 6%; right: 6%; top: 22px; height: 4px; border-radius: 4px; background: rgba(143,160,192,.2); }
+.a-track__fill { height: 100%; width: 0; border-radius: 4px; background: linear-gradient(90deg, #38bdf8, #22c55e); animation: a-fill 1.2s cubic-bezier(.3,.7,.2,1) .35s forwards; }
+@keyframes a-fill { to { width: var(--p); } }
+.a-track--ok .a-track__fill { background: linear-gradient(90deg, #38bdf8, #4ade80); box-shadow: 0 0 12px rgba(74,222,128,.7); }
+.a-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); position: relative; }
+.a-step { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; }
+.a-dot {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+  background: #0d1526; border: 3px solid rgba(143,160,192,.3); transition: .3s;
+}
+.a-dot svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 26; stroke-dashoffset: 26; }
+.a-step.a-on .a-dot {
+  background: linear-gradient(135deg, #38bdf8, #22c55e); border-color: transparent;
+  transform: scale(0); animation: a-pop .5s cubic-bezier(.3,1.6,.4,1) forwards; animation-delay: var(--d);
+}
+.a-step.a-on .a-dot svg { animation: a-draw .45s ease forwards; animation-delay: calc(var(--d) + .25s); }
+@keyframes a-pop { to { transform: scale(1); } }
+@keyframes a-draw { to { stroke-dashoffset: 0; } }
+.a-step:last-child.a-on .a-dot { background: linear-gradient(135deg, #4ade80, #16a34a); box-shadow: 0 0 0 0 rgba(74,222,128,.7); animation: a-pop .5s cubic-bezier(.3,1.6,.4,1) forwards, a-ripple 1.8s ease-out 1.6s 3; animation-delay: var(--d), 1.6s; }
+@keyframes a-ripple { 0% { box-shadow: 0 0 0 0 rgba(74,222,128,.7); } 100% { box-shadow: 0 0 0 16px rgba(74,222,128,0); } }
+.a-step__label { font-size: 12px; font-weight: 700; margin-top: 4px; color: var(--muted); }
+.a-step.a-on .a-step__label { color: var(--text); }
+.a-step__date { font-size: 11.5px; color: var(--muted); }
+.a-step.a-on .a-step__date { color: #a7f3d0; font-weight: 600; }
+
+/* ---------- Replaced banner ---------- */
+.a-banner {
+  display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 14px; border-radius: 16px;
+  background: linear-gradient(120deg, rgba(34,197,94,.22), rgba(56,189,248,.12));
+  border: 1px solid rgba(34,197,94,.4);
+  opacity: 0; transform: translateY(10px); animation: a-rise .6s ease 1.4s forwards;
+}
+.a-banner b { display: block; font-size: 14.5px; }
+.a-banner span:not(.a-banner__ring):not(.a-bolt) { font-size: 12.5px; color: #a7f3d0; }
+.a-banner__ring { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #16a34a; flex: none; animation: a-ripple 1.8s ease-out 1.6s 3; }
+.a-banner__ring svg { width: 20px; height: 20px; a-fill: none; stroke: #fff; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 26; stroke-dashoffset: 26; animation: a-draw .5s ease 1.7s forwards; }
+.a-bolt { margin-left: auto; font-size: 22px; animation: a-zap 1.6s ease-in-out 1.8s infinite; filter: drop-shadow(0 0 8px rgba(250,204,21,.8)); }
+@keyframes a-zap { 0%,100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.25) rotate(-8deg); } }
+
+/* ---------- Confetti ---------- */
+.a-confetti { position: absolute; left: 50%; top: 40%; width: 0; height: 0; pointer-events: none; z-index: 5; }
+.a-confetti i { position: absolute; width: 8px; height: 12px; border-radius: 2px; opacity: 0; animation: a-fly 1.4s cubic-bezier(.15,.8,.3,1) forwards; }
+@keyframes a-fly {
+  0% { opacity: 1; transform: translate(0,0) rotate(0); }
+  100% { opacity: 0; transform: translate(var(--x), calc(var(--y) + 90px)) rotate(var(--r)); }
+}
+
+@media (min-width: 560px) {
+  .a-people { grid-template-columns: 1fr 1fr; }
+}
+
+/* ---------- Result rows ---------- */
+.a-row {
+  position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 14px 14px 18px; border-radius: 18px; cursor: pointer; overflow: hidden;
+  background: linear-gradient(160deg, var(--card2), var(--card)); border: 1px solid var(--border);
+  box-shadow: 0 10px 26px rgba(0,0,0,.3);
+  opacity: 0; transform: translateY(16px); animation: a-rise .5s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * 60ms);
+  transition: border-color .2s, transform .15s;
+}
+.a-row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--wait), var(--warn)); }
+.a-row.a-done::before { background: linear-gradient(180deg, #4ade80, #16a34a); }
+.a-row:hover { border-color: rgba(56,189,248,.5); }
+.a-row:active { transform: scale(.985); }
+.a-row__main { min-width: 0; flex: 1; }
+.a-row__id { font-weight: 800; font-size: 16.5px; letter-spacing: .2px; word-break: break-all; }
+.a-row__place { margin-top: 3px; font-size: 14px; font-weight: 600; color: #cfd9f1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-row__sub { margin-top: 2px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.a-row__side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex: none; }
+.a-row__go { font-size: 12px; font-weight: 700; color: var(--brand); }
+.a-detail__chip { margin-bottom: 14px; }
+
+/* ---------- Detail sheet (opens with animation) ---------- */
+.a-overlay {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(3, 7, 18, 0); backdrop-filter: blur(0); transition: background .3s, backdrop-filter .3s;
+}
+.a-overlay[hidden] { display: none; }
+.a-overlay.a-open { background: rgba(3, 7, 18, .72); backdrop-filter: blur(6px); }
+.a-sheet {
+  width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; overflow-x: hidden;
+  border-radius: 28px 28px 0 0; transform: translateY(100%) scale(.96); opacity: 0;
+  transition: transform .5s cubic-bezier(.2,1.1,.3,1), opacity .3s;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.a-overlay.a-open .a-sheet { transform: none; opacity: 1; }
+.a-sheet .a-detail { border-radius: 28px 28px 0 0; border-bottom: 0; margin-top: 0; }
+.a-sheet::-webkit-scrollbar { display: none; }
+@media (min-width: 640px) {
+  .a-overlay { align-items: center; }
+  .a-sheet { border-radius: 28px; max-height: 88vh; }
+  .a-sheet .a-detail { border-radius: 28px; border-bottom: 1px solid var(--border); }
+}
+.a-noscroll { overflow: hidden; }
+
+.a-close {
+  width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border); flex: none; cursor: pointer;
+  background: rgba(143,160,192,.1); color: var(--text); font-size: 15px;
+}
+.a-close:active { transform: scale(.94); }
+
+/* staggered entrance of the detail content */
+.a-overlay.a-open .a-detail > * { opacity: 0; animation: a-slideup .55s cubic-bezier(.2,.8,.2,1) forwards; }
+.a-overlay.a-open .a-detail > .a-detail__glow { opacity: 1; animation: none; }
+.a-overlay.a-open .a-detail > .a-detail__head { animation-delay: .15s; }
+.a-overlay.a-open .a-detail > .a-detail__chip { animation-delay: .22s; }
+.a-overlay.a-open .a-detail > .a-grid { animation-delay: .3s; }
+.a-overlay.a-open .a-detail > .a-people { animation-delay: .42s; }
+.a-overlay.a-open .a-detail > .a-track { animation-delay: .5s; }
+.a-overlay.a-open .a-detail > .a-banner { animation: a-slideup .6s cubic-bezier(.2,.8,.2,1) 1.9s forwards; }
+@keyframes a-slideup { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.a-overlay.a-open .a-kv__v { animation: a-fadeblur .7s ease both; animation-delay: .45s; }
+@keyframes a-fadeblur { from { filter: blur(6px); opacity: 0; } to { filter: none; opacity: 1; } }
+.a-track__fill { animation-delay: .8s; }
+
+@keyframes a-float{50%{transform:translateY(-6px)}}
 </style>
 </head>
 <body>
@@ -449,8 +688,6 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
       <select id="cs-discom" class="hin"><option value="">Loading...</option></select>
       <label class="hl">Complaint number / PR number</label>
       <div class="hsrch"><input type="search" id="cs-q" class="hin" placeholder="Type at least 3 characters" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search"><span class="hsp" id="cs-spin"></span></div>
-      <div class="cmeta"><span id="cs-meta">Enter your complaint number to see its status.</span></div>
-      <div id="cs-res"></div>
     </section>
 
     <section id="h-login" class="hide">
@@ -460,11 +697,27 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
       <input type="password" id="lp" class="hin" autocomplete="current-password" placeholder="Your password">
       <div id="lmsg"></div>
       <button class="hbtn" id="lbtn">Login</button>
+      <div class="hfp"><a href="#" id="go-forgot">Admin forgot password?</a></div>
+    </section>
+
+    <section id="h-forgot" class="hide">
+      <div class="fpt">Reset Admin password</div>
+      <div class="fps">Sign in with the <b>same Google account</b> you used when you set up this app. Google confirms it is you, then you can set a new password. (Only your e-mail is checked, no Drive access is asked.)</div>
+      <label class="hl">Profit Center (Admin ID)</label>
+      <input type="text" id="fp-id" class="hin" autocomplete="off" autocapitalize="off" placeholder="Your Profit Center">
+      <label class="hl">New password</label>
+      <input type="password" id="fp-p1" class="hin" autocomplete="new-password" placeholder="At least 6 characters">
+      <label class="hl">Repeat new password</label>
+      <input type="password" id="fp-p2" class="hin" autocomplete="new-password" placeholder="Repeat the password">
+      <div id="fp-msg"></div>
+      <button class="hbtn" id="fp-go">Verify with Google &amp; set password</button>
+      <div class="hfp"><a href="#" id="fp-back">&larr; Back to login</a></div>
     </section>
   </div>
+  <div id="h-res"><div class="cmeta"><span id="cs-meta">Enter your complaint number to see its status.</span></div><div id="cs-res"></div></div>
   <div class="hfoot">Division Head? <a id="go-setup" href="#">Setup here</a><br><a href="privacy.html" style="font-weight:400;border:0;color:#8fa0d6;font-size:11.5px">Privacy Policy</a></div>
 </div>
-<div id="cs-ov" class="ov hide" style="z-index:90"></div>
+<div id="cs-ov" class="a-overlay" hidden><div class="a-sheet" id="cs-sheet"></div></div>
 
 <!-- APP -->
 <div id="app" class="hide">
@@ -637,14 +890,21 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 <script>
 var $ = function (id) { return document.getElementById(id); };
 var TOKEN = null, ME = null, SUM = null, LIST = null, LSPEC = null, DIRTY = false, MUST = false, DM = [], DMLOADED = false;
-var COLS = ['Workshop','DIVISION','SUBSTATION','FEEDER','PLACE OF DAMAGE','CAPACITY','Category of Transformer','COMPLAIN NUMBER','PR NO','PR DATE','JE Name','JE Mobile','ISSUED TO FIRM','ISSUE DATE','DRIVER NAME','DRIVER MOBILE','REPLACEMENT DATE','TIME'];
+var COLS = ['Workshop','DIVISION','SUBSTATION','FEEDER','PLACE OF DAMAGE','CAPACITY','Category of Transformer','COMPLAIN NUMBER','PR NO','PR DATE','JE Name','JE Mobile','ISSUED TO FIRM','ISSUE DATE','DRIVER NAME','DRIVER MOBILE','REPLACEMENT DATE','TIME','RETURN DATE'];
 var DCOLS = ['Firm Name', 'Workshop', 'Driver Name', 'Mobile No.', 'Vehicle GPS URL', 'Vehicle No.'];
-var DATE_IDX = [9,13,16], EDIT_FROM = 10, NC = COLS.length;   // only up to REPLACEMENT DATE + TIME
+var DATE_IDX = [9,13,16,18], EDIT_FROM = 10, NC = COLS.length;   // 19 columns: up to REPLACEMENT DATE + TIME + RETURN DATE
 var MONS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
 /* ---------- helpers ---------- */
+/* ---- saved copy of the last answers (shown instantly, refreshed in the background) ---- */
+function cpre() { return 'tc|' + (SID || '') + '|' + ((ME && ME.name) || '') + '|'; }
+function cget(k) { try { var v = localStorage.getItem(cpre() + k); return v ? JSON.parse(v) : null; } catch (e) { return null; } }
+function cset(k, v) { try { var s = JSON.stringify(v); if (s.length < 900000) localStorage.setItem(cpre() + k, s); } catch (e) {} }
+function cclear(part) { try { for (var i = localStorage.length - 1; i >= 0; i--) { var k = localStorage.key(i); if (k && k.indexOf('tc|') === 0 && (!part || k.indexOf('|' + part) > 0)) localStorage.removeItem(k); } } catch (e) {} }
+var SKH = '<div class="skg"><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i></div><div class="sk skb"></div><div class="sk skb"></div>';
 function call(fn) {
   var args = [].slice.call(arguments, 1), url = window.TT_API_URL || '';
+  if (/^(save|delete|admin|changePassword)/.test(fn)) cclear();          // data is about to change: old saved copies are no longer valid
   return new Promise(function (res, rej) {
     function fail(m) {
       m = String(m || '').replace(/^Error:\s*/, '');
@@ -762,7 +1022,7 @@ $('go-setup').onclick = function (e) { e.preventDefault(); showScr('setup'); sho
 $('su-back').onclick = function () { showScr('login'); };
 document.querySelectorAll('.htabs button').forEach(function (b) { b.onclick = function () {
   document.querySelectorAll('.htabs button').forEach(function (x) { x.classList.toggle('on', x === b); });
-  ['status', 'login'].forEach(function (k) { $('h-' + k).classList.toggle('hide', k !== b.dataset.h); });
+  ['status', 'login', 'forgot'].forEach(function (k) { $('h-' + k).classList.toggle('hide', k !== b.dataset.h); }); $('h-res').classList.toggle('hide', b.dataset.h !== 'status');
 }; });
 // admin: setup wizard
 function addWsRow(v) {
@@ -776,11 +1036,11 @@ $('su-addws').onclick = function () { if (document.querySelectorAll('#su-ws .wsr
 addWsRow(''); addWsRow(''); addWsRow('');
 // Admin signs in with Google FIRST (token kept in memory only, used once to share the sheet, then revoked).
 var GTOKEN = '', GCID = window.TT_GOOGLE_CLIENT_ID || '', GAUTO = /\.apps\.googleusercontent\.com$/.test(GCID);
-function gSignIn() {
+function gSignIn(scope) {
   return new Promise(function (res, rej) {
     if (!(window.google && google.accounts && google.accounts.oauth2)) return rej(new Error('Google sign-in could not load. Check your internet connection and try again.'));
     google.accounts.oauth2.initTokenClient({
-      client_id: GCID, scope: 'https://www.googleapis.com/auth/drive openid email',
+      client_id: GCID, scope: scope || 'https://www.googleapis.com/auth/drive openid email',
       callback: function (t) {
         if (!t || !t.access_token) return rej(new Error('Google sign-in was cancelled. Please try again and allow access.'));
         GTOKEN = t.access_token;
@@ -791,6 +1051,23 @@ function gSignIn() {
     }).requestAccessToken();
   });
 }
+$('go-forgot').onclick = function (e) { e.preventDefault(); $('h-login').classList.add('hide'); $('h-forgot').classList.remove('hide'); $('fp-id').value = $('lu').value; msg('fp-msg', ''); };
+$('fp-back').onclick = function (e) { e.preventDefault(); $('h-forgot').classList.add('hide'); $('h-login').classList.remove('hide'); };
+$('fp-go').onclick = function () {
+  var id = $('fp-id').value.trim(), p1 = $('fp-p1').value, p2 = $('fp-p2').value, b = $('fp-go');
+  if (!id) return msg('fp-msg', 'Enter your Profit Center (Admin ID).', 'err');
+  if (p1.length < 6) return msg('fp-msg', 'The new password must have at least 6 characters.', 'err');
+  if (p1 !== p2) return msg('fp-msg', 'The two passwords do not match.', 'err');
+  if (!GAUTO) return msg('fp-msg', 'Google sign-in is not configured in config.js.', 'err');
+  msg('fp-msg', ''); busy(b, true, 'Waiting for Google...');
+  gSignIn('openid email').then(function () { b.innerHTML = '<span class="sp"></span>Checking...'; return call('adminForgot', id, p1, GTOKEN); })
+    .then(function () {
+      gDrop(); busy(b, false); $('fp-p1').value = ''; $('fp-p2').value = '';
+      msg('fp-msg', 'Password changed. Opening the login...', 'ok');
+      setTimeout(function () { $('h-forgot').classList.add('hide'); $('h-login').classList.remove('hide'); $('lu').value = id; $('lp').value = ''; msg('lmsg', 'Your new password is set. Please log in.', 'ok'); $('lp').focus(); }, 1400);
+    })
+    .catch(function (e) { gDrop(); busy(b, false); msg('fp-msg', esc(e.message), 'err'); });
+};
 function gDrop() { var t = GTOKEN; GTOKEN = ''; try { if (t) google.accounts.oauth2.revoke(t, function () {}); } catch (e) {} }
 function shareSheet(link) {                                    // shares the pasted sheet as "Anyone with the link - Editor"
   var m = /\/d\/([\w-]{20,})/.exec(link) || /^([\w-]{25,})$/.exec(link);
@@ -845,7 +1122,9 @@ function showApp(me) {
   if (me.must) { MUST = true; openPw(true); } else loadInitial();
 }
 function afterLogin(r) { SID = r.sid || SID; TOKEN = r.token; store('tk', TOKEN); showApp(r.me); }
-function loadInitial() { loadSummary(); loadDM(); }
+function loadInitial() {
+  loadSummary().then(function () { loadDM(); if (ME && ME.canEdit !== false) call('getData', TOKEN, { date: dsel(), all: false }).then(function (r) { cset('data|' + dsel(), r); }).catch(function () {}); });
+}
 $('lbtn').onclick = function () {
   var b = $('lbtn'); msg('lmsg', ''); busy(b, true, 'Login...');
   call('login', '', $('lu').value, $('lp').value).then(function (r) {
@@ -858,7 +1137,7 @@ $('lp').onkeydown = function (e) { if (e.key === 'Enter') $('lbtn').click(); };
 function anyDirty() { return (D && D.dirty()) || (M && M.dirty()); }
 function doLogout(silent) {
   if (TOKEN && !silent) call('logout', TOKEN).catch(function () {});
-  TOKEN = null; ME = null; store('tk', null); DM = []; DMLOADED = false;
+  cclear(); TOKEN = null; ME = null; store('tk', null); DM = []; DMLOADED = false;
   $('app').classList.add('hide'); showScr('login');
   ['lov', 'eov', 'pov', 'tov'].forEach(function (i) { $(i).classList.add('hide'); });
   $('sout').innerHTML = ''; if (D) D.reset(); if (M) M.reset();
@@ -893,12 +1172,16 @@ function syncFromDate() {
 }
 $('sd').addEventListener('change', syncFromDate);
 ['sd', 'sf', 'st'].forEach(function (i) { $(i).addEventListener('keydown', function (e) { if (e.key === 'Enter') { i === 'sd' ? syncFromDate() : loadSummary(); } }); });
+var SSEQ = 0;
 function loadSummary() {
   var p = { date: $('sd').value.trim(), from: $('sf').value.trim(), to: $('st').value.trim() };
-  if (!validD(p.date) || !validD(p.from) || !validD(p.to)) return msg('smsg', 'Enter all three dates in DD.MM.YYYY format.', 'err');
-  var b = $('sbtn'); msg('smsg', ''); busy(b, true, 'Loading...');
-  call('getSummary', TOKEN, p).then(function (s) { busy(b, false); SUM = s; renderSummary(s); })
-    .catch(function (e) { busy(b, false); msg('smsg', esc(e.message), 'err'); });
+  if (!validD(p.date) || !validD(p.from) || !validD(p.to)) { msg('smsg', 'Enter all three dates in DD.MM.YYYY format.', 'err'); return Promise.resolve(); }
+  var key = 'sum|' + p.date + '|' + p.from + '|' + p.to, c = cget(key), seq = ++SSEQ, b = $('sbtn'); msg('smsg', '');
+  if (c && c.top) { SUM = c; renderSummary(c, true); $('sout').classList.add('stale'); }
+  else { busy(b, true, 'Loading...'); $('sout').classList.remove('stale'); $('sout').innerHTML = SKH; }
+  return call('getSummary', TOKEN, p).then(function (s) {
+    if (seq !== SSEQ) return; cset(key, s); busy(b, false); SUM = s; renderSummary(s, !!(c && c.top)); $('sout').classList.remove('stale');
+  }).catch(function (e) { if (seq !== SSEQ) return; busy(b, false); $('sout').classList.remove('stale'); msg('smsg', esc(e.message) + (c ? ' (showing the last saved view)' : ''), 'err'); });
 }
 function S(extra) { var o = { date: SUM.date, from: SUM.from, to: SUM.to }; for (var k in extra) o[k] = extra[k]; return o; }
 function N(v, spec, title) {
@@ -906,46 +1189,52 @@ function N(v, spec, title) {
   spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + v + '</a>';
 }
 function LK(label, spec, title) { spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + label + '</a>'; }
-var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT'];
-var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.'];
+var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN'];
+var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return'];
+var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10];       // column order of the tables
 function head11(first, s) {
-  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="5">TODAY (' + s.date + ')</th><th class="g2" colspan="5">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
-    H11S.slice(1).map(function (h, i) { var m = i + 1; return '<th class="' + (m <= 5 ? 'g1' : 'g2') + '">' + ((m === 9 || m === 10) ? LK(h, S({ metric: m }), H11[m] + ' - all') : h) + '</th>'; }).join('') + '</tr>';
+  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="6">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
+    ORD_T.concat(ORD_P).map(function (m) { return '<th class="' + (ORD_T.indexOf(m) >= 0 ? 'g1' : 'g2') + '">' + ((m >= 9) ? LK(H11S[m], S({ metric: m }), H11[m] + ' - all') : H11S[m]) + '</th>'; }).join('') + '</tr>';
 }
 function cells11(v, base, name) {
-  return v.map(function (x, i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + (i >= 9 ? ' class="pe"' : '') + '>' + N(x, sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
+  return [0].concat(ORD_T, ORD_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + ((i === 9 || i === 10) ? ' class="pe"' : i >= 11 ? ' class="rt"' : '') + '>' + N(v[i], sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
 }
-// phone view: one card per workshop / division instead of a very wide table
-function mcard(label, cls, v, base, name, s) {
-  function T(i, lab, c) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<div class="mt' + (c || '') + '"><b>' + N(v[i], sp, name + ' - ' + H11[i]) + '</b><span>' + lab + '</span></div>'; }
-  return '<div class="mc ' + cls + '"><div class="mh">' + esc(label) + '</div><div class="ms">Till ' + s.to + ' (from ' + s.from + ')</div><div class="mg">' +
-    T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') +
-    '</div><div class="ms">Today ' + s.date + '</div><div class="mg">' + T(1, 'Today PR') + T(2, 'Issue vs today PR') + T(3, 'Repl. vs today PR') + T(4, 'Today issue') + T(5, 'Today repl.') + '</div></div>';
+function pctOf(a, b) { var t = a + b; return t ? Math.round(a * 100 / t) : 0; }
+// one pretty card per workshop (also the TOTAL card)
+function wcard(label, cls, v, base, name, s, n) {
+  function T(i, lab, c) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<div class="wt' + (c || '') + '"><b>' + N(v[i], sp, name + ' - ' + H11[i]) + '</b><span>' + lab + '</span></div>'; }
+  var a = pctOf(v[7], v[9]), b = pctOf(v[8], v[10]);
+  return '<div class="wc ' + cls + '" style="--i:' + n + '"><div class="wh"><b>' + esc(label) + '</b><span>' + v[6] + ' PR</span></div>' +
+    '<div class="wbars"><div class="wbar"><span>Issued</span><u><i style="--w:' + a + '%"></i></u><em>' + a + '%</em></div><div class="wbar r"><span>Replaced</span><u><i style="--w:' + b + '%"></i></u><em>' + b + '%</em></div></div>' +
+    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + '</div>' +
+    '<div class="wsec">Today <small>' + s.date + '</small></div><div class="wg">' + T(1, 'Today PR') + T(2, 'Issue vs today PR') + T(3, 'Repl. vs today PR') + T(4, 'Today issue') + T(5, 'Today repl.') + T(11, 'Today return', ' rt') + '</div></div>';
 }
-function renderSummary(s) {
+function renderSummary(s, quiet) {
   var h = '', tt = s.top.total;
-  var K = [[6, 'Total PR', ''], [7, 'Total issue', 'ok'], [8, 'Total replacement', 'ok'], [9, 'Pending for issue', 'warn'], [10, 'Pending for replacement', 'bad'], [0, 'Last month pendency', 'gr']];
-  h += '<div class="kpis">' + K.map(function (k) { return '<div class="kp ' + k[2] + '"><div class="kv">' + N(tt[k[0]], S({ metric: k[0] }), 'TOTAL - ' + H11[k[0]]) + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
+  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [1, 'Today PR', 'k-td', '\uD83C\uDF1E']];
+  h += '<div class="kx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + N(tt[k[0]], S({ metric: k[0] }), 'TOTAL - ' + H11[k[0]]) + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
 
-  h += '<div class="card k-ws"><h3>Workshop wise summary</h3><div class="wrap tbl11"><table>' + head11('WORKSHOP', s);
-  s.top.rows.forEach(function (r) { h += '<tr class="wr w' + (s.wsAll.indexOf(r.ws) % 3) + '"><td class="l"><b>' + r.label + '</b></td>' + cells11(r.v, S({ ws: r.ws }), r.label) + '</tr>'; });
   var adm = !!(ME && ME.admin);              // TOTAL is shown only to the admin
+  h += '<div class="card k-ws"><h3>Workshop wise summary</h3><div class="wcs">';
+  s.top.rows.forEach(function (r, i) { h += wcard(r.label, 'w' + (s.wsAll.indexOf(r.ws) % 3), r.v, S({ ws: r.ws }), r.label, s, i); });
+  if (adm) h += wcard('TOTAL', 'wt0', s.top.total, S({}), 'TOTAL', s, s.top.rows.length);
+  h += '</div><details class="tdet"><summary>Show as table</summary><div class="wrap tbl11d"><table>' + head11('WORKSHOP', s);
+  s.top.rows.forEach(function (r) { h += '<tr class="wr w' + (s.wsAll.indexOf(r.ws) % 3) + '"><td class="l"><b>' + r.label + '</b></td>' + cells11(r.v, S({ ws: r.ws }), r.label) + '</tr>'; });
   if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.top.total, S({}), 'TOTAL') + '</tr>';
-  h += '</table></div><div class="mcards">';
-  s.top.rows.forEach(function (r) { h += mcard(r.label, 'w', r.v, S({ ws: r.ws }), r.label, s); });
-  if (adm) h += mcard('TOTAL', 't', s.top.total, S({}), 'TOTAL', s);
-  h += '</div></div>';
+  h += '</table></div></details></div>';
 
-  // Division wise: phone par bhi chhoti table (har division ka alag card nahi) - sideways scroll, pehla column fixed
   h += '<div class="card k-div"><h3>Division wise summary</h3><div class="wrap tbl11d"><table>' + head11('DIVISION', s);
   s.div.rows.forEach(function (r) { h += '<tr class="' + r.t + '"><td class="l">' + esc(r.label) + '</td>' + cells11(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
   if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.div.total, S({}), 'TOTAL') + '</tr>';
   h += '</table></div></div>';
 
   h += capAll(s);
-
   h += divCapTable(s);
-  $('sout').innerHTML = h;
+  var o = $('sout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
+  if (!quiet && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) o.querySelectorAll('.kxt .kv a.n').forEach(function (el) {   // numbers count up
+    var to = +el.textContent; if (!to || to > 99999) return; var t0 = performance.now();
+    (function f(t) { var k = Math.min(1, (t - t0) / 700); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); })(t0);
+  });
 }
 function capLbl(c) { return c ? c : 'Unknown'; }
 // heat shade: jitni badi value utna gehra rang (class h?1 .. h?4); 0 ho to koi rang nahi
@@ -1072,10 +1361,10 @@ function drawList() {
   if (cards) drawCards(vis, vgi); else drawTable(vis, vgi);
 }
 function drawTable(vis, vgi) {
-  var h = '<thead><tr><th>#</th><th>PR NO</th><th>PR DATE</th><th class="l">DIVISION</th><th class="l">SUBSTATION</th><th class="l">PLACE OF DAMAGE</th><th class="l">CAPACITY</th><th>ISSUED TO FIRM</th><th>ISSUE DATE</th><th>REPLACEMENT DATE</th><th></th></tr></thead><tbody>';
+  var h = '<thead><tr><th>#</th><th>PR NO</th><th>PR DATE</th><th class="l">DIVISION</th><th class="l">SUBSTATION</th><th class="l">PLACE OF DAMAGE</th><th class="l">CAPACITY</th><th>ISSUED TO FIRM</th><th>JE</th><th>DRIVER</th><th>ISSUE DATE</th><th>REPLACEMENT DATE</th><th>RETURN DATE</th><th></th></tr></thead><tbody>';
   vis.slice(0, 600).forEach(function (r, i) {
     var gi = vgi[i], can = !!r[NC];
-    h += '<tr>' + td('#', i + 1) + td('PR NO', esc(r[8])) + td('PR Date', esc(r[9])) + td('Division', esc(r[1]), 'l') + td('Substation', esc(r[2]), 'l') + td('Place', esc(r[4]), 'l') + td('Capacity', esc(r[5]), 'l') + td('Firm', esc(r[12])) + td('Issue Date', esc(r[13])) + td('Replacement', esc(r[16])) +
+    h += '<tr>' + td('#', i + 1) + td('PR NO', esc(r[8])) + td('PR Date', esc(r[9])) + td('Division', esc(r[1]), 'l') + td('Substation', esc(r[2]), 'l') + td('Place', esc(r[4]), 'l') + td('Capacity', esc(r[5]), 'l') + td('Firm', esc(r[12])) + td('JE', personHtml(r[10], r[11], true)) + td('Driver', personHtml(r[14], r[15], true)) + td('Issue Date', esc(r[13])) + td('Replacement', esc(r[16])) + td('Return', esc(r[18])) +
       td('', can ? '<button class="btn sm" data-e="' + gi + '">Edit / Fill</button>' : '', can ? '' : 'nb') + '</tr>';
   });
   $('lt').innerHTML = h + '</tbody>';
@@ -1099,20 +1388,27 @@ function dateBox(label, col, val, quick) {
     '<span class="calw">&#128197;<input type="date" data-c="' + id + '"></span></div></div>';
 }
 function primCol() { return LMODE === 'issue' ? 13 : 16; }
-function mobHtml(v) { return v ? esc(v) : '<span class="z">auto from Driver Master</span>'; }
+function telNo(v) { return String(v == null ? '' : v).replace(/[^\d+]/g, ''); }
+function callBtn(mob) { var m = telNo(mob); return m ? '<a class="call" href="tel:' + esc(m) + '" onclick="event.stopPropagation()" title="Call ' + esc(m) + '">&#128222; Call</a>' : ''; }
+function personHtml(name, mob, inline) {            // name + number + Call button
+  if (!name && !mob) return '-';
+  return '<span class="pn">' + (esc(name) || '-') + (mob ? ' <small>' + esc(mob) + '</small>' : '') + '</span> ' + callBtn(mob);
+}
+function mobHtml(v) { return v ? esc(v) + ' ' + callBtn(v) : '<span class="z">auto from Driver Master</span>'; }
 function pcard(r, gi) {
   var ws = wsK(r[0]), can = !!r[NC], prim = primCol();
   var h = '<div class="pc' + (r[prim] ? ' done' : '') + '" data-gi="' + gi + '"><div class="ph"><b>PR ' + esc(r[8]) + '</b><span class="chip">' + esc(r[5] || '-') + '</span><span class="muted">PR date ' + esc(r[9]) + '</span></div>' +
-    '<div class="pm">' + esc([r[1], r[2], r[4]].filter(Boolean).join(' \u00b7 ')) + '</div>';
+    '<div class="pm">' + esc([r[1], r[2], r[4]].filter(Boolean).join(' \u00b7 ')) + '</div>' +
+    '<div class="je"><label>JE</label><div class="jv">' + personHtml(r[10], r[11]) + '</div></div>';
   if (!can) {
     function ro(l, v) { return '<div><label>' + l + '</label><div class="rv">' + (esc(v) || '-') + '</div></div>'; }
-    return h + '<div class="pf">' + ro('Firm', r[12]) + ro('Driver', r[14]) + ro('Mobile', r[15]) + ro('Issue date', r[13]) + ro('Replacement date', r[16]) + '</div></div>';
+    return h + '<div class="pf">' + ro('Firm', r[12]) + ro('Driver', r[14]) + '<div><label>Driver mobile</label><div class="rv">' + (r[15] ? esc(r[15]) + ' ' + callBtn(r[15]) : '-') + '</div></div>' + ro('Issue date', r[13]) + ro('Replacement date', r[16]) + '</div></div>';
   }
   if (!DM.length) h += '<div class="msg info">Driver Master is empty for your workshop - add firms / drivers there first.</div>';
   return h + '<div class="pf">' +
     '<div class="full"><label>Issued to firm</label><select data-f="12">' + optList(firmsOf(ws), r[12], PH_F) + '</select></div>' +
     '<div><label>Driver</label><select data-f="14">' + optList(driversOf(ws, r[12]), r[14], PH_D) + '</select></div>' +
-    '<div><label>Mobile (auto)</label><div class="mob" data-mob data-v="' + esc(r[15]) + '">' + mobHtml(r[15]) + '</div></div>' +
+    '<div><label>Driver mobile</label><div class="mob" data-mob data-v="' + esc(r[15]) + '">' + mobHtml(r[15]) + '</div></div>' +
     dateBox('Issue date', 13, r[13], LMODE === 'issue') + dateBox('Replacement date', 16, r[16], LMODE === 'rep') +
     '</div><div class="pa"><button class="btn sm" data-sv>Save</button><button class="btn sec sm" data-edit="' + gi + '">More fields</button><span class="stx" data-st></span></div></div>';
 }
@@ -1250,7 +1546,11 @@ function findDriver(ws, firm, name) {
   return m.length ? m[0] : null;
 }
 function setDM(rows) { DM = rows.map(function (a) { return { firm: a[1], ws: wsK(a[2]), driver: a[3], mobile: a[4] }; }); DMLOADED = true; }
-function loadDM() { return call('getDrivers', TOKEN).then(function (r) { setDM(r.rows); }).catch(function () {}); }
+function loadDM() {
+  var c = cget('drv'), fresh = call('getDrivers', TOKEN).then(function (r) { cset('drv', r); setDM(r.rows); }).catch(function () {});
+  if (c && c.rows) { setDM(c.rows); return Promise.resolve(); }
+  return fresh;
+}
 
 /* =====================================================================
    Reusable Excel-like grid
@@ -1640,19 +1940,26 @@ var D = makeGrid({
   afterSave: function () { return ''; },
   save: function (items) { return call('saveGrid', TOKEN, items.map(function (i) { return { k: i.k, r: i.r, o: i.o }; })); },
   del: function (rows) { return rows.reduce(function (p, r) { return p.then(function () { return call('deleteRecord', TOKEN, wsK(r.v[0]), r.v[8]); }); }, Promise.resolve()); },
-  reload: function () { return loadData(); }
+  reload: function () { return loadData(true); }
 });
-function loadData() {
-  msg('dmsg', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Loading data...', 'info');
-  var p = DMLOADED ? Promise.resolve() : loadDM();
-  var seq = ++DSEQ, req = { date: dsel(), all: $('dall').checked };
-  return p.then(function () { return call('getData', TOKEN, req); }).then(function (r) {
-    if (seq !== DSEQ) return;                         // a newer request is in flight, drop the old response
+function loadData(fresh) {
+  var key = 'data|' + ($('dall').checked ? 'all' : dsel()), c = fresh ? null : cget(key), seq = ++DSEQ, req = { date: dsel(), all: $('dall').checked }, shown = false;
+  function apply(r, cachedView) {
     D.load(r.rows, r.canEdit, r.one);
     $('dws').classList.toggle('hide', !!r.one);
     $('dhelp').innerHTML = r.canEdit ? '' : 'View only';
-    if (r.total > r.rows.length) msg('dmsg', 'Only the first ' + r.rows.length + ' rows are loaded (total ' + r.total + ').', 'info'); else msg('dmsg', '');
-  }).catch(function (e) { msg('dmsg', esc(e.message), 'err'); });
+    if (cachedView) msg('dmsg', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Updating...', 'info');
+    else if (r.total > r.rows.length) msg('dmsg', 'Only the first ' + r.rows.length + ' rows are loaded (total ' + r.total + ').', 'info'); else msg('dmsg', '');
+  }
+  if (c && c.rows && !D.dirty()) { apply(c, true); shown = true; }
+  else { msg('dmsg', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Loading data...', 'info'); if (!D.dirty()) $('dt').innerHTML = '<tbody><tr><td class="sktd"><div class="sk skb"></div><div class="sk skb"></div><div class="sk skb"></div><div class="sk skb"></div></td></tr></tbody>'; }
+  var p = DMLOADED ? Promise.resolve() : loadDM();
+  return p.then(function () { return call('getData', TOKEN, req); }).then(function (r) {
+    if (seq !== DSEQ) return;                         // a newer request is in flight, drop the old response
+    cset(key, r);
+    if (shown && D.dirty()) { msg('dmsg', ''); return; }      // the user already started typing: do not replace the grid
+    apply(r, false);
+  }).catch(function (e) { if (seq === DSEQ) msg('dmsg', esc(e.message) + (shown ? ' (showing the last saved view)' : ''), 'err'); });
 }
 var DSEQ = 0;
 // date / All dates badalne par data server se dobara laao (taaki 6000 rows ki limit na lage).
@@ -1696,8 +2003,11 @@ var M = makeGrid({
   reload: function () { return loadMaster(); }
 });
 function loadMaster() {
-  msg('mmsg', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Loading...', 'info');
+  var c = cget('drv'), shown = false;
+  if (c && c.rows && !M.dirty()) { setDM(c.rows); M.load(c.rows, c.canEdit, c.one); shown = true; }
+  else msg('mmsg', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Loading...', 'info');
   return call('getDrivers', TOKEN).then(function (r) {
+    cset('drv', r); if (shown && M.dirty()) return;
     setDM(r.rows); M.load(r.rows, r.canEdit, r.one);
     $('mws').classList.toggle('hide', !!r.one);
     $('mhelp').innerHTML = r.canEdit
@@ -1984,6 +2294,7 @@ $('marc').onclick = function () {
 /* ---------- start: saved sheet / ?s= link / old session ---------- */
 (function boot() {
   showScr('login');
+  try { if (window.TT_API_URL) fetch(window.TT_API_URL, { mode: 'no-cors' }).catch(function () {}); } catch (e) {}   // wakes the server while the user types the ID
   var t = fetchStore('tk'); if (!t) return;
   TOKEN = t; call('getMe', t).then(showApp).catch(function () { TOKEN = null; });
 })();

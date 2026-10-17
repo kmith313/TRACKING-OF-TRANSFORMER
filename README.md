@@ -4,7 +4,7 @@ The frontend runs on GitHub Pages; the backend is a Google Apps Script that you 
 Each organisation gives its own Google Sheet link to the app, and the app builds everything else.
 
 ## Folder
-- `index.html`, `complain.js`, `config.js`, `sw.js`, `manifest.webmanifest`, `icons/` : files to upload to GitHub
+- All the files next to `index.html` (`index.html`, `complain.js`, `config.js`, `sw.js`, `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `emblem.png`) : upload them to GitHub, no sub-folder needed
 - `apps-script/Code.gs` : backend code to paste into Google Apps Script
 
 ## Setup (developer, one time)
@@ -53,6 +53,26 @@ Every setup adds a row to a Google Sheet in YOUR Drive named **TF-Tracker - Regi
 The tab *Users* maps every User ID to its sheet (this is how login works with just ID + password). The registry is created automatically on the first setup.
 To find it: in Apps Script, select the function `registryUrl` and press Run; the link appears in the Execution log.
 For anyone with a Gmail to be able to become an Admin, publish the OAuth app (Google Auth Platform -> Audience -> Publish app); in Testing mode only listed Test users can sign in.
+
+## Forgot password
+- **Admin:** home page -> *Staff login* -> **Admin forgot password?** -> enter the Profit Center, a new password, then sign in with the *same Google account used at setup*. Google confirms the e-mail (only e-mail is checked, no Drive access) and the new password is set.
+  If the Admin was created before e-mail tracking existed, press *Setup here* once again with the same sheet link, Profit Center and password - this saves the e-mail.
+- **User:** the Admin opens *Users* and resets the password; the user logs in with the temporary password and must choose a new one.
+
+## Summary / speed
+- Summary now shows Return (Today / Total) and a card layout per workshop; the old table is under *Show as table*.
+- Data Sheet has a RETURN DATE column (19th column, added automatically to older sheets).
+- Last views (summary, data sheet, driver list) are saved in the browser and shown instantly while fresh data loads.
+- Driver and JE numbers have a **Call** button in pending lists and result lists.
+
+## Complaint status: how it is so fast
+- No special paste format is needed. The Admin keeps pasting into the same DATA columns (Workshop ... REPLACEMENT DATE, TIME, RETURN DATE).
+- When a DISCOM is chosen, the browser downloads a small index of that DISCOM (complaint / PR no, place, substation, feeder, capacity, dates). It is saved on the phone (IndexedDB) and searched locally while typing, so results appear instantly.
+- On the next visit only a tiny version check runs; the index is downloaded again only when data changed (or after 30 minutes).
+- JE / driver names and mobile numbers are NOT in the index. They are fetched from the server only when a complaint is opened.
+- If a DISCOM has more than 40,000 rows, or the index is not ready yet, the server searches instead (slower, same result).
+- To turn the local index off, add `window.TT_LOCAL_SEARCH = false;` to config.js.
+- Keep the DATA tab clean: no thousands of empty formatted rows, one row per PR. Rows older than 2 years are moved to ARCHIVE by the Admin tools, which keeps everything fast.
 
 ## Please note
 - The Sheet is shared as "Anyone with the link", so anyone who has the link can open the Sheet directly (the Users tab also holds password hashes). Share the link only with your own people and use strong passwords.
