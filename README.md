@@ -77,3 +77,11 @@ For anyone with a Gmail to be able to become an Admin, publish the OAuth app (Go
 ## Please note
 - The Sheet is shared as "Anyone with the link", so anyone who has the link can open the Sheet directly (the Users tab also holds password hashes). Share the link only with your own people and use strong passwords.
 - Free Google accounts have daily Apps Script limits; for many organisations a Workspace account is better.
+
+## Install app (PWA)
+Home page / header par **Install app** button aata hai (Chrome/Edge desktop + Android). iPhone Safari me Share -> Add to Home Screen ka help dikhta hai.
+
+## Capacity & Pending for return
+- CAPACITY cell me jo bhi text ho ("25 KVA 11/0.4 KV TRANSFORMER REPAIRED"), app KVA number (25) khud nikaal leta hai.
+- Workshop poora naam (e.g. "EWC Azamgarh") paste karo to registered workshop naam me badal jata hai.
+- Capacity-wise summary me **PENDING FOR RETURN** = replacement ho chuka lekin RETURN DATE abhi nahi.

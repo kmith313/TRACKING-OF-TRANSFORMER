@@ -405,7 +405,7 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 #sout .kxt .kv{font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.5px;color:var(--a,#4c6ef5)}
 #sout .kxt .kv a.n{color:inherit;text-decoration:none}
 #sout .kxt .kl{font-size:10.5px;font-weight:800;color:#5c6785;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
-.k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-td{--a:#1c7ed6;--k:#dcecff}
+.k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-pr2{--a:#c2410c;--k:#ffe9d5}.k-td{--a:#1c7ed6;--k:#dcecff}
 #sout .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
 #sout .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
 #sout .card>h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--acc,var(--pri))}
@@ -639,6 +639,14 @@ a.call:active{transform:scale(.96)}
 .a-track__fill { animation-delay: .8s; }
 
 @keyframes a-float{50%{transform:translateY(-6px)}}
+
+.ibtn{display:none;align-items:center;gap:6px;border:0;border-radius:99px;background:linear-gradient(135deg,#17224d,#2f4aa8);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;cursor:pointer;box-shadow:0 4px 14px rgba(23,34,77,.3)}
+.ibtn.show{display:inline-flex}
+.hinst{text-align:center;margin:14px 0 4px}
+.ihelp{position:fixed;inset:0;background:rgba(10,15,40,.6);display:none;align-items:flex-end;justify-content:center;z-index:9999}
+.ihelp.show{display:flex}
+.ihelp>div{background:#fff;color:#17224d;border-radius:18px 18px 0 0;padding:20px 18px 26px;max-width:460px;width:100%;font-size:14px;line-height:1.6}
+.ihelp b{display:block;font-size:16px;margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -701,6 +709,8 @@ a.call:active{transform:scale(.96)}
       <div class="hsrch"><input type="search" id="cs-q" class="hin" placeholder="Type at least 3 characters" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search"><span class="hsp" id="cs-spin"></span></div>
     </section>
 
+    <div class="hinst"><button class="ibtn" data-install>⬇ Install app</button></div>
+
     <section id="h-login" class="hide">
       <label class="hl">User ID / Profit Center</label>
       <input type="text" id="lu" class="hin" autocomplete="username" autocapitalize="off" placeholder="Your ID">
@@ -735,6 +745,7 @@ a.call:active{transform:scale(.96)}
   <div class="top"><header>
     <h1><img class="hemb" src="emblem.png" alt=""> TF-Tracker</h1>
     <span class="u" id="who"></span>
+    <button class="ibtn" data-install>⬇ Install app</button>
     <button class="btn g" id="bpw">Password</button>
     <button class="btn g" id="bout">Logout</button>
   </header>
@@ -1200,15 +1211,15 @@ function N(v, spec, title) {
   spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + v + '</a>';
 }
 function LK(label, spec, title) { spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + label + '</a>'; }
-var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN'];
-var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return'];
-var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10];       // column order of the tables
+var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN'];
+var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return'];
+var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10, 13];       // column order of the tables
 function head11(first, s) {
-  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="6">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
+  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="7">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
     ORD_T.concat(ORD_P).map(function (m) { return '<th class="' + (ORD_T.indexOf(m) >= 0 ? 'g1' : 'g2') + '">' + ((m >= 9) ? LK(H11S[m], S({ metric: m }), H11[m] + ' - all') : H11S[m]) + '</th>'; }).join('') + '</tr>';
 }
 function cells11(v, base, name) {
-  return [0].concat(ORD_T, ORD_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + ((i === 9 || i === 10) ? ' class="pe"' : i >= 11 ? ' class="rt"' : '') + '>' + N(v[i], sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
+  return [0].concat(ORD_T, ORD_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + ((i === 9 || i === 10 || i === 13) ? ' class="pe"' : (i === 11 || i === 12) ? ' class="rt"' : '') + '>' + N(v[i], sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
 }
 function pctOf(a, b) { var t = a + b; return t ? Math.round(a * 100 / t) : 0; }
 // one pretty card per workshop (also the TOTAL card)
@@ -1217,12 +1228,12 @@ function wcard(label, cls, v, base, name, s, n) {
   var a = pctOf(v[7], v[9]), b = pctOf(v[8], v[10]);
   return '<div class="wc ' + cls + '" style="--i:' + n + '"><div class="wh"><b>' + esc(label) + '</b><span>' + v[6] + ' PR</span></div>' +
     '<div class="wbars"><div class="wbar"><span>Issued</span><u><i style="--w:' + a + '%"></i></u><em>' + a + '%</em></div><div class="wbar r"><span>Replaced</span><u><i style="--w:' + b + '%"></i></u><em>' + b + '%</em></div></div>' +
-    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + '</div>' +
+    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + T(13, 'Pending return', ' pw') + '</div>' +
     '<div class="wsec">Today <small>' + s.date + '</small></div><div class="wg">' + T(1, 'Today PR') + T(2, 'Issue vs today PR') + T(3, 'Repl. vs today PR') + T(4, 'Today issue') + T(5, 'Today repl.') + T(11, 'Today return', ' rt') + '</div></div>';
 }
 function renderSummary(s, quiet) {
   var h = '', tt = s.top.total;
-  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [1, 'Today PR', 'k-td', '\uD83C\uDF1E']];
+  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [13, 'Pending for return', 'k-pr2', '\uD83D\uDCE6']];
   h += '<div class="kx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + N(tt[k[0]], S({ metric: k[0] }), 'TOTAL - ' + H11[k[0]]) + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
 
   var adm = !!(ME && ME.admin);              // TOTAL is shown only to the admin
@@ -1257,12 +1268,13 @@ function capAll(s) {
   var G = [
     { t: 'PENDING FOR ISSUE', m: s.capIssue, metric: 9, name: 'Pending for Issue', c: 'g1' },
     { t: 'PENDING FOR REPLACEMENT', m: s.capRep, metric: 10, name: 'Pending for Replacement', c: 'g1' },
+    { t: 'PENDING FOR RETURN', m: s.capPendRet, metric: 13, name: 'Pending for Return', c: 'g1' },
     { t: 'PR RECEIVED', m: s.capPR, metric: 6, name: 'PR Received', c: 'g2' },
     { t: 'AVERAGE PR PER DAY', m: s.capPR, avg: true, c: 'g2' }
-  ], span = cols.length + (multi ? 1 : 0);
+  ].filter(function (g) { return g.m || g.avg; }), span = cols.length + (multi ? 1 : 0);
   var mxG = G.map(function (g) { var mx = 0; s.caps.forEach(function (cp) { idx.forEach(function (i) { if (g.m[cp][i] > mx) mx = g.m[cp][i]; }); }); return mx; });
   var h = '<div class="card k-cap"><h3>Capacity wise summary <span class="muted" style="text-transform:none">(pending till ' + s.to + ' &middot; PR ' + s.from + ' to ' + s.to + ' &middot; ' + s.days + ' days)</span></h3><div class="wrap tbl11d capt"><table><tr><th class="l" rowspan="2">CAPACITY IN KVA</th>' +
-    G.map(function (g) { return '<th class="' + g.c + '" colspan="' + span + '">' + ((g.metric === 9 || g.metric === 10 || g.metric === 11) ? LK(g.t, S({ metric: g.metric }), g.name + ' - all') : g.t) + '</th>'; }).join('') + '</tr><tr>' +
+    G.map(function (g) { return '<th class="' + g.c + '" colspan="' + span + '">' + ((g.metric === 9 || g.metric === 10 || g.metric === 13) ? LK(g.t, S({ metric: g.metric }), g.name + ' - all') : g.t) + '</th>'; }).join('') + '</tr><tr>' +
     G.map(function () { return cols.map(function (c) { return '<th>' + c + '</th>'; }).join('') + (multi ? '<th>TOTAL</th>' : ''); }).join('') + '</tr>';
   var tot = G.map(function () { return cols.map(function () { return 0; }); });
   s.caps.forEach(function (cp) {
@@ -1339,7 +1351,7 @@ function divCapTable(s) {
 
 /* ---------- list modal (opened from the summary) ---------- */
 function openList(spec) {
-  LSPEC = spec; LMODE = spec.metric === 9 ? 'issue' : spec.metric === 10 ? 'rep' : ''; DIRTY = false; $('ltitle').textContent = spec.t || 'List'; $('lq').value = ''; $('lt').innerHTML = ''; $('lcards').innerHTML = ''; $('lcnt').textContent = '';
+  LSPEC = spec; LMODE = spec.metric === 9 ? 'issue' : spec.metric === 10 ? 'rep' : spec.metric === 13 ? 'ret' : ''; DIRTY = false; $('ltitle').textContent = spec.t || 'List'; $('lq').value = ''; $('lt').innerHTML = ''; $('lcards').innerHTML = ''; $('lcnt').textContent = '';
   msg('lmsg2', '<span class="sp" style="border-color:#3b5bdb55;border-top-color:#3b5bdb"></span>Loading...', 'info');
   $('lov').classList.remove('hide');
   var q = {}; for (var k in spec) if (k !== 't') q[k] = spec[k];
@@ -1375,7 +1387,7 @@ function drawTable(vis, vgi) {
   var h = '<thead><tr><th>#</th><th>PR NO</th><th>PR DATE</th><th class="l">DIVISION</th><th class="l">SUBSTATION</th><th class="l">PLACE OF DAMAGE</th><th class="l">CAPACITY</th><th>ISSUED TO FIRM</th><th>JE</th><th>DRIVER</th><th>ISSUE DATE</th><th>REPLACEMENT DATE</th><th>RETURN DATE</th><th></th></tr></thead><tbody>';
   vis.slice(0, 600).forEach(function (r, i) {
     var gi = vgi[i], can = !!r[NC];
-    h += '<tr>' + td('#', i + 1) + td('PR NO', esc(r[8])) + td('PR Date', esc(r[9])) + td('Division', esc(r[1]), 'l') + td('Substation', esc(r[2]), 'l') + td('Place', esc(r[4]), 'l') + td('Capacity', esc(r[5]), 'l') + td('Firm', esc(r[12])) + td('JE', personHtml(r[10], r[11], true)) + td('Driver', personHtml(r[14], r[15], true)) + td('Issue Date', esc(r[13])) + td('Replacement', esc(r[16])) + td('Return', esc(r[18])) +
+    h += '<tr>' + td('#', i + 1) + td('PR NO', esc(r[8])) + td('PR Date', esc(r[9])) + td('Division', esc(r[1]), 'l') + td('Substation', esc(r[2]), 'l') + td('Place', esc(r[4]), 'l') + td('Capacity', esc(capTxt(r[5])), 'l') + td('Firm', esc(r[12])) + td('JE', personHtml(r[10], r[11], true)) + td('Driver', personHtml(r[14], r[15], true)) + td('Issue Date', esc(r[13])) + td('Replacement', esc(r[16])) + td('Return', esc(r[18])) +
       td('', can ? '<button class="btn sm" data-e="' + gi + '">Edit / Fill</button>' : '', can ? '' : 'nb') + '</tr>';
   });
   $('lt').innerHTML = h + '</tbody>';
@@ -1398,7 +1410,11 @@ function dateBox(label, col, val, quick) {
     '<div class="dr"><input type="text" class="dtx pd" id="' + id + '" data-f="' + col + '" value="' + esc(val) + '" inputmode="numeric" maxlength="10" placeholder="DD.MM.YYYY" autocomplete="off">' +
     '<span class="calw">&#128197;<input type="date" data-c="' + id + '"></span></div></div>';
 }
-function primCol() { return LMODE === 'issue' ? 13 : 16; }
+function primCol() { return LMODE === 'issue' ? 13 : LMODE === 'ret' ? 18 : 16; }
+function capTxt(s) {                                // "25 KVA 11/0.4 KV TRANSFORMER REPAIRED" -> "25 KVA"
+  var t = String(s == null ? '' : s).replace(/\u00a0/g, ' ').toUpperCase(), m = t.match(/(?:^|[^\d.\/])(\d+)\s*K\.?\s*V\.?\s*A/) || t.match(/(?:^|[^\d.\/])(\d+)\s*KV/);
+  return m ? m[1] + ' KVA' : (String(s || '').trim() || '-');
+}
 function telNo(v) { return String(v == null ? '' : v).replace(/[^\d+]/g, ''); }
 function callBtn(mob) { var m = telNo(mob); return m ? '<a class="call" href="tel:' + esc(m) + '" onclick="event.stopPropagation()" title="Call ' + esc(m) + '">&#128222; Call</a>' : ''; }
 function personHtml(name, mob, inline) {            // name + number + Call button
@@ -1408,7 +1424,7 @@ function personHtml(name, mob, inline) {            // name + number + Call butt
 function mobHtml(v) { return v ? esc(v) + ' ' + callBtn(v) : '<span class="z">auto from Driver Master</span>'; }
 function pcard(r, gi) {
   var ws = wsK(r[0]), can = !!r[NC], prim = primCol();
-  var h = '<div class="pc' + (r[prim] ? ' done' : '') + '" data-gi="' + gi + '"><div class="ph"><b>PR ' + esc(r[8]) + '</b><span class="chip">' + esc(r[5] || '-') + '</span><span class="muted">PR date ' + esc(r[9]) + '</span></div>' +
+  var h = '<div class="pc' + (r[prim] ? ' done' : '') + '" data-gi="' + gi + '"><div class="ph"><b>PR ' + esc(r[8]) + '</b><span class="chip">' + esc(capTxt(r[5])) + '</span><span class="muted">PR date ' + esc(r[9]) + '</span></div>' +
     '<div class="pm">' + esc([r[1], r[2], r[4]].filter(Boolean).join(' \u00b7 ')) + '</div>' +
     '<div class="je"><label>JE</label><div class="jv">' + personHtml(r[10], r[11]) + '</div></div>';
   if (!can) {
@@ -1420,7 +1436,7 @@ function pcard(r, gi) {
     '<div class="full"><label>Issued to firm</label><select data-f="12">' + optList(firmsOf(ws), r[12], PH_F) + '</select></div>' +
     '<div><label>Driver</label><select data-f="14">' + optList(driversOf(ws, r[12]), r[14], PH_D) + '</select></div>' +
     '<div><label>Driver mobile</label><div class="mob" data-mob data-v="' + esc(r[15]) + '">' + mobHtml(r[15]) + '</div></div>' +
-    dateBox('Issue date', 13, r[13], LMODE === 'issue') + dateBox('Replacement date', 16, r[16], LMODE === 'rep') +
+    dateBox('Issue date', 13, r[13], LMODE === 'issue') + dateBox('Replacement date', 16, r[16], LMODE === 'rep') + (LMODE === 'ret' ? dateBox('Return date', 18, r[18], true) : '') +
     '</div><div class="pa"><button class="btn sm" data-sv>Save</button><button class="btn sec sm" data-edit="' + gi + '">More fields</button><span class="stx" data-st></span></div></div>';
 }
 var DRAWTOK = 0;
@@ -1471,7 +1487,7 @@ function pcSave(card) {
   function put(c, v) { v = v == null ? '' : v; if (v !== r[c]) { vals[c] = v; n++; } }
   put(12, card.querySelector('[data-f="12"]').value); put(14, card.querySelector('[data-f="14"]').value); put(15, card.querySelector('[data-mob]').dataset.v || '');
   var badD = false;
-  [13, 16].forEach(function (c) { var dv = normDate(card.querySelector('input[data-f="' + c + '"]').value.trim()); if (dv && !validD(dv)) { badD = true; return; } put(c, dv); });
+  [13, 16, 18].forEach(function (c) { var el = card.querySelector('input[data-f="' + c + '"]'); if (!el) return; var dv = normDate(el.value.trim()); if (dv && !validD(dv)) { badD = true; return; } put(c, dv); });
   if (badD) { st.className = 'stx bad'; st.textContent = 'Enter the date as DD.MM.YYYY'; return; }
   if (!n) { st.className = 'stx ok'; st.textContent = '\u2713 Saved'; btn.textContent = 'Saved'; return; }
   card._busy = true; st.className = 'stx'; st.textContent = 'Saving...'; btn.disabled = true;
@@ -1576,12 +1592,17 @@ function makeGrid(cfg) {
   var aliasMap = {}; cols.forEach(function (c, i) { aliasMap[nk(c)] = i; }); for (var a in (cfg.alias || {})) aliasMap[a] = cfg.alias[a];
   function isDate(c) { return !!dateSet[c]; }
   function blank(v) { return !v.some(function (x) { return String(x).trim() !== ''; }); }
+  function pend(r) { return !blank(r.v) && (r.n || !!r.d); }          // a completely empty row is never "pending"
+  function fixCleared() {                                              // saved row whose cells were all cleared: put the saved values back (to remove a row use Delete rows)
+    var n = 0; g.rows.forEach(function (r) { if (!r.n && r.d && blank(r.v) && r.o) { r.v = r.o.slice(); r.d = false; r.ver = (r.ver || 0) + 1; n++; } else if (r.n && r.d && blank(r.v)) r.d = false; });
+    return n;
+  }
   var mobSet = {}; (cfg.mobCols || []).forEach(function (i) { mobSet[i] = 1; });
   function isMob(c) { return !!mobSet[c]; }
   function newRow() { var v = []; for (var i = 0; i < NCOL; i++) v.push(''); return { k: '', v: v, d: false, n: true, o: null, ver: 0 }; }
   g.addBlank = function (n) { for (var i = 0; i < n; i++) g.rows.push(newRow()); };
   g.reset = function () { g.rows = []; g.view = []; g.sel = null; g.ed = null; g.undo = []; g.loaded = false; T.innerHTML = ''; };
-  g.dirty = function () { return g.loaded && g.rows.some(function (r) { return r.d || (r.n && !blank(r.v)); }); };
+  g.dirty = function () { return g.loaded && g.rows.some(pend); };
   g.load = function (rows, canEdit, one) {
     g.rows = rows.map(cfg.fromServer); g.rows.forEach(function (r) { r.o = r.v.slice(); r.ver = 0; }); g.canEdit = canEdit; g.one = one || ''; g.loaded = true; g.ed = null; g.sel = null; g.undo = []; g.batch = null;
     if (canEdit) g.addBlank(cfg.blankRows || 30);
@@ -1615,12 +1636,12 @@ function makeGrid(cfg) {
   };
   function badCell(r, c) { return (isDate(c) && r.v[c] !== '' && !validD(r.v[c])) || (isMob(c) && r.v[c] !== '' && !(r.o && r.v[c] === r.o[c]) && cleanMob(r.v[c]) !== r.v[c]); }
   function info() {
-    var n = g.rows.filter(function (r) { return r.d || (r.n && !blank(r.v)); }).length, nd = g.rows.filter(function (r) { return !r.n; }).length;
+    var n = g.rows.filter(pend).length, nd = g.rows.filter(function (r) { return !r.n; }).length;
     $(cfg.p + 'info').innerHTML = (cfg.infoText ? cfg.infoText(g) : g.view.length + ' rows') + (g.trunc ? ' &nbsp;|&nbsp; <b>showing the first ' + cfg.cap + ' of ' + g.trunc + ' - use the date or search to narrow down</b>' : '') +
       (n ? ' &nbsp;|&nbsp; <b style="color:var(--warn)">' + n + (cfg.auto ? ' row(s) pending - saving automatically' : ' rows changed - press Save') + '</b>' : '');
   }
   g.info = info;
-  g.pending = function () { return g.rows.filter(function (r) { return r.d || (r.n && !blank(r.v)); }).length; };
+  g.pending = function () { return g.rows.filter(pend).length; };
   g.exportRows = function () { return g.view.map(function (ri) { return g.rows[ri]; }).filter(function (r) { return !(r.n && blank(r.v)); }).map(function (r) { return r.v.slice(); }); };
   /* ----- selection ----- */
   function rect() { if (!g.sel) return null; var a = g.sel.a, b = g.sel.b; return { r1: Math.min(a.vi, b.vi), r2: Math.max(a.vi, b.vi), c1: Math.min(a.c, b.c), c2: Math.max(a.c, b.c) }; }
@@ -1727,7 +1748,13 @@ function makeGrid(cfg) {
     }
     var map = null, start = 0, off = 0, hi = rows[0].map(nk), hits = 0;
     hi.forEach(function (x) { if (x && aliasMap[x] !== undefined) hits++; });
-    if (hits >= 2) { map = hi.map(function (x) { return aliasMap[x] === undefined ? -1 : aliasMap[x]; }); start = 1; }
+    if (hits >= 2) {
+      map = hi.map(function (x) { return aliasMap[x] === undefined ? -1 : aliasMap[x]; }); start = 1;
+      // columns whose heading is blank / has a different name (e.g. "data id no", an empty FEEDER heading) keep their POSITION: take the app column at the same place
+      var lead = (!hi[0] || /^(sl|slno|sno|sr|srno|no|hash)$/.test(hi[0])) && map[0] === -1 ? 1 : 0, used = {};
+      map.forEach(function (m) { if (m >= 0) used[m] = 1; });
+      map.forEach(function (m, j) { var c = j - lead; if (m === -1 && c >= 0 && c < NCOL && !used[c]) { map[j] = c; used[c] = 1; } });
+    }
     else if (r.c1 === 0 && (cfg.skipFirst ? cfg.skipFirst(rows[0]) : rows[0].length >= NCOL + 1)) off = 1;       // first "#" / SL NO column -> skip it
     var n = 0, done = 0, touched = [];
     beginBatch();
@@ -1840,9 +1867,10 @@ function makeGrid(cfg) {
   g.autoSave = function () {
     if (!cfg.auto) return;
     if (g.ed || g.saving) { g.again = true; if (!g.saving) g.queueAuto(); return; }
-    var idx = [], first = '', wait = 0;
+    var idx = [], first = '', wait = 0, fx = fixCleared();
+    if (fx) { g.draw(); msg(cfg.p + 'msg', fx + ' cleared row(s) were restored to their saved values. To remove a row from the sheet, select it and press <b>Delete rows</b>.', 'info'); }
     g.rows.forEach(function (r, i) {
-      if (!(r.d || (r.n && !blank(r.v)))) return;
+      if (!pend(r)) return;
       touch(i);
       var why = cfg.validate(r, g);
       if (!why) for (var c = 0; c < NCOL; c++) if (badCell(r, c)) { why = cols[c] + (isDate(c) ? ' is not a valid date (DD.MM.YYYY)' : ' must be a 10 digit number'); break; }
@@ -1853,9 +1881,9 @@ function makeGrid(cfg) {
     var sent = idx.map(function (i) { return { i: i, ver: g.rows[i].ver, v: g.rows[i].v.slice() }; });
     var items = idx.map(function (i) { return { k: g.rows[i].k, id: g.rows[i].k, r: g.rows[i].v, o: g.rows[i].o }; });
     g.saving = true; msg(cfg.p + 'msg', 'Saving...', 'info');
-    var tot = { updated: 0, added: 0, skipped: 0, notes: [], bad: [], rows: {} }, p = Promise.resolve();
+    var tot = { updated: 0, added: 0, same: 0, skipped: 0, notes: [], bad: [], rows: {} }, p = Promise.resolve();
     for (var s0 = 0; s0 < items.length; s0 += 250) (function (a, part) {
-      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes || []); (r.bad || []).forEach(function (b) { tot.bad.push(a + b); }); for (var k in (r.rows || {})) tot.rows[a + +k] = r.rows[k]; }); });
+      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes || []); (r.bad || []).forEach(function (b) { tot.bad.push(a + b); }); for (var k in (r.rows || {})) tot.rows[a + +k] = r.rows[k]; }); });
     })(s0, items.slice(s0, s0 + 250));
     p.then(function () {
       g.saving = false;
@@ -1867,16 +1895,23 @@ function makeGrid(cfg) {
         var vi = g.view.indexOf(s.i); if (vi >= 0) refreshRow(vi);
       });
       info(); if (cfg.afterAuto) cfg.afterAuto();
+      var extraNote = cfg.noteSaved ? cfg.noteSaved(sent.filter(function (s, n) { return tot.bad.indexOf(n) < 0; })) : '';
       if (tot.skipped) msg(cfg.p + 'msg', '<b>' + tot.skipped + '</b> row(s) not saved:<br><span class="muted">' + tot.notes.map(esc).join('<br>') + '</span>', 'err');
-      else msg(cfg.p + 'msg', '&#10003; Saved automatically (' + (tot.added + tot.updated) + ' row' + (tot.added + tot.updated === 1 ? '' : 's') + ')', 'ok');
+      else {
+        var dn = tot.added + tot.updated;
+        msg(cfg.p + 'msg', dn ? '&#10003; Saved automatically: <b>' + tot.added + '</b> new, <b>' + tot.updated + '</b> updated' + (tot.same ? ', ' + tot.same + ' were already saved' : '') + '.' :
+          tot.same ? '&#10003; Nothing new to save - these ' + tot.same + ' row(s) are <b>already saved</b> in the Google Sheet (same Workshop + PR NO, same data).' : '&#10003; Saved.', 'ok');
+        if (extraNote) $(cfg.p + 'msg').firstChild.insertAdjacentHTML('beforeend', '<br><span class="muted">' + extraNote + '</span>');
+      }
       if (g.manual) { g.manual = false; g.save(); } else if (g.again) { g.again = false; g.queueAuto(); }
     }).catch(function (e) { g.saving = false; g.manual = false; msg(cfg.p + 'msg', esc(e.message) + ' - press Save to retry', 'err'); });
   };
   g.save = function () {
     clearTimeout(g.at);
     if (g.saving) { g.manual = true; return; }
-    var idx = [], errs = [];
-    g.rows.forEach(function (r, i) { if (r.d || (r.n && !blank(r.v))) idx.push(i); });
+    var idx = [], errs = [], fx = fixCleared();
+    if (fx) g.draw();
+    g.rows.forEach(function (r, i) { if (pend(r)) idx.push(i); });
     if (!idx.length) return msg(cfg.p + 'msg', 'No changes to save.', 'info');
     idx.forEach(function (i) { touch(i); });
     idx.forEach(function (i) {
@@ -1885,16 +1920,16 @@ function makeGrid(cfg) {
       if (why) errs.push('Row ' + (g.view.indexOf(i) + 1) + ' (' + (cfg.label ? cfg.label(r) : '-') + '): ' + why);
     });
     if (errs.length) { g.draw(); return msg(cfg.p + 'msg', '<b>' + errs.length + ' row(s) need fixing before saving:</b><br>' + errs.slice(0, 10).map(esc).join('<br>') + (errs.length > 10 ? '<br>...' : ''), 'err'); }
-    var items = idx.map(function (i) { return { k: g.rows[i].k, id: g.rows[i].k, r: g.rows[i].v, o: g.rows[i].o }; }), tot = { added: 0, updated: 0, skipped: 0, notes: [] };
+    var items = idx.map(function (i) { return { k: g.rows[i].k, id: g.rows[i].k, r: g.rows[i].v, o: g.rows[i].o }; }), tot = { added: 0, updated: 0, same: 0, skipped: 0, notes: [] };
     var b = $(cfg.p + 'save'); busy(b, true, 'Saving...'); msg(cfg.p + 'msg', ''); g.saving = true;
     var p = Promise.resolve();
     for (var s0 = 0; s0 < items.length; s0 += 250) (function (part) {
-      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes); }); });
+      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes); }); });
     })(items.slice(s0, s0 + 250));
     p.then(function () {
       busy(b, false); g.saving = false;
       return cfg.reload().then(function () {
-        var t = '<b>' + tot.added + '</b> new, <b>' + tot.updated + '</b> updated, <b>' + tot.skipped + '</b> skipped.';
+        var t = '<b>' + tot.added + '</b> new, <b>' + tot.updated + '</b> updated, ' + (tot.same ? '<b>' + tot.same + '</b> already saved, ' : '') + '<b>' + tot.skipped + '</b> skipped.';
         if (tot.notes.length) t += '<br><span class="muted">' + tot.notes.map(esc).join('<br>') + '</span>';
         if (cfg.afterSave) t += cfg.afterSave(items);
         msg(cfg.p + 'msg', t, tot.skipped ? 'err' : 'ok');
@@ -1917,10 +1952,18 @@ var D = makeGrid({
   keyOf: function (r) { return wsK(r.v[0]) + '|' + r.v[8]; },
   fromServer: function (a) { return { k: wsK(a[0]) + '|' + a[8], v: a.slice(0, NC), d: false, n: false }; },
   match: function (r) { if ($('dall').checked) return true; var d = dsel(); return !d || r.v[9] === d; },
+  noteSaved: function (sent) {
+    if ($('dall').checked) return '';
+    var d = dsel(), other = {}, n = 0;
+    sent.forEach(function (s) { var pd = s.v[9]; if (pd && pd !== d) { other[pd] = 1; n++; } });
+    var ks = Object.keys(other); if (!n) return '';
+    return n + ' saved row(s) have PR DATE ' + ks.slice(0, 3).join(', ') + (ks.length > 3 ? ' ...' : '') + ' (not ' + (d || 'the selected date') + '). They are saved - choose that date or tick <b>All dates</b> to see them.';
+  },
   infoText: function (g) { return $('dall').checked ? g.view.length + ' rows (all dates)' : g.view.length + ' rows for ' + (dsel() || '-') + ' (by PR date)'; },
   touch: function (g, ri) {          // defaults for new rows: own workshop + selected date as PR DATE
     var r = g.rows[ri]; if (!r.n) return;
     if (g.one && !r.v[0]) g.setCell(ri, 0, g.one);
+    { var cw = wsK(r.v[0]); if (cw && r.v[0] !== cw) g.setCell(ri, 0, cw); }          // full name pasted (e.g. EWC Azamgarh) -> registered workshop name
     if (!r.v[9] && dsel() && r.v.some(function (x, i) { return i !== 0 && i !== 9 && String(x).trim() !== ''; })) g.setCell(ri, 9, dsel());
   },
   listFor: function (g, r, c) {      // firm list -> driver list (of that firm)
@@ -2308,6 +2351,29 @@ $('marc').onclick = function () {
   try { if (window.TT_API_URL) fetch(window.TT_API_URL, { mode: 'no-cors' }).catch(function () {}); } catch (e) {}   // wakes the server while the user types the ID
   var t = fetchStore('tk'); if (!t) return;
   TOKEN = t; call('getMe', t).then(showApp).catch(function () { TOKEN = null; });
+})();
+</script>
+<script>
+(function () {
+  var dp = null, btns = function () { return document.querySelectorAll('[data-install]'); };
+  var standalone = function () { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; };
+  var ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function show(on) { Array.prototype.forEach.call(btns(), function (b) { b.classList.toggle('show', !!on); }); }
+  var help = document.createElement('div'); help.className = 'ihelp';
+  help.innerHTML = '<div><b>Install TF-Tracker</b><span id="ih-t"></span><br><br><button class="btn" id="ih-x">OK</button></div>';
+  document.addEventListener('DOMContentLoaded', function () { document.body.appendChild(help); });
+  help.addEventListener('click', function (e) { if (e.target === help || e.target.id === 'ih-x') help.classList.remove('show'); });
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); dp = e; if (!standalone()) show(true); });
+  window.addEventListener('appinstalled', function () { dp = null; show(false); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-install]'); if (!b) return;
+    if (dp) { dp.prompt(); dp.userChoice.then(function () { dp = null; show(false); }); return; }
+    document.getElementById('ih-t').innerHTML = ios
+      ? 'Safari me <b style="display:inline">Share \u2B06</b> dabaiye, phir <b style="display:inline">Add to Home Screen</b> chuniye.'
+      : 'Browser menu (\u22EE) kholiye, phir <b style="display:inline">Install app</b> / <b style="display:inline">Add to Home screen</b> chuniye.';
+    help.classList.add('show');
+  });
+  document.addEventListener('DOMContentLoaded', function () { if (!standalone() && (ios || !('onbeforeinstallprompt' in window))) show(true); });
 })();
 </script>
 <script>if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(function () {});</script>

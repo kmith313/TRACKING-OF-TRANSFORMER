@@ -1,5 +1,5 @@
-const CACHE = "tt-v5";
-const ASSETS = ["./", "./index.html", "./complain.js", "./config.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./emblem.png", "./privacy.html"];
+const CACHE = "tt-v7";
+const ASSETS = ["./", "./index.html", "./complain.js", "./config.js", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./icon-maskable-512.png", "./emblem.png", "./privacy.html"];
 self.addEventListener("install", (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener("activate", (e) => e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
 // sirf apne files: network-first, offline par cache. Google (API / Sheet) ki requests ko haath nahi lagate.

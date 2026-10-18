@@ -3,6 +3,7 @@
    Details (JE / driver + mobile numbers) are fetched only when a complaint is opened.
    Fallback: if the index is not ready yet (first visit) or too big, the server searches. */
 (function () {
+function capNum(s){var t=String(s==null?'':s).replace(/\u00a0/g,' ').toUpperCase(),m=t.match(/(?:^|[^\d.\/])(\d+)\s*K\.?\s*V\.?\s*A/)||t.match(/(?:^|[^\d.\/])(\d+)\s*KV/);return m?m[1]+' kVA':String(s||'').trim();}
   var C = { complain: 0, pr: 1, prDate: 2, place: 3, substation: 4, feeder: 5, division: 6, workshop: 7, capacity: 8, firm: 9, issueDate: 10, replDate: 11, time: 12 };   // index row layout
   var F = { workshop: 0, division: 1, substation: 2, feeder: 3, place: 4, capacity: 5, complain: 7, pr: 8, prDate: 9, jeName: 10, jeMobile: 11, firm: 12, issueDate: 13, driverName: 14, driverMobile: 15, replDate: 16, time: 17 };   // full row layout
   var LOCAL = window.TT_LOCAL_SEARCH !== false;
@@ -100,7 +101,7 @@
   function row(x, i, anim) {
     var s = stOf(x);
     return '<div class="a-row ' + (s.rep ? 'a-done' : 'a-pending') + (anim ? '' : ' noanim') + '" data-i="' + i + '" style="--i:' + Math.min(i, 8) + '" tabindex="0" role="button"><div class="a-row__main"><div class="a-row__id">' + esc(x.complain || x.pr || '-') + '</div>' +
-      '<div class="a-row__place">' + esc(x.place || '-') + '</div><div class="a-row__sub">' + esc([x.substation, x.feeder].filter(Boolean).join(' • ')) + (x.capacity ? ' • ' + esc(x.capacity).replace(/\s*kva$/i, '') + ' kVA' : '') + '</div></div>' +
+      '<div class="a-row__place">' + esc(x.place || '-') + '</div><div class="a-row__sub">' + esc([x.substation, x.feeder].filter(Boolean).join(' • ')) + (x.capacity ? ' • ' + esc(capNum(x.capacity)) : '') + '</div></div>' +
       '<div class="a-row__side">' + chip(s) + '<span class="a-row__go">View details ›</span></div></div>';
   }
   function show(r, map, q, d, isLocal) {
@@ -137,7 +138,7 @@
     return '<div class="a-detail ' + (s.rep ? 'a-done' : 'a-pending') + '"><div class="a-detail__glow"></div>' +
       '<div class="a-detail__head"><div class="a-ids"><div class="a-ids__label">COMPLAINT NUMBER</div><div class="a-ids__val">' + esc(r.complain || r.pr || '—') + '</div></div><button class="a-close" id="cs-close" aria-label="Close">✕</button></div>' +
       '<div class="a-detail__chip">' + chip(s) + '</div>' +
-      '<div class="a-grid">' + kv('PR No', r.pr) + kv('PR Date', r.prDate) + kv('Division', r.division, true) + kv('Substation', r.substation) + kv('Feeder', r.feeder) + kv('Place of Damage', r.place, true) + kv('Capacity', r.capacity ? String(r.capacity).replace(/\s*kva$/i, '') + ' kVA' : '', false, 'a-cap') + (r.firm ? kv('Issued to firm', r.firm, true) : '') + '</div>' +
+      '<div class="a-grid">' + kv('PR No', r.pr) + kv('PR Date', r.prDate) + kv('Division', r.division, true) + kv('Substation', r.substation) + kv('Feeder', r.feeder) + kv('Place of Damage', r.place, true) + kv('Capacity', r.capacity ? capNum(r.capacity) : '', false, 'a-cap') + (r.firm ? kv('Issued to firm', r.firm, true) : '') + '</div>' +
       '<div class="a-people" id="cs-people">' + (loadingPeople ? '<div class="a-sk"></div><div class="a-sk"></div>' : people(r)) + '</div>' +
       '<div class="a-track ' + (s.rep ? 'a-track--ok' : '') + '"><div class="a-track__line"><div class="a-track__fill" style="--p:' + pct + '%"></div></div><ul class="a-steps">' + sh + '</ul></div>' +
       (s.rep ? '<div class="a-banner"><span class="a-banner__ring"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>Transformer replaced</b><span>Replacement date: ' + esc(r.replDate) + (r.time ? ' ' + esc(r.time) : '') + '</span></div><span class="a-bolt">⚡</span></div>' : '') + '</div>';
