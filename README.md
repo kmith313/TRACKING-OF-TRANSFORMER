@@ -104,3 +104,7 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - **Poori Google Sheet delete ho gayi:** nayi khali sheet banao (Anyone with link - Editor) -> Home -> "Google Sheet deleted?" -> Admin ID, password, nayi sheet ka link, same Google account se verify.
 - **REMARK:** Data Sheet ke aakhir me naya REMARK column - JE likh sakta hai ki transformer replace kyu nahi hua. Purani sheets me column apne aap add ho jata hai.
 - **Speed:** summary server par cache hoti hai (data badalte hi refresh) aur login ke saath hi aa jati hai.
+
+## Comparison - day wise
+- **Unit head (Admin / workshop user):** har din ka damage (PR) - pichhla saal vs is saal, workshop wise, aakhir me TOTAL (inc/dec count + %).
+- **DISCOM head:** har division ka pichhla saal | is saal | inc/dec (count) | %, din ke hisaab se, aur total.

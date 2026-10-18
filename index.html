@@ -741,6 +741,10 @@ table.cmpt{font-size:11.5px}.cmpt thead th{font-size:10px}.cmpt td.ic{font-size:
 @keyframes lgring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(3.2);opacity:0}}
 @keyframes lgshine{0%,35%{transform:translateX(-120%)}70%,100%{transform:translateX(120%)}}
 @media(prefers-reduced-motion:reduce){.hlogo .lgw,.hlogo .lgw i,.lg-pin::before,.lg-pin::after{animation:none!important}.lg-shine,.lg-bolt,.lg-top{display:none}}
+
+.cmpt.dayt th.gw{background:#3b4a8a}
+.cmpt.dayt td.pl{color:var(--mut)}
+.cmpt.dayt td.ic.up,.cmpt.dayt td.ic.dn{white-space:nowrap}
 </style>
 </head>
 <body>
@@ -1312,7 +1316,8 @@ function showApp(me) {
   $('who').textContent = me.display + ' (' + me.role + ')';
   $('tusr').classList.toggle('hide', !me.admin);
   $('tdata').classList.toggle('hide', !!(me.admin || me.dh));          // the Division Head does not need the Data Sheet
-  ['tcmp', 'tdrv'].forEach(function (i) { $(i).classList.toggle('hide', !!me.dh); });      // the DISCOM head only sees the Summary
+  $('tdrv').classList.toggle('hide', !!me.dh);      // the DISCOM head sees the Summary and the day wise Comparison
+  $('tcmp').classList.remove('hide'); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
   $('cf').value = '01.04.' + (t.getMonth() >= 3 ? t.getFullYear() : t.getFullYear() - 1); $('ct').value = fmt(t);
   showTab('sum');
@@ -2479,6 +2484,8 @@ function cn(v, r, per, idx, caps) {                   // clickable number
   return '<td' + (idx === 4 || idx === 11 || idx === 12 ? ' class="sub"' : '') + '><a class="n" data-s=\'' + esc(JSON.stringify(cspec(r, per, cps, ttl))).replace(/'/g, '&#39;') + '\'>' + v + '</a></td>';
 }
 function renderCompare(R, quiet) {
+  if (R.divs) return renderDayDH(R, quiet);
+  if (R.mode === 'day') return renderDay(R, quiet);
   CRES = R; var mode = R.mode, day = mode === 'day', sb = mode === 'sub';
   var caps = {}; R.rows.concat([R.total]).forEach(function (r) { for (var k in r.c) caps[k] = 1; for (var k2 in r.p) caps[k2] = 1; });
   var capL = Object.keys(caps).map(Number);
@@ -2512,13 +2519,68 @@ function renderCompare(R, quiet) {
   var o = $('cout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
   var sel = $('cdiv'), cur = R.div || ''; sel.innerHTML = '<option value="">All Divisions</option>' + R.divList.map(function (d) { return '<option' + (d === cur ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('');
 }
+// ----- day wise: only the damage count of each day, this year vs the previous year
+function dcell(v, r, per, ws) {                      // number (clickable list when not 0)
+  if (!v) return '<td class="z">0</td>';
+  var rr = { label: r.label, from: r.from, to: r.to, pfrom: r.pfrom, pto: r.pto }; if (ws) rr.ws = ws;
+  var ttl = 'PR ' + (per === 'p' ? 'previous year ' + r.plabel : 'this year ' + r.label) + (ws ? ' - ' + ws : '');
+  return '<td><a class="n" data-s=\'' + esc(JSON.stringify(cspec(rr, per, null, ttl))).replace(/'/g, '&#39;') + '\'>' + v + '</a></td>';
+}
+function dchg(cur, prv) { var d = cur - prv; return '<td class="ic' + (d > 0 ? ' up' : d < 0 ? ' dn' : '') + '"><i>' + (d > 0 ? '▲' : d < 0 ? '▼' : '') + '</i>' + (d > 0 ? '+' : '') + d + '</td>'; }
+function renderDay(R, quiet) {
+  CRES = R;
+  var W = (R.wsList || []).length > 1 ? R.wsList : [], sumv = function (m) { var t = 0; for (var k in m) t += m[k]; return t; };
+  var tc = 0, tp = 0, wt = W.map(function () { return [0, 0]; });
+  R.rows.forEach(function (r) { r._c = sumv(r.c); r._p = sumv(r.p); tc += r._c; tp += r._p; W.forEach(function (w, i) { var x = (r.wc || {})[w] || [0, 0]; wt[i][0] += x[0]; wt[i][1] += x[1]; }); });
+  function chg(a, b) { if (!b) return a ? 'NEW' : '0%'; var v = Math.round((a - b) * 1000 / b) / 10; return (v > 0 ? '+' : '') + v.toFixed(1) + '%'; }
+  var d0 = tc - tp, cls = d0 === 0 ? '' : d0 > 0 ? ' up' : ' dn';
+  var h = '<div class="cks-row" style="grid-template-columns:repeat(3,1fr)"><div class="cks c0"><span>PREVIOUS YEAR DAMAGE</span><b>' + tp + '</b><em>' + esc(R.pfrom) + ' to ' + esc(R.pto) + '</em></div>' +
+    '<div class="cks c1"><span>THIS YEAR DAMAGE</span><b>' + tc + '</b><em>' + esc(R.from) + ' to ' + esc(R.to) + '</em></div>' +
+    '<div class="cks c2' + cls + '"><span>CHANGE</span><b>' + (d0 === 0 ? '' : d0 > 0 ? '▲ ' : '▼ ') + chg(tc, tp) + '</b><em>' + (d0 > 0 ? '+' : '') + d0 + '</em></div></div>';
+  h += '<div class="card cmpc"><div class="wrap cmpw"><table class="cmpt dayt"><thead><tr><th class="l" rowspan="2">DATE</th><th rowspan="2" class="gp">PREV. YEAR DATE</th>' +
+    W.map(function (w) { return '<th class="gw" colspan="2">' + esc(w) + '</th>'; }).join('') + '<th class="gc" colspan="4">' + (W.length ? 'TOTAL' : 'DAMAGE') + '</th></tr><tr>' +
+    W.map(function () { return '<th class="gp">PREV. YEAR</th><th class="gc">THIS YEAR</th>'; }).join('') + '<th class="gp">PREV. YEAR</th><th class="gc">THIS YEAR</th><th class="gi">INC / DEC</th><th class="gi">%</th></tr></thead><tbody>';
+  R.rows.forEach(function (r) {
+    h += '<tr><td class="l">' + esc(r.label) + '</td><td class="pl">' + esc(r.plabel) + '</td>' +
+      W.map(function (w) { var x = (r.wc || {})[w] || [0, 0]; return dcell(x[1], r, 'p', w) + dcell(x[0], r, 'c', w); }).join('') +
+      dcell(r._p, r, 'p') + dcell(r._c, r, 'c') + dchg(r._c, r._p) + ipct(r._c, r._p) + '</tr>';
+  });
+  h += '<tr class="t"><td class="l" colspan="2">TOTAL</td>' + wt.map(function (x) { return '<td>' + x[1] + '</td><td>' + x[0] + '</td>'; }).join('') + '<td>' + tp + '</td><td>' + tc + '</td>' + dchg(tc, tp) + ipct(tc, tp) + '</tr>';
+  h += '</tbody></table></div><div class="cnote">Damage = PRs received on that date (PR DATE). Click any number to open its list.' + (R.archived ? ' Archived data included.' : '') + '</div></div>';
+  var o = $('cout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
+  var sel = $('cdiv'), cur = R.div || ''; sel.innerHTML = '<option value="">All Divisions</option>' + R.divList.map(function (d) { return '<option' + (d === cur ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('');
+}
+// DISCOM head: every division, day wise: previous year | this year | change (count) | %
+function renderDayDH(R, quiet) {
+  R.mode = 'day'; CRES = R;
+  var nd = R.divs.length, tot = R.divs.map(function () { return [0, 0]; }), T = [0, 0];
+  R.rows.forEach(function (r) { r.v.forEach(function (x, i) { tot[i][0] += x[0]; tot[i][1] += x[1]; T[0] += x[0]; T[1] += x[1]; }); });
+  function chg(a, b) { if (!b) return a ? 'NEW' : '0%'; var v = Math.round((a - b) * 1000 / b) / 10; return (v > 0 ? '+' : '') + v.toFixed(1) + '%'; }
+  var d0 = T[0] - T[1], cls = d0 === 0 ? '' : d0 > 0 ? ' up' : ' dn';
+  var h = '<div class="cks-row" style="grid-template-columns:repeat(3,1fr)"><div class="cks c0"><span>PREVIOUS YEAR DAMAGE</span><b>' + T[1] + '</b><em>' + esc(R.pfrom) + ' to ' + esc(R.pto) + '</em></div>' +
+    '<div class="cks c1"><span>THIS YEAR DAMAGE</span><b>' + T[0] + '</b><em>' + esc(R.from) + ' to ' + esc(R.to) + '</em></div>' +
+    '<div class="cks c2' + cls + '"><span>CHANGE</span><b>' + (d0 === 0 ? '' : d0 > 0 ? '▲ ' : '▼ ') + chg(T[0], T[1]) + '</b><em>' + (d0 > 0 ? '+' : '') + d0 + '</em></div></div>';
+  function grp(a, b) { return '<td>' + nzv(b) + '</td><td>' + nzv(a) + '</td>' + dchg(a, b) + ipct(a, b); }
+  function nzv(v) { return v ? v : '<span class="z">0</span>'; }
+  h += '<div class="card cmpc"><div class="wrap cmpw"><table class="cmpt dayt"><thead><tr><th class="l" rowspan="2">DATE</th><th rowspan="2" class="gp">PREV. YEAR DATE</th>' +
+    R.divs.map(function (d) { return '<th class="gw" colspan="4" title="' + esc(d) + '">' + esc(d) + '</th>'; }).join('') + '<th class="gc" colspan="4">TOTAL</th></tr><tr>' +
+    R.divs.concat(['T']).map(function () { return '<th class="gp">PREV. YEAR</th><th class="gc">THIS YEAR</th><th class="gi">INC / DEC</th><th class="gi">%</th>'; }).join('') + '</tr></thead><tbody>';
+  R.rows.forEach(function (r) {
+    var a = 0, b = 0; r.v.forEach(function (x) { a += x[0]; b += x[1]; });
+    h += '<tr><td class="l">' + esc(r.label) + '</td><td class="pl">' + esc(r.plabel) + '</td>' + r.v.map(function (x) { return grp(x[0], x[1]); }).join('') + grp(a, b) + '</tr>';
+  });
+  h += '<tr class="t"><td class="l" colspan="2">TOTAL</td>' + tot.map(function (x) { return '<td>' + x[1] + '</td><td>' + x[0] + '</td>' + dchg(x[0], x[1]) + ipct(x[0], x[1]); }).join('') + '<td>' + T[1] + '</td><td>' + T[0] + '</td>' + dchg(T[0], T[1]) + ipct(T[0], T[1]) + '</tr>';
+  h += '</tbody></table></div><div class="cnote">Damage = PRs received on that date (PR DATE) in every division of ' + esc(R.discom) + '.</div></div>';
+  var o = $('cout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
+}
 function loadCompare() {
   var p = { mode: CMODE, from: $('cf').value.trim(), to: $('ct').value.trim(), div: $('cdiv').value }, b = $('cbtn');
   if (!validD(p.from) || !validD(p.to)) { msg('cmsg', 'Enter From and To dates in DD.MM.YYYY format.', 'err'); return Promise.resolve(); }
-  var key = 'cmp|' + p.mode + '|' + p.from + '|' + p.to + '|' + p.div, c = cget(key), seq = ++CSEQ; msg('cmsg', '');
+  var DHM = !!(ME && ME.dh), api = DHM ? 'getDiscomCompare' : 'getCompare';
+  var key = (DHM ? 'dcmp|' : 'cmp|') + p.mode + '|' + p.from + '|' + p.to + '|' + p.div, c = cget(key), seq = ++CSEQ; msg('cmsg', '');
   if (c && c.rows) { c.div = p.div; renderCompare(c, true); $('cout').classList.add('stale'); }
   else { busy(b, true, 'Loading...'); $('cout').classList.remove('stale'); $('cout').innerHTML = SKH; }
-  return call('getCompare', TOKEN, p).then(function (r) {
+  return call(api, TOKEN, DHM ? { from: p.from, to: p.to } : p).then(function (r) {
     if (seq !== CSEQ) return; cset(key, r); busy(b, false); r.div = p.div; renderCompare(r, !!(c && c.rows)); $('cout').classList.remove('stale');
   }).catch(function (e) { if (seq !== CSEQ) return; busy(b, false); $('cout').classList.remove('stale'); msg('cmsg', esc(e.message) + (c ? ' (showing the last saved view)' : ''), 'err'); });
 }
