@@ -97,3 +97,10 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - Date paste: `10/18/2026` (ERP, MM/DD/YYYY) -> `18.10.2026`.
 - Workshop naam me EWC/EWD alag ho to bhi wahi workshop maana jata hai. Galat workshop ki rows paste hone par warning aati hai aur wo save nahi hotin.
 - Google Drive me sheet file ka delete roka nahi ja sakta; "Delete all data" action par email OTP + password lagta hai.
+
+## Daily backup, restore, REMARK
+- **Backup:** App Creator panel -> "Daily backup" -> *Turn on* (a nightly trigger). Har organisation ki **ek hi backup file** roz update hoti hai (DATA, ARCHIVE, Drivers, Users, Config). Agar sheet me achanak records bahut kam ho jayein (<70%), backup **overwrite nahi hota** ("HELD") - taaki galti se khali sheet purana backup na mita de. Backup files Creator ke Drive me bante hain (script Creator ke account se chalti hai).
+- **Data delete ho gaya:** Admin -> Users (Admin) tab -> "Daily backup & restore" -> Gmail OTP + password se restore.
+- **Poori Google Sheet delete ho gayi:** nayi khali sheet banao (Anyone with link - Editor) -> Home -> "Google Sheet deleted?" -> Admin ID, password, nayi sheet ka link, same Google account se verify.
+- **REMARK:** Data Sheet ke aakhir me naya REMARK column - JE likh sakta hai ki transformer replace kyu nahi hua. Purani sheets me column apne aap add ho jata hai.
+- **Speed:** summary server par cache hoti hai (data badalte hi refresh) aur login ke saath hi aa jati hai.
