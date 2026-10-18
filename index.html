@@ -647,6 +647,80 @@ a.call:active{transform:scale(.96)}
 .ihelp.show{display:flex}
 .ihelp>div{background:#fff;color:#17224d;border-radius:18px 18px 0 0;padding:20px 18px 26px;max-width:460px;width:100%;font-size:14px;line-height:1.6}
 .ihelp b{display:block;font-size:16px;margin-bottom:6px}
+
+/* ===== compact summary + optional division sections + comparison ===== */
+#sout .card{padding:8px 10px;margin-bottom:8px}
+#sout .card h3{margin:0 0 4px;font-size:12px}
+#sout .tbl11d{font-size:11.5px}
+#sout .tbl11d th,#sout .tbl11d td,#sout .capt th,#sout .capt td,#sout .k-dc th,#sout .k-dc td{padding:2px 5px;line-height:1.25}
+#sout .tbl11d th{font-size:10px;line-height:1.15}
+#sout a.n{padding:0 3px;min-width:0}
+#sout .k-dc table{font-size:11.5px}#sout .k-dc th{font-size:10px}
+#sout .lg{margin-top:4px;font-size:10px}
+details.opt{padding:0!important}
+details.opt>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 10px}
+details.opt>summary::-webkit-details-marker{display:none}
+details.opt>summary h3{margin:0!important;flex:1}
+details.opt .oi{width:22px;height:22px;border-radius:7px;background:var(--pri2);color:var(--pri);display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+details.opt .ot{font-size:10.5px;color:var(--mut)}
+details.opt .ot::after{content:" \25BE";font-size:12px}
+details.opt[open] .ot{font-size:0}details.opt[open] .ot::after{content:"\25B4 hide";font-size:10.5px}
+details.opt>.wrap{padding:0 10px 8px}
+details.opt>.lg{padding:0 10px 8px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+.seg button{border:0;background:transparent;padding:7px 11px;font-size:12px;font-weight:700;color:var(--mut);cursor:pointer;white-space:nowrap}
+.seg button.on{background:var(--pri);color:#fff}
+#cdiv{min-width:150px;max-width:230px}
+.cks-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}
+.cks{border-radius:10px;padding:7px 12px;color:#fff;display:flex;flex-direction:column;gap:1px;min-width:0}
+.cks span{font-size:10px;font-weight:800;letter-spacing:.4px;opacity:.9}
+.cks b{font-size:21px;line-height:1.1}.cks em{font-style:normal;font-size:11px;opacity:.85}
+.cks.c0{background:linear-gradient(135deg,#334155,#475569)}.cks.c1{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+.cks.c2,.cks.c3,.cks.c4{background:linear-gradient(135deg,#475569,#64748b)}
+.cks.dn{background:linear-gradient(135deg,#15803d,#22a65a)}.cks.up{background:linear-gradient(135deg,#b91c1c,#ef4444)}
+.cmpc{padding:0!important;overflow:hidden}
+.cmpw{max-height:calc(100vh - 290px);overflow:auto}
+table.cmpt{border-collapse:separate;border-spacing:0;font-size:12px;width:max-content;min-width:100%}
+.cmpt th,.cmpt td{padding:3px 6px;text-align:center;border-right:1px solid #e6eaf2;border-bottom:1px solid #e6eaf2;white-space:nowrap}
+.cmpt thead th{position:sticky;top:0;background:#243061;color:#fff;font-size:10.5px;z-index:3}
+.cmpt thead tr:nth-child(2) th{top:25px;font-size:10px;line-height:1.1}
+.cmpt th.gp{background:#334155}.cmpt th.gc{background:#0f766e}.cmpt th.gi{background:#b45309}
+.cmpt th.sb{filter:brightness(1.25)}
+.cmpt td.l,.cmpt th.l{text-align:left;position:sticky;left:0;z-index:2;background:#fff;min-width:120px;font-weight:600}
+.cmpt thead th.l{background:#17224d;z-index:4}
+.cmpt td.pl{color:var(--mut);font-weight:400}
+.cmpt td.dvn{min-width:120px;color:#475569}
+.cmpt td.l2{text-align:left;font-weight:600;min-width:120px}
+.cmpt td.sub{background:#eef2fb;font-weight:700}
+.cmpt td.z{color:#b6bdcb}
+.cmpt tr.w td{background:#dbe5fb;font-weight:800}
+.cmpt tr.t td{background:#17224d;color:#fff;font-weight:800}.cmpt tr.t a.n{color:#fff}
+.cmpt a.n{padding:0 3px;min-width:0}
+.cmpt td.ic{font-weight:800;font-size:11.5px}.cmpt td.ic i{font-style:normal;font-size:9px;margin-right:2px}
+.cmpt td.ic.up{background:#fde4e4;color:#b91c1c}.cmpt td.ic.dn{background:#dcf5e5;color:#15803d}
+.cnote{font-size:11px;color:var(--mut);padding:6px 10px}
+@media(max-width:760px){.cks-row{grid-template-columns:repeat(2,1fr)}.cmpw{max-height:none}}
+@media print{.cmpt thead th{position:static}.cmpw{max-height:none;overflow:visible}}
+
+/* tighter overall layout (laptop screens) */
+#sout .kxt{padding:8px 12px 7px;border-radius:13px}
+#sout .kxt .kv{font-size:24px}#sout .kxt .kl{margin-top:2px;font-size:10px}#sout .kxt .ki{font-size:18px;top:6px}
+#sout .kx{gap:8px!important}
+#sout .wcs{gap:10px}
+#sout .wh{padding:7px 12px}#sout .wbars{padding:7px 12px 0;gap:4px}
+#sout .wsec{padding:6px 12px 3px}#sout .wg{gap:5px;padding:0 10px 3px}
+#sout .wt{padding:5px 3px 5px;border-radius:10px}
+#sout .wt b{font-size:17px}
+.cmpt th,.cmpt td{padding:2px 3px}
+.cmpt td.l,.cmpt th.l{min-width:104px}.cmpt td.dvn{min-width:104px}.cmpt td.l2{min-width:100px}
+table.cmpt{font-size:11.5px}.cmpt thead th{font-size:10px}.cmpt td.ic{font-size:11px}
+.cks{padding:6px 11px}.cks b{font-size:19px}
+
+#sout tr.dvr td{background:#e6edff;font-weight:800;color:#17224d}
+#sout tr.dws td.l{padding-left:20px;font-weight:600}
+#sout .dkx{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media(max-width:900px){#sout .dkx{grid-template-columns:repeat(2,minmax(0,1fr))}}
+#cr-t{width:100%;border-collapse:collapse;font-size:12.5px}#cr-t th,#cr-t td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left}
 </style>
 </head>
 <body>
@@ -718,13 +792,13 @@ a.call:active{transform:scale(.96)}
       <input type="password" id="lp" class="hin" autocomplete="current-password" placeholder="Your password">
       <div id="lmsg"></div>
       <button class="hbtn" id="lbtn">Login</button>
-      <div class="hfp"><a href="#" id="go-forgot">Admin forgot password?</a></div>
+      <div class="hfp"><a href="#" id="go-forgot">Admin / DISCOM head forgot password?</a> &nbsp;&middot;&nbsp; <a href="#" id="go-creator">App Creator</a></div>
     </section>
 
     <section id="h-forgot" class="hide">
       <div class="fpt">Reset Admin password</div>
       <div class="fps">Sign in with the <b>same Google account</b> you used when you set up this app. Google confirms it is you, then you can set a new password. (Only your e-mail is checked, no Drive access is asked.)</div>
-      <label class="hl">Profit Center (Admin ID)</label>
+      <label class="hl">Profit Center (Admin ID) or DISCOM head ID</label>
       <input type="text" id="fp-id" class="hin" autocomplete="off" autocapitalize="off" placeholder="Your Profit Center">
       <label class="hl">New password</label>
       <input type="password" id="fp-p1" class="hin" autocomplete="new-password" placeholder="At least 6 characters">
@@ -751,6 +825,7 @@ a.call:active{transform:scale(.96)}
   </header>
   <nav>
     <button data-t="sum" class="on">Summary</button>
+    <button data-t="cmp" id="tcmp">Comparison</button>
     <button data-t="data" id="tdata">Data Sheet</button>
     <button data-t="drv" id="tdrv">Driver Master</button>
     <button data-t="usr" id="tusr" class="hide">Users (Admin)</button>
@@ -769,6 +844,22 @@ a.call:active{transform:scale(.96)}
       </div>
       <div id="smsg"></div>
       <div id="sout"></div>
+    </section>
+
+    <!-- COMPARISON -->
+    <section id="t-cmp" class="hide">
+      <div class="card">
+        <div class="bar sbar">
+          <div><label>From</label><div class="dt"><input type="text" class="dtx" id="cf" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="cf"></span></div></div>
+          <div><label>To</label><div class="dt"><input type="text" class="dtx" id="ct" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="ct"></span></div></div>
+          <div><label>Compare</label><div class="seg" id="cmode"><button data-m="div" class="on">Division wise</button><button data-m="sub">Substation wise</button><button data-m="day">Day wise</button></div></div>
+          <div><label>Division</label><select id="cdiv"><option value="">All Divisions</option></select></div>
+          <button class="btn" id="cbtn">Compare</button><button class="btn sec" id="cxl">&#11015; Excel</button><button class="btn sec" id="cpr">Print</button>
+        </div>
+        <details class="dtl"><summary>How it works</summary>PRs (by PR DATE) of the dates you choose are compared with the <b>same dates of the previous year</b>. Capacity columns show the number of PRs; <b>Inc/Dec %</b> = change against last year (green = fewer PRs, red = more). Tap any number to open its list.</details>
+      </div>
+      <div id="cmsg"></div>
+      <div id="cout"></div>
     </section>
 
     <!-- DATA SHEET -->
@@ -852,6 +943,12 @@ a.call:active{transform:scale(.96)}
         </div>
         <div class="bar" style="margin-top:8px"><button class="btn" id="nadd">Create user</button></div><div id="numsg"></div>
       </div>
+      <div class="card" style="border-color:#f3c0c0"><h3 style="color:#b91c1c">Danger zone - delete all data</h3>
+        <div class="muted">Deletes <b>every record</b> in the DATA and ARCHIVE tabs of your Google Sheet (users and drivers stay). It needs a one-time password that is sent to your Gmail <b>and</b> your password. Note: deleting the Google Sheet file itself from Google Drive cannot be blocked by any app - keep the file safe and see "Backup" in the README.</div>
+        <div class="bar" style="margin-top:8px"><button class="btn sec" id="dz-send">Send one-time password to my Gmail</button></div>
+        <div class="fg hide" id="dz-f" style="margin-top:8px"><div><div class="lbl">One-time password (from Gmail)</div><input type="text" id="dz-otp" autocomplete="off" maxlength="6" inputmode="numeric"></div><div><div class="lbl">Your password</div><input type="password" id="dz-pw" autocomplete="off"></div><div style="align-self:end"><button class="btn" id="dz-go" style="background:#b91c1c">Delete all data</button></div></div>
+        <div id="dz-msg"></div>
+      </div>
       <div class="card"><h3>Users - password reset</h3>
         <div class="muted">Resetting gives a temporary password. Send it to the user; they will create a new password at the first login.</div>
         <div class="wrap" style="margin-top:6px"><table id="ut"></table></div>
@@ -885,6 +982,30 @@ a.call:active{transform:scale(.96)}
   <div id="emsg"></div>
   <div class="fg" id="efields"></div>
   <div class="bar" style="margin-top:10px"><button class="btn" id="esave">Save &amp; close</button><button class="btn sec" id="ecancel">Close</button><span class="muted" style="align-self:center">Changes are saved automatically</span></div>
+</div></div>
+
+
+<!-- DIVISION NAME (Division Head) -->
+<div id="dv-ov" class="ov hide" style="z-index:90"><div class="md s">
+  <h2>Your division name</h2>
+  <div class="muted" style="margin:6px 0 10px">Please write the name of your workshop division. Every division name starts with <b>EWD</b> (for example <b>EWD AZAMGARH</b>). The DISCOM head sees your data under this name.</div>
+  <div class="f"><label>Division name</label><input type="text" id="dvname" maxlength="40" autocapitalize="characters" placeholder="EWD AZAMGARH"></div>
+  <div id="dvmsg"></div>
+  <div class="bar"><button class="btn" id="dvsave">Save</button><button class="btn sec" id="dvout">Logout</button></div>
+</div></div>
+
+<!-- CREATOR PANEL -->
+<div id="cr-ov" class="ov hide" style="z-index:90"><div class="md">
+  <div class="bar" style="justify-content:space-between"><h2 style="margin:0">App Creator &middot; DISCOM head access <span class="muted" id="cr-who" style="font-size:12px;text-transform:none"></span></h2><button class="btn sec" id="cr-close">Close</button></div>
+  <div class="muted" style="margin:6px 0 8px">Give a DISCOM head (PUVVNL or any other DISCOM) access with his Google e-mail. He sees the combined summary of every sheet registered under his DISCOM (read only). A one-time password is e-mailed to him and is also shown below / in the <b>DiscomHeads</b> tab of the registry sheet. He must set his own password at the first login; later he can reset it himself with <b>Forgot password</b> (Google sign-in with this e-mail).</div>
+  <div class="fg">
+    <div><div class="lbl">DISCOM</div><input type="text" id="cr-d" list="cr-dl" placeholder="PUVVNL" maxlength="30"><datalist id="cr-dl"></datalist></div>
+    <div><div class="lbl">Name</div><input type="text" id="cr-n" maxlength="40"></div>
+    <div><div class="lbl">Google e-mail</div><input type="text" id="cr-e" autocapitalize="off" placeholder="name@gmail.com"></div>
+    <div><div class="lbl">Login ID (optional, starts with DH)</div><input type="text" id="cr-i" autocapitalize="off" placeholder="DH-PUVVNL"></div>
+  </div>
+  <div class="bar" style="margin-top:8px"><button class="btn" id="cr-add">Give access</button></div><div id="cr-msg"></div>
+  <div class="wrap" style="margin-top:8px"><table id="cr-t"></table></div>
 </div></div>
 
 <!-- PASSWORD MODAL -->
@@ -955,11 +1076,13 @@ function busy(b, on, t) { if (on) { b._t = b.innerHTML; b.disabled = true; b.inn
 function store(k, v) { try { if (v === null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) {} }
 function fetchStore(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }
 var WSLIST = [];                                    // this organisation's workshops (from the Config tab)
+function nkw(s) { var t = nk(s); return /^EW[CDS]./.test(t) && t.length > 5 ? t.slice(3) : t; }      // "EWC AZAMGARH" / "EWD AZAMGARH" -> "AZAMGARH"
 function wsK(s) {
   var t = nk(s); if (!t) return '';
-  var i; for (i = 0; i < WSLIST.length; i++) if (nk(WSLIST[i]) === t) return WSLIST[i];
+  var i, t2 = nkw(s); for (i = 0; i < WSLIST.length; i++) if (nk(WSLIST[i]) === t) return WSLIST[i];
+  for (i = 0; i < WSLIST.length; i++) if (nkw(WSLIST[i]) === t2) return WSLIST[i];
   var hit = [];
-  WSLIST.forEach(function (w) { var k = nk(w); if (k.length >= 3 && (t.indexOf(k) >= 0 || (t.length >= 3 && k.indexOf(t) >= 0))) hit.push(w); });
+  WSLIST.forEach(function (w) { var k = nkw(w); if (k.length >= 3 && (t2.indexOf(k) >= 0 || (t2.length >= 3 && k.indexOf(t2) >= 0))) hit.push(w); });
   return hit.length === 1 ? hit[0] : '';
 }
 function wsMsg() { return 'Workshop is empty (' + WSLIST.join(' / ') + ')'; }
@@ -977,8 +1100,12 @@ function normDate(s) {
   s = String(s == null ? '' : s).trim(); if (!s) return '';
   if (/^\d{8}$/.test(s)) return s.slice(0, 2) + '.' + s.slice(2, 4) + '.' + s.slice(4);
   if (/^\d{6}$/.test(s)) return s.slice(0, 2) + '.' + s.slice(2, 4) + '.20' + s.slice(4);
-  var m = s.match(/^(\d{1,2})[.\/\-](\d{1,2})[.\/\-](\d{2,4})/);
-  if (m) { var y = +m[3]; if (y < 100) y += 2000; return p2(m[1]) + '.' + p2(m[2]) + '.' + y; }
+  var m = s.match(/^(\d{1,2})([.\/\-])(\d{1,2})[.\/\-](\d{2,4})/);
+  if (m) {                                  // 18.10.2026 = DD.MM.YYYY ; 10/18/2026 (ERP) = MM/DD/YYYY (a slash date is read as MM/DD unless the first number is above 12)
+    var y = +m[4], a1 = +m[1], b1 = +m[3], dd = a1, mm = b1; if (y < 100) y += 2000;
+    if (m[2] === '/' && a1 <= 12) { mm = a1; dd = b1; }
+    return p2(dd) + '.' + p2(mm) + '.' + y;
+  }
   m = s.match(/^(\d{4})[.\/\-](\d{1,2})[.\/\-](\d{1,2})/); if (m) return p2(m[3]) + '.' + p2(m[2]) + '.' + m[1];
   m = s.match(/^(\d{1,2})[\-\s\/.]([A-Za-z]{3,9})[\-\s\/.,]*(\d{2,4})/);
   if (m) { var mi = MONS.indexOf(m[2].slice(0, 3).toUpperCase()); if (mi >= 0) { var y2 = +m[3]; if (y2 < 100) y2 += 2000; return p2(m[1]) + '.' + p2(mi + 1) + '.' + y2; } }
@@ -1077,7 +1204,7 @@ $('go-forgot').onclick = function (e) { e.preventDefault(); $('h-login').classLi
 $('fp-back').onclick = function (e) { e.preventDefault(); $('h-forgot').classList.add('hide'); $('h-login').classList.remove('hide'); };
 $('fp-go').onclick = function () {
   var id = $('fp-id').value.trim(), p1 = $('fp-p1').value, p2 = $('fp-p2').value, b = $('fp-go');
-  if (!id) return msg('fp-msg', 'Enter your Profit Center (Admin ID).', 'err');
+  if (!id) return msg('fp-msg', 'Enter your Profit Center (Admin ID) or DISCOM head ID.', 'err');
   if (p1.length < 6) return msg('fp-msg', 'The new password must have at least 6 characters.', 'err');
   if (p1 !== p2) return msg('fp-msg', 'The two passwords do not match.', 'err');
   if (!GAUTO) return msg('fp-msg', 'Google sign-in is not configured in config.js.', 'err');
@@ -1139,13 +1266,25 @@ function showApp(me) {
   fillWs(me.wsAll); lsSet('tt_sub', subText(me.org, me.wsAll));
   $('who').textContent = me.display + ' (' + me.role + ')';
   $('tusr').classList.toggle('hide', !me.admin);
+  $('tdata').classList.toggle('hide', !!(me.admin || me.dh));          // the Division Head does not need the Data Sheet
+  ['tcmp', 'tdrv'].forEach(function (i) { $(i).classList.toggle('hide', !!me.dh); });      // the DISCOM head only sees the Summary
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
+  $('cf').value = '01.04.' + (t.getMonth() >= 3 ? t.getFullYear() : t.getFullYear() - 1); $('ct').value = fmt(t);
   showTab('sum');
   if (me.must) { MUST = true; openPw(true); } else loadInitial();
+  if (me.admin && !/^EWD/i.test(me.division || '')) openDiv();
 }
+function openDiv() { msg('dvmsg', ''); $('dvname').value = (ME && ME.division) || 'EWD '; $('dv-ov').classList.remove('hide'); setTimeout(function () { $('dvname').focus(); }, 80); }
+$('dvsave').onclick = function () {
+  var v = $('dvname').value.trim(), b = $('dvsave');
+  if (!/^EWD/i.test(v)) return msg('dvmsg', 'The division name must start with <b>EWD</b> - please write EWD before the name (for example: EWD AZAMGARH).', 'err');
+  busy(b, true, 'Saving...');
+  call('adminSetDivision', TOKEN, v).then(function (n) { busy(b, false); ME.division = n; $('dv-ov').classList.add('hide'); if (SUM) loadSummary(); }).catch(function (e) { busy(b, false); msg('dvmsg', esc(e.message), 'err'); });
+};
+$('dvout').onclick = function () { $('dv-ov').classList.add('hide'); doLogout(false); };
 function afterLogin(r) { SID = r.sid || SID; TOKEN = r.token; store('tk', TOKEN); showApp(r.me); }
 function loadInitial() {
-  loadSummary().then(function () { loadDM(); if (ME && ME.canEdit !== false) call('getData', TOKEN, { date: dsel(), all: false }).then(function (r) { cset('data|' + dsel(), r); }).catch(function () {}); });
+  loadSummary().then(function () { if (ME && ME.dh) return; loadDM(); if (ME && ME.canEdit !== false && !ME.admin) call('getData', TOKEN, { date: dsel(), all: false }).then(function (r) { cset('data|' + dsel(), r); }).catch(function () {}); });
 }
 $('lbtn').onclick = function () {
   var b = $('lbtn'); msg('lmsg', ''); busy(b, true, 'Login...');
@@ -1171,7 +1310,7 @@ var CURTAB = 'sum';
 function showTab(t) {
   CURTAB = t;
   document.querySelectorAll('nav button').forEach(function (x) { x.classList.toggle('on', x.dataset.t === t); });
-  ['sum', 'data', 'drv', 'usr'].forEach(function (k) { $('t-' + k).classList.toggle('hide', k !== t); });
+  ['sum', 'cmp', 'data', 'drv', 'usr'].forEach(function (k) { $('t-' + k).classList.toggle('hide', k !== t); });
 }
 document.querySelectorAll('nav button').forEach(function (b) {
   b.onclick = function () {
@@ -1179,6 +1318,7 @@ document.querySelectorAll('nav button').forEach(function (b) {
     if (anyDirty() && t !== 'data' && t !== 'drv' && !confirm('There are unsaved changes in a data grid. Leave anyway?')) return;
     showTab(t);
     if (t === 'sum') loadSummary();          // clicking Summary reloads it with the dates shown
+    if (t === 'cmp') loadCompare();
     if (t === 'usr') loadUsers();
     if (t === 'data' && !D.dirty()) loadData();
     if (t === 'drv' && !M.dirty()) loadMaster();
@@ -1199,10 +1339,11 @@ function loadSummary() {
   var p = { date: $('sd').value.trim(), from: $('sf').value.trim(), to: $('st').value.trim() };
   if (!validD(p.date) || !validD(p.from) || !validD(p.to)) { msg('smsg', 'Enter all three dates in DD.MM.YYYY format.', 'err'); return Promise.resolve(); }
   var key = 'sum|' + p.date + '|' + p.from + '|' + p.to, c = cget(key), seq = ++SSEQ, b = $('sbtn'); msg('smsg', '');
-  if (c && c.top) { SUM = c; renderSummary(c, true); $('sout').classList.add('stale'); }
+  var DH = !!(ME && ME.dh), okc = c && (DH ? c.divs : c.top), rend = DH ? renderDiscom : renderSummary;
+  if (okc) { SUM = c; rend(c, true); $('sout').classList.add('stale'); }
   else { busy(b, true, 'Loading...'); $('sout').classList.remove('stale'); $('sout').innerHTML = SKH; }
-  return call('getSummary', TOKEN, p).then(function (s) {
-    if (seq !== SSEQ) return; cset(key, s); busy(b, false); SUM = s; renderSummary(s, !!(c && c.top)); $('sout').classList.remove('stale');
+  return call(DH ? 'getDiscomSummary' : 'getSummary', TOKEN, p).then(function (s) {
+    if (seq !== SSEQ) return; cset(key, s); busy(b, false); SUM = s; rend(s, !!okc); $('sout').classList.remove('stale');
   }).catch(function (e) { if (seq !== SSEQ) return; busy(b, false); $('sout').classList.remove('stale'); msg('smsg', esc(e.message) + (c ? ' (showing the last saved view)' : ''), 'err'); });
 }
 function S(extra) { var o = { date: SUM.date, from: SUM.from, to: SUM.to }; for (var k in extra) o[k] = extra[k]; return o; }
@@ -1211,6 +1352,8 @@ function N(v, spec, title) {
   spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + v + '</a>';
 }
 function LK(label, spec, title) { spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + label + '</a>'; }
+var DVOPEN = { div: false, dc: false };
+document.addEventListener('toggle', function (e) { var o = e.target && e.target.dataset && e.target.dataset.o; if (o) DVOPEN[o] = e.target.open; }, true);
 var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN'];
 var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return'];
 var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10, 13];       // column order of the tables
@@ -1245,10 +1388,10 @@ function renderSummary(s, quiet) {
   if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.top.total, S({}), 'TOTAL') + '</tr>';
   h += '</table></div></details></div>';
 
-  h += '<div class="card k-div"><h3>Division wise summary</h3><div class="wrap tbl11d"><table>' + head11('DIVISION', s);
+  h += '<details class="card k-div opt" data-o="div"' + (DVOPEN.div ? ' open' : '') + '><summary><span class="oi">&#9638;</span><h3>Division wise summary</h3><span class="ot">tap to open</span></summary><div class="wrap tbl11d"><table>' + head11('DIVISION', s);
   s.div.rows.forEach(function (r) { h += '<tr class="' + r.t + '"><td class="l">' + esc(r.label) + '</td>' + cells11(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
   if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.div.total, S({}), 'TOTAL') + '</tr>';
-  h += '</table></div></div>';
+  h += '</table></div></details>';
 
   h += capAll(s);
   h += divCapTable(s);
@@ -1259,6 +1402,56 @@ function renderSummary(s, quiet) {
   });
 }
 function capLbl(c) { return c ? c : 'Unknown'; }
+/* ---------- DISCOM head: workshop division wise summary ---------- */
+function shortDiv(n) { return String(n).replace(/^EWD[\s.\-]*/i, '') || n; }
+function renderDiscom(s, quiet) {
+  var t = s.total, h = '', nz = function (v) { return v ? v : '<span class="z">0</span>'; };
+  var K = [[0, 'Today PR', 'k-td', '\uD83C\uDF1E'], [1, 'Today issue', 'k-is', '\uD83D\uDCE4'], [2, 'Total PR', 'k-pr', '\u26A1'], [3, 'Total issue', 'k-rp', '\u2705'], [4, 'Pending for issue', 'k-pi', '\u23F3']];
+  h += '<div class="kx dkx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + t.v[k[0]] + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
+  // 1. workshop division -> workshops
+  h += '<div class="card k-ws"><h3>Workshop division wise summary <span class="muted" style="text-transform:none">(' + esc(s.discom) + ' &middot; ' + s.divs.length + ' divisions)</span></h3><div class="wrap tbl11d"><table>' +
+    '<tr><th class="l" rowspan="2">WORKSHOP DIVISION / WORKSHOP</th><th class="g1" colspan="2">TODAY (' + s.date + ')</th><th class="g2" colspan="3">TILL DATE (' + s.from + ' to ' + s.to + ')</th></tr>' +
+    '<tr><th class="g1">PR</th><th class="g1">ISSUE</th><th class="g2">PR</th><th class="g2">ISSUE</th><th class="g2 pe">PENDING ISSUE</th></tr>';
+  s.divs.forEach(function (d) {
+    h += '<tr class="dvr"><td class="l"><b>' + esc(d.name) + '</b></td>' + d.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>';
+    d.ws.forEach(function (w) { h += '<tr class="dws"><td class="l">' + esc(w.name) + '</td>' + w.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>'; });
+  });
+  h += '<tr class="t"><td class="l">TOTAL</td>' + t.v.map(function (v) { return '<td>' + v + '</td>'; }).join('') + '</tr></table></div></div>';
+  // 2. capacity wise: columns = workshop divisions
+  var G = [{ t: 'PENDING FOR ISSUE', k: 'pend', c: 'g1' }, { t: 'PR RECEIVED', k: 'pr', c: 'g2' }, { t: 'AVERAGE PR PER DAY', k: 'pr', avg: true, c: 'g2' }], nd = s.divs.length;
+  var mx = G.map(function (g) { var m = 0; s.caps.forEach(function (cp) { s.divs.forEach(function (d) { if ((d[g.k][cp] || 0) > m) m = d[g.k][cp]; }); }); return m; });
+  h += '<div class="card k-cap"><h3>Capacity wise summary <span class="muted" style="text-transform:none">(pending till ' + s.to + ' &middot; PR ' + s.from + ' to ' + s.to + ' &middot; ' + s.days + ' days)</span></h3><div class="wrap tbl11d capt"><table><tr><th class="l" rowspan="2">CAPACITY IN KVA</th>' +
+    G.map(function (g) { return '<th class="' + g.c + '" colspan="' + (nd + 1) + '">' + g.t + '</th>'; }).join('') + '</tr><tr>' +
+    G.map(function () { return s.divs.map(function (d) { return '<th title="' + esc(d.name) + '">' + esc(shortDiv(d.name)) + '</th>'; }).join('') + '<th>TOTAL</th>'; }).join('') + '</tr>';
+  var tot = G.map(function () { return s.divs.map(function () { return 0; }); });
+  s.caps.forEach(function (cp) {
+    var any = false, cells = '';
+    G.forEach(function (g, gi) {
+      var row = s.divs.map(function (d) { return d[g.k][cp] || 0; }), sum = row.reduce(function (a, b) { return a + b; }, 0);
+      if (sum) any = true;
+      row.forEach(function (v, i) { tot[gi][i] += v; });
+      cells += row.map(function (v, i) { return tdx([i === 0 ? 'gs' : '', heat(v, mx[gi], g.c === 'g1' ? 'hA' : 'hG')], g.avg ? (v / s.days).toFixed(2) : nz(v)); }).join('') + '<td class="sub"><b>' + (g.avg ? (sum / s.days).toFixed(2) : nz(sum)) + '</b></td>';
+    });
+    if (!any && !(cp && [10, 16, 25, 63, 100, 160, 250, 400, 630].indexOf(cp) >= 0)) { G.forEach(function (g, gi) { s.divs.forEach(function (d, i) { tot[gi][i] -= (d[g.k][cp] || 0); }); }); return; }
+    h += '<tr><td class="l"><b>' + capLbl(cp) + '</b></td>' + cells + '</tr>';
+  });
+  h += '<tr class="t"><td class="l">TOTAL</td>' + G.map(function (g, gi) {
+    var gt = tot[gi].reduce(function (a, b) { return a + b; }, 0);
+    return tot[gi].map(function (v) { return '<td>' + (g.avg ? (v / s.days).toFixed(2) : v) + '</td>'; }).join('') + '<td>' + (g.avg ? (gt / s.days).toFixed(2) : gt) + '</td>';
+  }).join('') + '</tr></table></div></div>';
+  // 3. workshop division x capacity PR
+  var lo = s.caps.filter(function (c) { return c && c < 100; }), hi = s.caps.filter(function (c) { return c >= 100; }), un = s.caps.filter(function (c) { return !c; }), all = lo.concat(hi, un);
+  var mxc = 0; s.divs.forEach(function (d) { d.ws.forEach(function (w) { all.forEach(function (k) { if ((w.pr[k] || 0) > mxc) mxc = w.pr[k] || 0; }); }); });
+  function crow(cls, label, m) {
+    function sm(a) { return a.reduce(function (x, k) { return x + (m[k] || 0); }, 0); }
+    return '<tr class="' + cls + '"><td class="l">' + esc(label) + '</td>' + lo.map(function (k) { return tdx([cls === 'dws' ? heat(m[k] || 0, mxc, 'hV') : ''], nz(m[k] || 0)); }).join('') + '<td class="sub"><b>' + nz(sm(lo)) + '</b></td>' +
+      hi.map(function (k) { return tdx([cls === 'dws' ? heat(m[k] || 0, mxc, 'hV') : ''], nz(m[k] || 0)); }).join('') + '<td class="sub"><b>' + nz(sm(hi)) + '</b></td>' + (un.length ? '<td>' + nz(sm(un)) + '</td>' : '') + '<td class="sub"><b>' + nz(sm(all)) + '</b></td></tr>';
+  }
+  h += '<div class="card k-dc"><h3>Workshop division and capacity wise PR (' + s.from + ' to ' + s.to + ')</h3><div class="wrap tbl11d"><table><tr><th class="l">WORKSHOP DIVISION / WORKSHOP</th>' + lo.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>TOTAL BELOW 100KVA</th>' + hi.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>TOTAL 100 AND ABOVE</th>' + (un.length ? '<th>UNKNOWN</th>' : '') + '<th>OVERALL</th></tr>';
+  s.divs.forEach(function (d) { h += crow('dvr', d.name, d.pr); d.ws.forEach(function (w) { h += crow('dws', w.name, w.pr); }); });
+  h += crow('t', 'TOTAL', t.pr) + '</table></div><div class="lg"><span>Kam PR</span><i class="hV1"></i><i class="hV2"></i><i class="hV3"></i><i class="hV4"></i><span>Zyada PR</span></div></div>';
+  var o = $('sout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
+}
 // heat shade: jitni badi value utna gehra rang (class h?1 .. h?4); 0 ho to koi rang nahi
 function heat(v, mx, p) { if (!v || !mx) return ''; var r = v / mx; return p + (r > 0.75 ? 4 : r > 0.5 ? 3 : r > 0.25 ? 2 : 1); }
 function tdx(cls, html) { cls = cls.filter(Boolean).join(' '); return '<td' + (cls ? ' class="' + cls + '"' : '') + '>' + html + '</td>'; }
@@ -1329,7 +1522,7 @@ function divCapTable(s) {
   var lo = s.caps.filter(function (c) { return c && c < 100; }), hi = s.caps.filter(function (c) { return c >= 100; }), un = s.caps.filter(function (c) { return !c; });
   var mx = 0;                                                    // largest single-capacity value (in division rows) - for the heat colour
   s.divCap.rows.forEach(function (r) { if (r.t === 'd') lo.concat(hi).forEach(function (k) { if ((r.c[k] || 0) > mx) mx = r.c[k] || 0; }); });
-  var h = '<div class="card k-dc"><h3>Division wise and capacity wise PR (' + s.from + ' to ' + s.to + ')</h3><div class="wrap"><table><tr><th class="l">WORKSHOP NAME</th>' +
+  var h = '<details class="card k-dc opt" data-o="dc"' + (DVOPEN.dc ? ' open' : '') + '><summary><span class="oi">&#9638;</span><h3>Division wise and capacity wise PR (' + s.from + ' to ' + s.to + ')</h3><span class="ot">tap to open</span></summary><div class="wrap"><table><tr><th class="l">WORKSHOP NAME</th>' +
     lo.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>TOTAL BELOW 100KVA</th>' + hi.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>TOTAL 100 AND ABOVE</th>' + (un.length ? '<th>UNKNOWN</th>' : '') + '<th>OVERALL</th></tr>';
   function row(cls, label, c, keys) {
     function cell(arr, name) {
@@ -1345,7 +1538,7 @@ function divCapTable(s) {
   }
   s.divCap.rows.forEach(function (r) { h += row(r.t, r.label, r.c, r.keys); });
   if (ME && ME.admin) h += row('t', 'TOTAL', s.divCap.total, null);
-  h += '</table></div><div class="lg"><span>Kam PR</span><i class="hV1"></i><i class="hV2"></i><i class="hV3"></i><i class="hV4"></i><span>Zyada PR</span></div></div>';
+  h += '</table></div><div class="lg"><span>Kam PR</span><i class="hV1"></i><i class="hV2"></i><i class="hV3"></i><i class="hV4"></i><span>Zyada PR</span></div></details>';
   return h;
 }
 
@@ -1983,10 +2176,13 @@ var D = makeGrid({
     if (!String(r.v[8]).trim()) return 'PR NO is empty';
     if (!validD(r.v[9])) return 'PR DATE is invalid or empty';
     if (!wsK(r.v[0])) return wsMsg();
+    if (D.one && wsK(r.v[0]) !== D.one) return 'WARNING: this row is for workshop "' + wsK(r.v[0]) + '" - you can only save entries of ' + D.one;
     return '';
   },
   label: function (r) { return 'PR ' + (r.v[8] || '-'); },
   pasteNote: function (g, touched) {
+    var wrong = g.one ? touched.filter(function (ri) { var w = wsK(g.rows[ri].v[0]); return w && w !== g.one; }).length : 0;
+    if (wrong) return '<br><b style="color:#b91c1c">&#9888; WARNING: ' + wrong + ' pasted row(s) belong to another workshop. You are logged in for <u>' + esc(g.one) + '</u>, so those rows will NOT be saved. Please paste only your own workshop\'s data.</b>';
     if ($('dall').checked || !dsel()) return '';
     var other = touched.filter(function (ri) { return g.rows[ri].v[9] !== dsel(); }).length;
     return other ? '<br><span class="muted">' + other + ' of them belong to other dates; after saving they will show under their own date.</span>' : '';
@@ -2192,6 +2388,101 @@ function printTable(rows) {
   return h + '</tbody></table>';
 }
 
+/* ---------- Comparison tab ---------- */
+var CMODE = 'div', CSEQ = 0, CRES = null;
+var CCAPS = [10, 16, 25, 63, 100, 160, 250, 400, 630, 1000];
+function cget_(m, k) { return m && m[k] ? m[k] : 0; }
+function csum(m, f) { var t = 0; for (var k in m) if (f(+k)) t += m[k]; return t; }
+function cvals(m) {                       // 10,16,25,63,<100, 100..1000, >=100, total
+  var lo = csum(m, function (k) { return k > 0 && k < 100; }), hi = csum(m, function (k) { return k >= 100; }), all = csum(m, function () { return true; });
+  return CCAPS.slice(0, 4).map(function (c) { return cget_(m, c); }).concat([lo], CCAPS.slice(4).map(function (c) { return cget_(m, c); }), [hi, all]);
+}
+function ipct(cur, prv) {
+  if (!prv && !cur) return '<td class="ic">-</td>';
+  if (!prv) return '<td class="ic up">NEW</td>';
+  var r = Math.round((cur - prv) * 1000 / prv) / 10;
+  if (r === 0) return '<td class="ic">0.0%</td>';
+  return '<td class="ic ' + (r > 0 ? 'up' : 'dn') + '"><i>' + (r > 0 ? '▲' : '▼') + '</i>' + (r > 0 ? '+' : '') + r.toFixed(1) + '%</td>';
+}
+function cspec(r, per, cps, title) {
+  var R = CRES, f = per === 'p' ? (r.pfrom || R.pfrom) : (r.from || R.from), t = per === 'p' ? (r.pto || R.pto) : (r.to || R.to);
+  var sp = { date: t, from: f, to: t, metric: 6, t: title };
+  if (r.divs) sp.divs = r.divs; else if (R.div) sp.divs = [R.div];
+  if (r.subs) sp.subs = r.subs;
+  if (r.ws) sp.ws = r.ws;
+  if (cps) sp.caps = cps;
+  return sp;
+}
+function cn(v, r, per, idx, caps) {                   // clickable number
+  if (!v) return '<td class="z' + (idx === 4 || idx === 11 || idx === 12 ? ' sub' : '') + '">0</td>';
+  var lo = caps.filter(function (c) { return c > 0 && c < 100; }), hi = caps.filter(function (c) { return c >= 100; });
+  var cps = idx < 4 ? [CCAPS[idx]] : idx === 4 ? lo : idx < 11 ? [CCAPS[idx - 1]] : idx === 11 ? hi : null;
+  var nm = idx < 4 ? CCAPS[idx] + ' KVA' : idx === 4 ? 'below 100 KVA' : idx < 11 ? CCAPS[idx - 1] + ' KVA' : idx === 11 ? '100 KVA and above' : 'all capacities';
+  var ttl = 'PR ' + (per === 'p' ? 'previous year' : 'this year') + ' - ' + (r.label || 'TOTAL') + ' - ' + nm + ' (' + (per === 'p' ? (r.pfrom || CRES.pfrom) + ' to ' + (r.pto || CRES.pto) : (r.from || CRES.from) + ' to ' + (r.to || CRES.to)) + ')';
+  return '<td' + (idx === 4 || idx === 11 || idx === 12 ? ' class="sub"' : '') + '><a class="n" data-s=\'' + esc(JSON.stringify(cspec(r, per, cps, ttl))).replace(/'/g, '&#39;') + '\'>' + v + '</a></td>';
+}
+function renderCompare(R, quiet) {
+  CRES = R; var mode = R.mode, day = mode === 'day', sb = mode === 'sub';
+  var caps = {}; R.rows.concat([R.total]).forEach(function (r) { for (var k in r.c) caps[k] = 1; for (var k2 in r.p) caps[k2] = 1; });
+  var capL = Object.keys(caps).map(Number);
+  var tp = cvals(R.total.p), tc = cvals(R.total.c);
+  function chg(a, b) { if (!b) return a ? 'NEW' : '0%'; var v = Math.round((a - b) * 1000 / b) / 10; return (v > 0 ? '+' : '') + v.toFixed(1) + '%'; }
+  function kp(cls, lab, a, b) { var d = a - b; return '<div class="cks ' + cls + (d === 0 ? '' : d > 0 ? ' up' : ' dn') + '"><span>' + lab + '</span><b>' + (d === 0 ? '' : d > 0 ? '▲ ' : '▼ ') + chg(a, b) + '</b><em>' + (d > 0 ? '+' : '') + d + '</em></div>'; }
+  var h = '<div class="cks-row">' +
+    '<div class="cks c0"><span>PREVIOUS YEAR TOTAL</span><b>' + tp[12] + '</b><em>' + esc(R.pfrom) + ' to ' + esc(R.pto) + '</em></div>' +
+    '<div class="cks c1"><span>THIS YEAR TOTAL</span><b>' + tc[12] + '</b><em>' + esc(R.from) + ' to ' + esc(R.to) + '</em></div>' +
+    kp('c2', 'CHANGE', tc[12], tp[12]) + kp('c3', '&lt;100 KVA', tc[4], tp[4]) + kp('c4', '&ge;100 KVA', tc[11], tp[11]) + '</div>';
+  var nl = sb || day ? 2 : 1;
+  var sh = ['10', '16', '25', '63', '&lt;100 KVA', '100', '160', '250', '400', '630', '1000', '&ge;100 KVA', 'TOTAL'];
+  h += '<div class="card cmpc"><div class="wrap cmpw"><table class="cmpt"><thead><tr><th class="l" rowspan="2"' + (nl > 1 ? ' colspan="2"' : '') + '>' + (sb ? 'DIVISION / SUBSTATION' : day ? 'DATE (this year / last year)' : mode === 'ws' ? 'WORKSHOP' : 'DIVISION') + '</th>' +
+    '<th class="gp" colspan="13">PREVIOUS YEAR &middot; ' + esc(R.pfrom) + ' to ' + esc(R.pto) + '</th><th class="gc" colspan="13">THIS YEAR &middot; ' + esc(R.from) + ' to ' + esc(R.to) + '</th><th class="gi" colspan="3">Inc / Dec %</th></tr><tr>' +
+    sh.map(function (x, i) { return '<th class="gp' + (i === 4 || i === 11 || i === 12 ? ' sb' : '') + '">' + x + '</th>'; }).join('') +
+    sh.map(function (x, i) { return '<th class="gc' + (i === 4 || i === 11 || i === 12 ? ' sb' : '') + '">' + x + '</th>'; }).join('') +
+    '<th class="gi">&lt;100 KVA</th><th class="gi">&ge;100 KVA</th><th class="gi">TOTAL</th></tr></thead><tbody>';
+  function row(r, cls) {
+    var a = cvals(r.p), b = cvals(r.c), lab;
+    if (day) lab = '<td class="l">' + esc(r.label) + '</td><td class="pl">' + esc(r.plabel) + '</td>';
+    else if (sb) lab = '<td class="l dvn">' + (cls === 'w' ? '' : esc(r.div)) + '</td><td class="l2">' + esc(r.label) + '</td>';
+    else lab = '<td class="l">' + esc(r.label) + '</td>';
+    return '<tr class="' + cls + '">' + lab + a.map(function (v, i) { return cn(v, r, 'p', i, capL); }).join('') + b.map(function (v, i) { return cn(v, r, 'c', i, capL); }).join('') + ipct(b[4], a[4]) + ipct(b[11], a[11]) + ipct(b[12], a[12]) + '</tr>';
+  }
+  R.rows.forEach(function (r) { h += row(r, r.t); });
+  if (R.rows.length !== 1) {
+    var T = { label: 'TOTAL', c: R.total.c, p: R.total.p }, a = tp, b = tc;
+    h += '<tr class="t"><td class="l"' + (nl > 1 ? ' colspan="2"' : '') + '>TOTAL</td>' + a.map(function (v, i) { return cn(v, T, 'p', i, capL); }).join('') + b.map(function (v, i) { return cn(v, T, 'c', i, capL); }).join('') + ipct(b[4], a[4]) + ipct(b[11], a[11]) + ipct(b[12], a[12]) + '</tr>';
+  }
+  h += '</tbody></table></div><div class="cnote">Click any number to open its damage list. PR without a readable capacity are counted in TOTAL only.' + (R.archived ? ' Archived data included.' : '') + '</div></div>';
+  var o = $('cout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
+  var sel = $('cdiv'), cur = R.div || ''; sel.innerHTML = '<option value="">All Divisions</option>' + R.divList.map(function (d) { return '<option' + (d === cur ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('');
+}
+function loadCompare() {
+  var p = { mode: CMODE, from: $('cf').value.trim(), to: $('ct').value.trim(), div: $('cdiv').value }, b = $('cbtn');
+  if (!validD(p.from) || !validD(p.to)) { msg('cmsg', 'Enter From and To dates in DD.MM.YYYY format.', 'err'); return Promise.resolve(); }
+  var key = 'cmp|' + p.mode + '|' + p.from + '|' + p.to + '|' + p.div, c = cget(key), seq = ++CSEQ; msg('cmsg', '');
+  if (c && c.rows) { c.div = p.div; renderCompare(c, true); $('cout').classList.add('stale'); }
+  else { busy(b, true, 'Loading...'); $('cout').classList.remove('stale'); $('cout').innerHTML = SKH; }
+  return call('getCompare', TOKEN, p).then(function (r) {
+    if (seq !== CSEQ) return; cset(key, r); busy(b, false); r.div = p.div; renderCompare(r, !!(c && c.rows)); $('cout').classList.remove('stale');
+  }).catch(function (e) { if (seq !== CSEQ) return; busy(b, false); $('cout').classList.remove('stale'); msg('cmsg', esc(e.message) + (c ? ' (showing the last saved view)' : ''), 'err'); });
+}
+$('cbtn').onclick = function () { loadCompare(); };
+$('cdiv').onchange = function () { loadCompare(); };
+['cf', 'ct'].forEach(function (i) { $(i).addEventListener('keydown', function (e) { if (e.key === 'Enter') loadCompare(); }); $(i).addEventListener('change', function () { if (validD($(i).value.trim())) loadCompare(); }); });
+$('cmode').onclick = function (e) {
+  var b = e.target.closest('button'); if (!b) return; CMODE = b.dataset.m;
+  Array.prototype.forEach.call($('cmode').children, function (x) { x.classList.toggle('on', x === b); }); loadCompare();
+};
+var CNAME = { div: 'Division wise', sub: 'Substation wise', day: 'Day wise' };
+$('cxl').onclick = function () {
+  var t = document.querySelector('#cout table'); if (!t || !CRES) return msg('cmsg', 'Show the comparison first.', 'info');
+  var a = tableToAoa(t), title = 'Comparison - ' + CNAME[CRES.mode] + ' (' + CRES.from + ' to ' + CRES.to + ' vs ' + CRES.pfrom + ' to ' + CRES.pto + ')';
+  xlsxDownload('Comparison_' + CRES.mode + '_' + fileSafe(CRES.from) + '_' + fileSafe(CRES.to) + '.xlsx', [{ name: CNAME[CRES.mode], rows: [[{ v: title, s: 3 }]].concat(a.rows), merges: a.merges.map(function (m) { return [m[0] + 1, m[1], m[2] + 1, m[3]]; }), hdr: 0, skipw: 1 }]);
+};
+$('cpr').onclick = function () {
+  if (!CRES) return msg('cmsg', 'Show the comparison first.', 'info');
+  printHtml('Comparison - ' + CNAME[CRES.mode] + '  (' + CRES.from + ' to ' + CRES.to + ' vs ' + CRES.pfrom + ' to ' + CRES.pto + ')', '<div class="ps">' + $('cout').innerHTML + '</div>');
+};
+
 /* ---------- Summary: Excel / Print ---------- */
 var SNAMES = ['Workshop wise', 'Division wise', 'Capacity wise', 'Division x Capacity PR'];
 $('sxl').onclick = function () {
@@ -2208,7 +2499,7 @@ $('sxl').onclick = function () {
 };
 $('spr').onclick = function () {
   if (!SUM) return msg('smsg', 'Show the summary first.', 'info');
-  printHtml('Transformer Summary - ' + SUM.date + '  (From ' + SUM.from + ' to ' + SUM.to + ')', '<div class="ps">' + $('sout').innerHTML + '</div>');
+  printHtml('Transformer Summary - ' + SUM.date + '  (From ' + SUM.from + ' to ' + SUM.to + ')', '<div class="ps">' + $('sout').innerHTML.replace(/<details /g, '<details open ') + '</div>');
 };
 
 /* ---------- List modal: Excel / Print ---------- */
@@ -2316,6 +2607,48 @@ $('nadd').onclick = function () {
     $('tinfo').innerHTML = 'Temporary password of <b>' + esc($('nu').value.trim()) + '</b>:<br><span style="font:700 20px ui-monospace,monospace">' + esc(t) + '</span><br><span class="muted">Shown only once. The user will change it at the first login.</span>';
     $('tov').classList.remove('hide'); $('nu').value = ''; $('nn').value = ''; loadUsers();
   }).catch(function (e) { busy(b, false); msg('numsg', esc(e.message), 'err'); });
+};
+
+
+/* ---------- danger zone: delete all data (Gmail OTP) ---------- */
+$('dz-send').onclick = function () {
+  var b = $('dz-send'); msg('dz-msg', ''); busy(b, true, 'Sending...');
+  call('adminDeleteOtp', TOKEN).then(function (r) { busy(b, false); $('dz-f').classList.remove('hide'); msg('dz-msg', 'A one-time password was sent to <b>' + esc(r.sentTo) + '</b>. It is valid for 10 minutes.', 'ok'); }).catch(function (e) { busy(b, false); msg('dz-msg', esc(e.message), 'err'); });
+};
+$('dz-go').onclick = function () {
+  var otp = $('dz-otp').value.trim(), pw = $('dz-pw').value;
+  if (!otp || !pw) return msg('dz-msg', 'Enter the one-time password and your password.', 'err');
+  if (!confirm('Delete ALL records of this sheet (DATA + ARCHIVE)? This cannot be undone.')) return;
+  var b = $('dz-go'); busy(b, true, 'Deleting...');
+  call('adminDeleteData', TOKEN, otp, pw).then(function () { busy(b, false); $('dz-otp').value = ''; $('dz-pw').value = ''; $('dz-f').classList.add('hide'); cclear(); msg('dz-msg', 'All data was deleted.', 'ok'); }).catch(function (e) { busy(b, false); msg('dz-msg', esc(e.message), 'err'); });
+};
+/* ---------- App Creator panel ---------- */
+var CRT = null;
+$('go-creator').onclick = function (e) {
+  e.preventDefault(); if (!GAUTO) return msg('lmsg', 'Google sign-in is not configured in config.js.', 'err');
+  msg('lmsg', 'Waiting for Google...', 'info');
+  gSignIn('openid email').then(function () { return call('creatorLogin', GTOKEN); }).then(function (r) { gDrop(); msg('lmsg', ''); CRT = r.token; $('cr-who').textContent = r.email; $('cr-ov').classList.remove('hide'); crLoad(); })
+    .catch(function (er) { gDrop(); msg('lmsg', esc(er.message), 'err'); });
+};
+$('cr-close').onclick = function () { $('cr-ov').classList.add('hide'); CRT = null; };
+function crShow(r, what) { msg('cr-msg', what + ' <b>' + esc(r.id) + '</b> &middot; one-time password: <span style="font:700 18px ui-monospace,monospace">' + esc(r.otp) + '</span><br><span class="muted">' + (r.mailed ? 'It was also e-mailed to the DISCOM head.' : 'The e-mail could not be sent - please give this password to him yourself.') + '</span>', 'ok'); }
+function crLoad() {
+  call('creatorHeads', CRT).then(function (r) {
+    $('cr-dl').innerHTML = r.discoms.map(function (d) { return '<option value="' + esc(d) + '">'; }).join('');
+    var h = '<tr><th>Login ID</th><th>DISCOM</th><th>Name</th><th>Google e-mail</th><th>One-time password</th><th>Status</th><th></th></tr>';
+    r.heads.forEach(function (x) { h += '<tr><td>' + esc(x.id) + '</td><td>' + esc(x.discom) + '</td><td>' + esc(x.name) + '</td><td>' + esc(x.email) + '</td><td style="font-family:ui-monospace,monospace">' + (x.must ? esc(x.otp) : '<span class="muted">own password set</span>') + '</td><td>' + (x.active ? 'Active' : 'Blocked') + '</td><td><button class="btn sec" data-r="' + esc(x.id) + '">New one-time password</button> <button class="btn sec" data-a="' + esc(x.id) + '" data-v="' + (x.active ? 0 : 1) + '">' + (x.active ? 'Block' : 'Unblock') + '</button></td></tr>'; });
+    $('cr-t').innerHTML = r.heads.length ? h : '<tr><td class="muted">No DISCOM head yet.</td></tr>';
+  }).catch(function (e) { msg('cr-msg', esc(e.message), 'err'); });
+}
+$('cr-add').onclick = function () {
+  var b = $('cr-add'); msg('cr-msg', ''); busy(b, true, 'Saving...');
+  call('creatorAddHead', CRT, $('cr-d').value, $('cr-n').value, $('cr-e').value, $('cr-i').value).then(function (r) { busy(b, false); crShow(r, 'Access given -'); ['cr-n', 'cr-e', 'cr-i'].forEach(function (i) { $(i).value = ''; }); crLoad(); })
+    .catch(function (e) { busy(b, false); msg('cr-msg', esc(e.message), 'err'); });
+};
+$('cr-t').onclick = function (e) {
+  var r = e.target.dataset.r, a = e.target.dataset.a;
+  if (r) call('creatorResetHead', CRT, r).then(function (x) { crShow(x, 'New password for'); crLoad(); }).catch(function (er) { msg('cr-msg', esc(er.message), 'err'); });
+  if (a) call('creatorSetActive', CRT, a, e.target.dataset.v === '1').then(crLoad).catch(function (er) { msg('cr-msg', esc(er.message), 'err'); });
 };
 
 /* ---------- admin: sheet link, workshops, maintenance ---------- */

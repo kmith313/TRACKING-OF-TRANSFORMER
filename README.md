@@ -85,3 +85,15 @@ Home page / header par **Install app** button aata hai (Chrome/Edge desktop + An
 - CAPACITY cell me jo bhi text ho ("25 KVA 11/0.4 KV TRANSFORMER REPAIRED"), app KVA number (25) khud nikaal leta hai.
 - Workshop poora naam (e.g. "EWC Azamgarh") paste karo to registered workshop naam me badal jata hai.
 - Capacity-wise summary me **PENDING FOR RETURN** = replacement ho chuka lekin RETURN DATE abhi nahi.
+
+## Comparison tab
+From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare karta hai. 4 type: Division wise, Substation wise (division naam left me), Day wise (har din ka this year vs last year), Workshop wise. Capacity 10/16/25/63, <100 KVA, 100..1000, ≥100 KVA, TOTAL aur Inc/Dec %. Kisi bhi number par click karke list khul jati hai. Division wise summary Summary me ab chhote icon ke peeche (click par khulti hai).
+
+## DISCOM head, Creator, Division name, delete protection
+- **Creator** = Google account jo Apps Script (Code.gs) ka owner hai. Home page par Creator panel me Google sign-in karke kisi bhi DISCOM head ko email se access de sakta hai. Ek **one-time password** registry sheet ("DiscomHeads" tab) me rehta hai aur head ko email bhi hota hai. Head pehli login par naya password set karta hai.
+- **DISCOM head** (ID jaise `DH-...`) apne poore DISCOM ka data ek saath dekhta hai: Workshop division (EWD) -> workshops, Today PR/Issue, Till date PR/Issue/Pending issue, capacity wise (Pending issue, PR, Average) aur division x capacity. Return / pending replacement nahi dikhte. Data Sheet / Driver / Users tabs nahi hote.
+- DISCOM head ka password bhoolne par Division Head ki tarah Google email verification se reset.
+- **Division Head** ko pehli login par apne division ka naam (EWD se shuru) dena padta hai.
+- Date paste: `10/18/2026` (ERP, MM/DD/YYYY) -> `18.10.2026`.
+- Workshop naam me EWC/EWD alag ho to bhi wahi workshop maana jata hai. Galat workshop ki rows paste hone par warning aati hai aur wo save nahi hotin.
+- Google Drive me sheet file ka delete roka nahi ja sakta; "Delete all data" action par email OTP + password lagta hai.
