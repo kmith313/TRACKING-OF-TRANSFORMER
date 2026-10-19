@@ -803,6 +803,20 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
   #pz .cmpt{width:100%;font-size:9px}#pz .cmpt th,#pz .cmpt td{padding:2px 3px}
   #pz .cks-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
 }
+
+.asub{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px;position:sticky;top:0;z-index:5;background:var(--bg,#f3f5fb);padding:6px 0}
+.asub button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer}
+.asub button.on{background:linear-gradient(135deg,#3b5bdb,#5c7cfa);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(59,91,219,.28)}
+.acard{border-top:3px solid #4c6ef5;border-radius:14px;margin-bottom:14px}.acard h3{margin:0 0 6px;font-size:15px}
+.meter{height:12px;border-radius:99px;background:#e8ecf6;overflow:hidden}.meter i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#22c55e,#16a34a);transition:width .6s}
+.meter i.mid{background:linear-gradient(90deg,#fbbf24,#f59e0b)}.meter i.hi{background:linear-gradient(90deg,#f87171,#dc2626)}
+.mgres{background:#f3f6ff;border:1px solid #d6defa;border-radius:10px;padding:10px 12px;margin:10px 0;font-size:13px}
+.mgok{display:flex;gap:8px;align-items:flex-start;margin:8px 0;font-size:13px}.mgok input{margin-top:3px}
+.wsrows{display:grid;gap:8px;margin-top:10px}
+.wsrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border:1px solid #e1e6f2;border-radius:12px;padding:8px 12px;background:#fbfcff}.wsrow b{flex:1 1 140px;font-size:14px}
+.btn.danger{color:#b91c1c;border-color:#f3c0c0}.btn.danger:hover{background:#fee2e2}
+.wchk{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.wck{display:inline-flex;gap:6px;align-items:center;border:1px solid #d6defa;border-radius:999px;padding:5px 12px;font-size:13px;background:#fff;cursor:pointer;font-weight:600}.wck:has(input:checked){background:#e7edff;border-color:#4c6ef5;color:#243a9a}.wck.all{border-style:dashed}
+.sbanner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff4e5;border:1px solid #fbc77a;color:#8a4b00;border-radius:12px;padding:9px 14px;margin:10px 12px 0;font-size:13px}.sbanner span{flex:1 1 260px}
 </style>
 </head>
 <body>
@@ -925,8 +939,9 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
     <button data-t="kit" id="tkit">Kitty</button>
     <button data-t="data" id="tdata">Data Sheet</button>
     <button data-t="drv" id="tdrv">Driver Master</button>
-    <button data-t="usr" id="tusr" class="hide">Users (Admin)</button>
+    <button data-t="usr" id="tusr" class="hide">Admin</button>
   </nav></div>
+  <div id="sbanner" class="sbanner hide"><span><b>Storage alert:</b> your Google Sheet is <b id="sbp">0</b>% full. Add a new Google Sheet and move the last 1 year of data to it to keep the app fast.</span><button class="btn sm" id="sbgo">Move data to a new sheet</button><button class="btn sec sm" id="sbx" title="Hide">&#10005;</button></div>
   <main>
     <!-- SUMMARY -->
     <section id="t-sum">
@@ -987,7 +1002,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
             <input type="text" class="q" id="dq" placeholder="Search PR no, place, firm...">
           </div>
           <div class="tg r">
-            <button class="btn sec sm" id="dxl">&#11015; Excel</button><button class="btn sec sm" id="dpr">Print</button><button class="btn sec sm" id="dadd">+ 50 rows</button>
+            <button class="btn sec sm hide" id="dold">Old data</button><button class="btn sec sm" id="dxl">&#11015; Excel</button><button class="btn sec sm" id="dpr">Print</button><button class="btn sec sm" id="dadd">+ 50 rows</button>
             <button class="btn danger sm" id="ddel">Delete rows</button>
             <button class="btn sec sm" id="dundo">Undo</button>
             <button class="btn" id="dsave">Save</button>
@@ -1031,48 +1046,72 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
     <!-- USERS -->
     <section id="t-usr" class="hide">
-      <div class="card"><h3>Google Sheet &amp; sharing</h3>
-        <div class="muted">All data lives in your Google Sheet (tabs: DATA, Users, Drivers, Config, ARCHIVE). Keep the sheet shared as "Anyone with the link - Editor", otherwise the app will not work.</div>
-        <div class="bar" style="margin-top:8px"><a class="btn sec" id="lk-sheet" target="_blank" rel="noopener">Open Google Sheet</a><button class="btn sec" id="lk-copy">Copy app link</button></div>
-        <div class="muted" id="lk-note" style="margin-top:6px">Give the app link, the User ID and the temporary password to each new user. They log in directly from the home page with just ID and password.</div>
-      </div>
-      <div class="card"><h3>Workshops</h3>
-        <div class="chips" id="wslist"></div>
-        <div class="bar" style="margin-top:8px"><div><div class="lbl">New workshop</div><input type="text" id="nw" placeholder="Workshop name" maxlength="30" style="max-width:240px"></div><button class="btn" id="nwadd">Add workshop</button></div>
-        <div id="nwmsg"></div>
-      </div>
-      <div class="card"><h3>Create a new user</h3>
-        <div class="muted">Create an ID for a workshop AE/JE (the ID must be unique, for example start it with your Profit Center). A temporary password is generated - share it with the user.</div>
-        <div class="fg" style="margin-top:6px">
-          <div><div class="lbl">User ID (no spaces)</div><input type="text" id="nu" autocapitalize="off"></div>
-          <div><div class="lbl">Name</div><input type="text" id="nn"></div>
-          <div><div class="lbl">Role</div><input type="text" id="nr" value="AE/JE"></div>
-          <div><div class="lbl">Workshop</div><select id="ns"></select></div>
-          <div><div class="lbl">Can edit data?</div><select id="ne"><option value="1">Yes</option><option value="0">No</option></select></div>
+      <div class="asub" id="asub"><button data-as="sheet" class="on">&#128451; Sheet &amp; storage</button><button data-as="ws">&#127981; Workshops</button><button data-as="users">&#128101; Users</button><button data-as="bk">&#128190; Backup</button><button data-as="mt">&#128295; Maintenance</button></div>
+
+      <div class="apane" data-as="sheet">
+        <div class="card acard"><h3>Google Sheet &amp; sharing</h3>
+          <div class="muted">All data lives in your Google Sheet (tabs: DATA, Users, Drivers, Config, ARCHIVE, Kitty). Keep the sheet shared as "Anyone with the link - Editor", otherwise the app will not work.</div>
+          <div class="bar" style="margin-top:8px"><a class="btn sec" id="lk-sheet" target="_blank" rel="noopener">Open Google Sheet</a><button class="btn sec" id="lk-copy">Copy app link</button></div>
+          <div class="muted" id="lk-note" style="margin-top:6px">Give the app link, the User ID and the temporary password to each new user. They log in directly from the home page with just ID and password.</div>
         </div>
-        <div class="bar" style="margin-top:8px"><button class="btn" id="nadd">Create user</button></div><div id="numsg"></div>
+        <div class="card acard" id="st-card"><h3>Storage &amp; new Google Sheet</h3>
+          <div class="meter"><i id="st-bar"></i></div>
+          <div id="st-txt" class="muted" style="margin:6px 0">Checking...</div>
+          <div id="st-old"></div>
+          <div class="muted">When the sheet is nearly full the app becomes slow. Create a <b>new empty Google Sheet</b>, share it as <b>"Anyone with the link" &rarr; "Editor"</b> and paste its link here. With your permission the data of the <b>last 1 year</b> (and every record that is still pending) is moved to the new sheet and the app loads from it, so it stays fast. The old sheet is kept as it is and the older records are read from it whenever someone asks for old dates.</div>
+          <div class="bar" style="margin-top:8px"><div style="flex:1 1 280px"><div class="lbl">Link of the NEW Google Sheet</div><input type="text" id="mg-link" placeholder="https://docs.google.com/spreadsheets/d/..." autocomplete="off"></div><button class="btn sec" id="mg-check">Check</button></div>
+          <div id="mg-res" class="hide mgres"></div>
+          <div id="mg-confirm" class="hide">
+            <label class="mgok"><input type="checkbox" id="mg-ok"> I allow the app to copy the data of the last 1 year to this new sheet and to use the new sheet from now on.</label>
+            <div class="bar"><div><div class="lbl">Your password</div><input type="password" id="mg-pw" autocomplete="current-password"></div><button class="btn" id="mg-go">Move data now</button></div>
+          </div>
+          <div id="mg-msg"></div>
+        </div>
       </div>
-      <div class="card" style="border-color:#bcd7c6"><h3 style="color:#15803d">Daily backup &amp; restore</h3>
-        <div class="muted">Every night one backup file of your sheet (data, drivers, users) is updated automatically. If data is deleted by mistake, or the whole Google Sheet is deleted, your data can be restored from it.</div>
-        <div id="bk-info" class="muted" style="margin-top:6px">Checking...</div>
-        <div class="bar" style="margin-top:8px"><button class="btn sec" id="bk-send">Restore data from backup</button></div>
-        <div class="fg hide" id="bk-f" style="margin-top:8px"><div><div class="lbl">One-time password (from Gmail)</div><input type="text" id="bk-otp" autocomplete="off" maxlength="6" inputmode="numeric"></div><div><div class="lbl">Your password</div><input type="password" id="bk-pw" autocomplete="off"></div><div style="align-self:end"><button class="btn" id="bk-go">Restore now</button></div></div>
-        <div id="bk-msg"></div>
+
+      <div class="apane hide" data-as="ws">
+        <div class="card acard"><h3>Workshops</h3>
+          <div class="muted">Rename or delete a workshop. A workshop that still has records cannot be deleted (rename it instead).</div>
+          <div id="wslist" class="wsrows"></div>
+          <div class="bar" style="margin-top:10px"><div><div class="lbl">New workshop</div><input type="text" id="nw" placeholder="Workshop name" maxlength="30" style="max-width:240px"></div><button class="btn" id="nwadd">Add workshop</button></div>
+          <div id="nwmsg"></div>
+        </div>
       </div>
-      <div class="card" style="border-color:#f3c0c0"><h3 style="color:#b91c1c">Danger zone - delete all data</h3>
-        <div class="muted">Deletes <b>every record</b> in the DATA and ARCHIVE tabs of your Google Sheet (users and drivers stay). It needs a one-time password that is sent to your Gmail <b>and</b> your password. Note: deleting the Google Sheet file itself from Google Drive cannot be blocked by any app - that is why a daily backup is kept (see above).</div>
-        <div class="bar" style="margin-top:8px"><button class="btn sec" id="dz-send">Send one-time password to my Gmail</button></div>
-        <div class="fg hide" id="dz-f" style="margin-top:8px"><div><div class="lbl">One-time password (from Gmail)</div><input type="text" id="dz-otp" autocomplete="off" maxlength="6" inputmode="numeric"></div><div><div class="lbl">Your password</div><input type="password" id="dz-pw" autocomplete="off"></div><div style="align-self:end"><button class="btn" id="dz-go" style="background:#b91c1c">Delete all data</button></div></div>
-        <div id="dz-msg"></div>
+
+      <div class="apane hide" data-as="users">
+        <div class="card acard"><h3>Create a new user</h3>
+          <div class="muted">Create an ID for a workshop AE/JE. A temporary password is generated - share it with the user. Tick <b>more than one workshop</b> to give one user the charge of two or more workshops (view and edit, but not Admin). A JE/AE who was transferred keeps the same User ID: just create the same ID in your workshop.</div>
+          <div class="fg" style="margin-top:6px">
+            <div><div class="lbl">User ID (no spaces)</div><input type="text" id="nu" autocapitalize="off"></div>
+            <div><div class="lbl">Name</div><input type="text" id="nn"></div>
+            <div><div class="lbl">Role</div><input type="text" id="nr" value="AE/JE"></div>
+            <div><div class="lbl">Can edit data?</div><select id="ne"><option value="1">Yes</option><option value="0">No</option></select></div>
+          </div>
+          <div class="lbl" style="margin-top:8px">Workshop(s)</div><div id="ns" class="wchk"></div>
+          <div class="bar" style="margin-top:8px"><button class="btn" id="nadd">Create user</button></div><div id="numsg"></div>
+        </div>
+        <div class="card acard"><h3>Users</h3>
+          <div class="muted">Reset gives a temporary password (the user creates a new one at the next login). <b>Additional charge</b> gives the user the data of more workshops.</div>
+          <div class="wrap" style="margin-top:6px"><table id="ut"></table></div>
+        </div>
       </div>
-      <div class="card"><h3>Users - password reset</h3>
-        <div class="muted">Resetting gives a temporary password. Send it to the user; they will create a new password at the first login.</div>
-        <div class="wrap" style="margin-top:6px"><table id="ut"></table></div>
+
+      <div class="apane hide" data-as="bk">
+        <div class="card acard" style="border-top-color:#15803d"><h3 style="color:#15803d">Daily backup &amp; restore</h3>
+          <div class="muted">Every night one backup file of your sheet (data, drivers, users) is updated automatically. If data is deleted by mistake, or the whole Google Sheet is deleted, your data can be restored from it.</div>
+          <div id="bk-info" class="muted" style="margin-top:6px">Checking...</div>
+          <div class="bar" style="margin-top:8px"><button class="btn sec" id="bk-send">Restore data from backup</button></div>
+          <div class="fg hide" id="bk-f" style="margin-top:8px"><div><div class="lbl">One-time password (from Gmail)</div><input type="text" id="bk-otp" autocomplete="off" maxlength="6" inputmode="numeric"></div><div><div class="lbl">Your password</div><input type="password" id="bk-pw" autocomplete="current-password"></div><div style="align-self:end"><button class="btn" id="bk-go">Restore</button></div></div>
+          <div id="bk-msg"></div>
+        </div>
       </div>
-      <div class="card"><h3>Maintenance</h3>
-        <div class="muted">Data check: shows problems in the sheet (changes nothing). Archive: moves completed records older than 2 years to the ARCHIVE tab (keeps the sheet light).</div>
-        <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button></div>
-        <div id="amsg"></div>
+
+      <div class="apane hide" data-as="mt">
+        <div class="card acard"><h3>Maintenance</h3>
+          <div class="muted">Data check: shows problems in the sheet (changes nothing). Archive: moves completed records older than 2 years to the ARCHIVE tab (keeps the sheet light).</div>
+          <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button></div>
+          <div id="amsg"></div>
+        </div>
       </div>
     </section>
   </main>
@@ -1102,6 +1141,20 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
 
 <!-- DIVISION NAME (Division Head) -->
+<div id="scov" class="ov hide" style="z-index:94"><div class="md s">
+  <div class="kaph"><h2 id="sctitle">Additional charge</h2><button class="btn sec kx" id="scx" title="Close">&#10005;</button></div>
+  <div class="muted" style="margin:6px 0 8px">Tick every workshop this user should see and edit. The user is not an Admin.</div>
+  <div id="scl" class="wchk"></div><div id="scmsg"></div>
+  <div class="bar" style="margin-top:10px"><button class="btn" id="scsave">Save</button><button class="btn sec" id="sccancel">Cancel</button></div>
+</div></div>
+<div id="oldov" class="ov hide" style="z-index:91"><div class="md s">
+  <div class="kaph"><h2>Old data</h2><button class="btn sec kx" id="oldx" title="Close">&#10005;</button></div>
+  <div class="muted" style="margin:6px 0 8px">Finished records older than the last move to a new Google Sheet are kept in the old sheet. Choose the PR dates to read them from there (read only).</div>
+  <div class="bar"><div><div class="lbl">From</div><div class="dt"><input type="text" class="dtx" id="oldf" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="oldf"></span></div></div>
+  <div><div class="lbl">To</div><div class="dt"><input type="text" class="dtx" id="oldt" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="oldt"></span></div></div></div>
+  <div id="oldmsg"></div>
+  <div class="bar" style="margin-top:10px"><button class="btn" id="oldgo">Show old data</button></div>
+</div></div>
 <div id="kap" class="ov hide" style="z-index:95"><div class="md s kapm">
   <div class="kaph"><h2>Opening kitty change</h2></div>
   <div id="kapl"></div>
@@ -1300,7 +1353,7 @@ function fillWs(list) {
   var o = WSLIST.map(function (w) { return '<option>' + esc(w) + '</option>'; }).join('');
   $('dws').innerHTML = '<option value="">All workshops</option>' + o;
   $('mws').innerHTML = '<option value="">All workshops</option>' + o;
-  $('ns').innerHTML = o + '<option>ALL</option>';
+  $('ns').innerHTML = WSLIST.map(function (w) { return '<label class="wck"><input type="checkbox" value="' + esc(w) + '"> ' + esc(w) + '</label>'; }).join('') + '<label class="wck all"><input type="checkbox" value="ALL"> All workshops</label>';
 }
 $('go-setup').onclick = function (e) { e.preventDefault(); showScr('setup'); showAuth(); };
 $('su-back').onclick = function () { showScr('login'); };
@@ -1400,7 +1453,7 @@ function showApp(me) {
   ME = me; $('app').classList.remove('hide'); SCREENS.forEach(function (i) { $(i).classList.add('hide'); }); document.body.classList.remove('on-home');
   fillWs(me.wsAll); lsSet('tt_sub', subText(me.org, me.wsAll));
   $('who').textContent = me.display + ' (' + me.role + ')';
-  $('tusr').classList.toggle('hide', !me.admin);
+  $('tusr').classList.toggle('hide', !me.admin); $('dold').classList.toggle('hide', !(me.old > 0)); bannerUpd();
   $('tdata').classList.toggle('hide', !!(me.admin || me.dh));          // the Division Head does not need the Data Sheet
   $('tdrv').classList.toggle('hide', !!me.dh); $('tkit').classList.toggle('hide', !!me.dh); $('tkit').textContent = 'Kitty'; KIT = null; KED = {}; KAPN = -1; if (me.admin && !me.dh) setTimeout(kapCheck, 600);      // the DISCOM head sees the Summary and the day wise Comparison
   $('tcmp').classList.remove('hide'); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
@@ -1462,7 +1515,7 @@ document.querySelectorAll('nav button').forEach(function (b) {
     if (t === 'sum') loadSummary();          // clicking Summary reloads it with the dates shown
     if (t === 'cmp') loadCompare();
     if (t === 'kit') loadKitty();
-    if (t === 'usr') loadUsers();
+    if (t === 'usr') { loadUsers(); adminPane(document.querySelector('#asub button.on').dataset.as); }
     if (t === 'data' && !D.dirty()) loadData();
     if (t === 'drv' && !M.dirty()) loadMaster();
   };
@@ -2326,12 +2379,15 @@ var D = makeGrid({
     if (!validD(r.v[9])) return 'PR DATE is invalid or empty';
     if (!wsK(r.v[0])) return wsMsg();
     if (D.one && wsK(r.v[0]) !== D.one) return 'WARNING: this row is for workshop "' + wsK(r.v[0]) + '" - you can only save entries of ' + D.one;
+    var sc = myScope(); if (sc && sc.indexOf(wsK(r.v[0])) < 0) return 'WARNING: this row is for workshop "' + wsK(r.v[0]) + '" - you can only save entries of ' + sc.join(' / ');
     return '';
   },
   label: function (r) { return 'PR ' + (r.v[8] || '-'); },
   pasteNote: function (g, touched) {
     var wrong = g.one ? touched.filter(function (ri) { var w = wsK(g.rows[ri].v[0]); return w && w !== g.one; }).length : 0;
     if (wrong) return '<br><b style="color:#b91c1c">&#9888; WARNING: ' + wrong + ' pasted row(s) belong to another workshop. You are logged in for <u>' + esc(g.one) + '</u>, so those rows will NOT be saved. Please paste only your own workshop\'s data.</b>';
+    var sc = myScope(), wrong2 = sc ? touched.filter(function (ri) { var w = wsK(g.rows[ri].v[0]); return w && sc.indexOf(w) < 0; }).length : 0;
+    if (wrong2) return '<br><b style="color:#b91c1c">&#9888; WARNING: ' + wrong2 + ' pasted row(s) belong to a workshop that is not yours. You have the charge of <u>' + esc(sc.join(' / ')) + '</u>, so those rows will NOT be saved.</b>';
     if ($('dall').checked || !dsel()) return '';
     var other = touched.filter(function (ri) { return g.rows[ri].v[9] !== dsel(); }).length;
     return other ? '<br><span class="muted">' + other + ' of them belong to other dates; after saving they will show under their own date.</span>' : '';
@@ -3034,13 +3090,15 @@ $('pwsave').onclick = function () {
 };
 
 /* ---------- users (admin) ---------- */
+var UL = [];
 function loadUsers() {
   loadAdminInfo();
   call('adminUsers', TOKEN).then(function (u) {
-    var h = '<tr><th class="l">User ID</th><th class="l">Name</th><th>Role</th><th>Scope</th><th>Edit</th><th>Active</th><th></th></tr>';
+    UL = u;
+    var h = '<tr><th class="l">User ID</th><th class="l">Name</th><th>Role</th><th>Workshop(s)</th><th>Edit</th><th>Active</th><th></th></tr>';
     u.forEach(function (x, i) {
-      h += '<tr><td class="l">' + esc(x.name) + '</td><td class="l">' + esc(x.display) + '</td><td>' + esc(x.role) + '</td><td>' + esc(x.scope) + '</td><td>' + (x.canEdit ? 'Yes' : 'No') + '</td><td>' + (x.active ? 'Yes' : 'No') + '</td><td>' +
-        '<button class="btn sm" data-r="' + i + '">Reset password</button> <button class="btn sec sm" data-a="' + i + '">' + (x.active ? 'Deactivate' : 'Activate') + '</button></td></tr>';
+      h += '<tr><td class="l">' + esc(x.name) + '</td><td class="l">' + esc(x.display) + '</td><td>' + esc(x.role) + '</td><td>' + esc(x.scope.split(',').join(', ')) + '</td><td>' + (x.canEdit ? 'Yes' : 'No') + '</td><td>' + (x.active ? 'Yes' : 'No') + '</td><td style="white-space:nowrap">' +
+        '<button class="btn sm" data-r="' + i + '">Reset password</button> <button class="btn sec sm" data-a="' + i + '">' + (x.active ? 'Deactivate' : 'Activate') + '</button>' + (x.admin ? '' : ' <button class="btn sec sm" data-c="' + i + '">Additional charge</button>') + '</td></tr>';
     });
     $('ut').innerHTML = h;
     $('ut').querySelectorAll('[data-r]').forEach(function (b) {
@@ -3055,12 +3113,34 @@ function loadUsers() {
     $('ut').querySelectorAll('[data-a]').forEach(function (b) {
       b.onclick = function () { var x = u[+b.dataset.a]; call('adminSetActive', TOKEN, x.name, !x.active).then(loadUsers).catch(function (e) { alert(e.message); }); };
     });
+    $('ut').querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { openScope(u[+b.dataset.c]); }; });
   }).catch(function (e) { alert(e.message); });
 }
+/* additional charge: one user, several workshops */
+var SCU = null;
+function wckList(box, sel) {
+  var on = {}; sel.forEach(function (x) { on[x] = 1; });
+  box.innerHTML = WSLIST.map(function (w) { return '<label class="wck"><input type="checkbox" value="' + esc(w) + '"' + (on[w] || on.ALL ? ' checked' : '') + '> ' + esc(w) + '</label>'; }).join('') + '<label class="wck all"><input type="checkbox" value="ALL"' + (on.ALL ? ' checked' : '') + '> All workshops</label>';
+}
+function wckGet(box) { var v = []; box.querySelectorAll('input:checked').forEach(function (i) { v.push(i.value); }); return v.indexOf('ALL') >= 0 ? ['ALL'] : v; }
+document.addEventListener('change', function (e) {                   // "All workshops" excludes the single ones
+  var t = e.target; if (!t.closest || !t.closest('.wchk') || t.type !== 'checkbox') return;
+  var box = t.closest('.wchk');
+  if (t.value === 'ALL' && t.checked) box.querySelectorAll('input').forEach(function (i) { if (i !== t) i.checked = false; });
+  else if (t.checked) { var a = box.querySelector('input[value=ALL]'); if (a) a.checked = false; }
+});
+function openScope(x) { SCU = x; $('sctitle').textContent = 'Additional charge - ' + x.name; wckList($('scl'), x.scope.split(',')); msg('scmsg', ''); $('scov').classList.remove('hide'); }
+$('scx').onclick = $('sccancel').onclick = function () { $('scov').classList.add('hide'); };
+$('scsave').onclick = function () {
+  var list = wckGet($('scl')); if (!list.length) return msg('scmsg', 'Tick at least one workshop.', 'err');
+  var b = $('scsave'); busy(b, true, 'Saving...');
+  call('adminSetScope', TOKEN, SCU.name, list).then(function () { busy(b, false); $('scov').classList.add('hide'); loadUsers(); })
+    .catch(function (e) { busy(b, false); msg('scmsg', esc(e.message), 'err'); });
+};
 $('tclose').onclick = function () { $('tov').classList.add('hide'); };
 $('nadd').onclick = function () {
   var b = $('nadd'); msg('numsg', ''); busy(b, true, 'Saving...');
-  call('adminAddUser', TOKEN, $('nu').value, $('nn').value, $('nr').value, $('ns').value, $('ne').value === '1').then(function (t) {
+  call('adminAddUser', TOKEN, $('nu').value, $('nn').value, $('nr').value, wckGet($('ns')), $('ne').value === '1').then(function (t) {
     busy(b, false);
     $('tinfo').innerHTML = 'Temporary password of <b>' + esc($('nu').value.trim()) + '</b>:<br><span style="font:700 20px ui-monospace,monospace">' + esc(t) + '</span><br><span class="muted">Shown only once. The user will change it at the first login.</span>';
     $('tov').classList.remove('hide'); $('nu').value = ''; $('nn').value = ''; loadUsers();
@@ -3068,18 +3148,6 @@ $('nadd').onclick = function () {
 };
 
 
-/* ---------- danger zone: delete all data (Gmail OTP) ---------- */
-$('dz-send').onclick = function () {
-  var b = $('dz-send'); msg('dz-msg', ''); busy(b, true, 'Sending...');
-  call('adminDeleteOtp', TOKEN).then(function (r) { busy(b, false); $('dz-f').classList.remove('hide'); msg('dz-msg', 'A one-time password was sent to <b>' + esc(r.sentTo) + '</b>. It is valid for 10 minutes.', 'ok'); }).catch(function (e) { busy(b, false); msg('dz-msg', esc(e.message), 'err'); });
-};
-$('dz-go').onclick = function () {
-  var otp = $('dz-otp').value.trim(), pw = $('dz-pw').value;
-  if (!otp || !pw) return msg('dz-msg', 'Enter the one-time password and your password.', 'err');
-  if (!confirm('Delete ALL records of this sheet (DATA + ARCHIVE)? This cannot be undone.')) return;
-  var b = $('dz-go'); busy(b, true, 'Deleting...');
-  call('adminDeleteData', TOKEN, otp, pw).then(function () { busy(b, false); $('dz-otp').value = ''; $('dz-pw').value = ''; $('dz-f').classList.add('hide'); cclear(); msg('dz-msg', 'All data was deleted.', 'ok'); }).catch(function (e) { busy(b, false); msg('dz-msg', esc(e.message), 'err'); });
-};
 /* ---------- App Creator panel ---------- */
 var CRT = null;
 $('go-creator').onclick = function (e) {
@@ -3171,10 +3239,73 @@ function loadAdminInfo() {
   call('adminInfo', TOKEN).then(function (r) {
     ADM = r; $('lk-sheet').href = r.sheet;
     r.userLink = location.origin + location.pathname; $('lk-copy').classList.remove('hide');
-    $('wslist').innerHTML = r.workshops.map(function (w) { return '<span class="chip">' + esc(w) + '</span>'; }).join('');
+    $('wslist').innerHTML = r.workshops.map(function (w, i) { return '<div class="wsrow"><b>' + esc(w) + '</b><button class="btn sec sm" data-wr="' + i + '">Rename</button><button class="btn sec sm danger" data-wd="' + i + '">Delete</button></div>'; }).join('');
+    $('wslist').querySelectorAll('[data-wr]').forEach(function (b) { b.onclick = function () { wsRename(r.workshops[+b.dataset.wr]); }; });
+    $('wslist').querySelectorAll('[data-wd]').forEach(function (b) { b.onclick = function () { wsDelete(r.workshops[+b.dataset.wd]); }; });
     if (JSON.stringify(r.workshops) !== JSON.stringify(WSLIST)) fillWs(r.workshops);
   }).catch(function () {});
 }
+function wsAfter(list) { fillWs(list); ME.wsAll = list; cclear(); loadAdminInfo(); loadUsers(); }
+function wsRename(w) {
+  var n = prompt('New name for the workshop "' + w + '":', w); if (n === null) return; n = n.trim(); if (!n || n.toUpperCase() === w) return;
+  msg('nwmsg', 'Renaming...', 'info');
+  call('adminRenameWorkshop', TOKEN, w, n).then(function (l) { wsAfter(l); msg('nwmsg', 'Renamed. All records, drivers, kitty and users were updated.', 'ok'); })
+    .catch(function (e) { msg('nwmsg', esc(e.message), 'err'); });
+}
+function wsDelete(w) {
+  if (!confirm('Delete the workshop "' + w + '"? Its drivers, kitty entries and user access will be removed. This cannot be undone.')) return;
+  call('adminDeleteWorkshop', TOKEN, w).then(function (l) { wsAfter(l); msg('nwmsg', 'Workshop deleted.', 'ok'); })
+    .catch(function (e) { msg('nwmsg', esc(e.message), 'err'); });
+}
+/* admin sub-navigation */
+function adminPane(k) {
+  document.querySelectorAll('#asub button').forEach(function (b) { b.classList.toggle('on', b.dataset.as === k); });
+  document.querySelectorAll('#t-usr .apane').forEach(function (p) { p.classList.toggle('hide', p.dataset.as !== k); });
+  if (k === 'sheet') loadStorage();
+}
+$('asub').onclick = function (e) { var b = e.target.closest('button'); if (b) adminPane(b.dataset.as); };
+/* storage + moving to a new Google Sheet */
+function fmtCut(c) { return String(c).replace(/^(\d{4})(\d{2})(\d{2})$/, '$3.$2.$1'); }
+function loadStorage() {
+  call('adminStorage', TOKEN).then(function (r) {
+    var u = r.usage, p = u.pct; ME.usage = u; bannerUpd();
+    $('st-bar').style.width = Math.min(p, 100) + '%'; $('st-bar').className = p >= 90 ? 'hi' : p >= 70 ? 'mid' : '';
+    $('st-txt').innerHTML = '<b>' + p + '%</b> of the Google Sheet is used (' + (u.cells / 1e6).toFixed(2) + ' million of ' + (u.limit / 1e6) + ' million cells).' + (p >= 90 ? ' <b style="color:#b91c1c">The sheet is almost full - please move the data to a new sheet.</b>' : '');
+    $('st-old').innerHTML = r.old.length ? '<div class="muted" style="margin-bottom:6px"><b>Old sheets</b> (finished records older than the date are read from them when needed):</div>' + r.old.map(function (o) { return '<div class="wsrow"><b>Data before ' + esc(fmtCut(o.cut)) + '</b><span class="muted">moved ' + esc(o.on) + '</span><a class="btn sec sm" href="' + esc(o.url) + '" target="_blank" rel="noopener">Open</a></div>'; }).join('') : '';
+  }).catch(function () {});
+}
+function bannerUpd() {
+  var u = ME && ME.admin && ME.usage, hide = !u || u.pct < 90; try { if (sessionStorage.getItem('sbd') === '1') hide = true; } catch (e) {}
+  $('sbanner').classList.toggle('hide', hide); if (u) $('sbp').textContent = Math.round(u.pct);
+}
+$('sbx').onclick = function () { try { sessionStorage.setItem('sbd', '1'); } catch (e) {} $('sbanner').classList.add('hide'); };
+$('sbgo').onclick = function () { $('tusr').click(); adminPane('sheet'); setTimeout(function () { $('st-card').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 120); };
+$('mg-check').onclick = function () {
+  var b = $('mg-check'); msg('mg-msg', ''); $('mg-res').classList.add('hide'); $('mg-confirm').classList.add('hide'); busy(b, true, 'Checking...');
+  call('adminMigrateCheck', TOKEN, $('mg-link').value).then(function (r) {
+    busy(b, false);
+    $('mg-res').innerHTML = 'New sheet: <b>' + esc(r.title) + '</b> (empty, editable).<br>Records that will be <b>copied to the new sheet</b>: <b>' + r.toNew + '</b> (the last 1 year and every pending record).<br>Records that <b>stay only in the old sheet</b>: <b>' + r.stay + '</b> (finished, older than ' + esc(r.cut) + ') - they can still be viewed whenever needed.';
+    $('mg-res').classList.remove('hide'); $('mg-confirm').classList.remove('hide'); $('mg-ok').checked = false; $('mg-pw').value = '';
+  }).catch(function (e) { busy(b, false); msg('mg-msg', esc(e.message), 'err'); });
+};
+$('mg-go').onclick = function () {
+  if (!$('mg-ok').checked) return msg('mg-msg', 'Tick the permission box first.', 'err');
+  if (!$('mg-pw').value) return msg('mg-msg', 'Enter your password.', 'err');
+  var b = $('mg-go'); msg('mg-msg', 'Moving the data... this can take a few minutes. Please do not close this page.', 'info'); busy(b, true, 'Moving...');
+  call('adminMigrate', TOKEN, $('mg-link').value, $('mg-pw').value).then(function (r) {
+    busy(b, false); msg('mg-msg', 'Done. ' + r.moved + ' records are now in the new sheet; ' + r.stay + ' older records stay in the old sheet. Please log in again.', 'ok');
+    setTimeout(function () { doLogout(true); }, 3500);
+  }).catch(function (e) { busy(b, false); msg('mg-msg', esc(e.message), 'err'); });
+};
+/* old data (read from the old Google Sheet) */
+$('dold').onclick = function () { var t = new Date(); if (!$('oldt').value) $('oldt').value = fmt(t); if (!$('oldf').value) { var f = new Date(t.getFullYear() - 1, t.getMonth(), 1); $('oldf').value = fmt(f); } msg('oldmsg', ''); $('oldov').classList.remove('hide'); };
+$('oldx').onclick = function () { $('oldov').classList.add('hide'); };
+$('oldgo').onclick = function () {
+  var f = $('oldf').value.trim(), t = $('oldt').value.trim();
+  if (!validD(f) || !validD(t)) return msg('oldmsg', 'Enter both dates as DD.MM.YYYY.', 'err');
+  $('oldov').classList.add('hide'); openList({ old: true, metric: 0, from: f, to: t, date: t, t: 'Old data (previous Google Sheet) - ' + f + ' to ' + t });
+};
+function myScope() { var s = ME && ME.scope; return s && s.indexOf('ALL') < 0 && s.length > 1 ? s : null; }
 $('lk-copy').onclick = function () { if (ADM && ADM.userLink) prompt('App link for your users (copy with Ctrl+C):', ADM.userLink); };
 $('nwadd').onclick = function () {
   var b = $('nwadd'); msg('nwmsg', ''); busy(b, true, 'Saving...');

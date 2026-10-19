@@ -122,3 +122,9 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - The kitty tables save automatically (about one second after typing stops).
 - The entry tables work like Excel: arrow keys and Enter move between cells, drag or Shift+click selects a block, Ctrl+C copies, Ctrl+V pastes a block from Excel (a single value fills a whole selection), Delete clears the selection, Ctrl+A selects all.
 - Print layouts of Summary, Comparison and Kitty were made compact (landscape, tiles and tables sized to the page).
+
+## Admin tab: users with several workshops, workshop edit/delete, storage and new sheet
+- **Additional charge**: in Admin > Users every non-admin user has an *Additional charge* button (next to Reset password / Deactivate). Tick two or more workshops: the user sees the Summary, Comparison, Kitty and Data Sheet of all of them and can edit and paste data for each (rows of any other workshop are refused with a warning). The *Create a new user* form also takes several workshops.
+- **Workshops** can be renamed (every record, driver, kitty entry and user is updated) or deleted (only when the workshop has no records).
+- The *Danger zone - delete all data* box was removed. The Admin tab is split into Sheet & storage / Workshops / Users / Backup / Maintenance.
+- **Storage**: when the Google Sheet is 90% full (10 million cells) the Admin sees an English notification. Admin > Sheet & storage: paste the link of a new empty Google Sheet (Anyone with the link - Editor), tap Check, tick the permission box, enter the password and tap *Move data now*. The last 1 year of data (plus every pending record), users, drivers, kitty and settings are copied to the new sheet, which becomes the live one. The old sheet stays as it is; Summary, Comparison and the Data Sheet's *Old data* button read finished records older than the move date from it on demand. Everybody logs in again after the move.
