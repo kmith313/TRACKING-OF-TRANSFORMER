@@ -116,3 +116,9 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - Sheet tabs created automatically: `KittyDay`, `KittyOpen`, `KittyReq` (all included in the daily backup).
 - A JE/AE who is transferred keeps the same User ID: the new Division Head can add the same ID in his workshop (no "already exists" error for another organisation). At login the password decides which organisation opens.
 - Day-wise comparison: left column is this year's date; each workshop (or division for the DISCOM head) shows Previous year | This year | Diff; Inc/Dec % appears only in the final total group. On phones the Division / Substation / Day wise buttons now fit on one row.
+
+### Kitty update
+- **Previous year kitty is automatic**: it is the balance kitty of the same date last year; if that date was not filled, the nearest earlier date (up to 5 days back) is used. While the app has no data of last year, the Division Head fills it with **Last year kitty** (date-wise, all workshops in one table, saved to the `KittyPrev` tab).
+- The kitty tables save automatically (about one second after typing stops).
+- The entry tables work like Excel: arrow keys and Enter move between cells, drag or Shift+click selects a block, Ctrl+C copies, Ctrl+V pastes a block from Excel (a single value fills a whole selection), Delete clears the selection, Ctrl+A selects all.
+- Print layouts of Summary, Comparison and Kitty were made compact (landscape, tiles and tables sized to the page).
