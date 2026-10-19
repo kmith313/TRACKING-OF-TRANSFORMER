@@ -127,4 +127,14 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - **Additional charge**: in Admin > Users every non-admin user has an *Additional charge* button (next to Reset password / Deactivate). Tick two or more workshops: the user sees the Summary, Comparison, Kitty and Data Sheet of all of them and can edit and paste data for each (rows of any other workshop are refused with a warning). The *Create a new user* form also takes several workshops.
 - **Workshops** can be renamed (every record, driver, kitty entry and user is updated) or deleted (only when the workshop has no records).
 - The *Danger zone - delete all data* box was removed. The Admin tab is split into Sheet & storage / Workshops / Users / Backup / Maintenance.
-- **Storage**: when the Google Sheet is 90% full (10 million cells) the Admin sees an English notification. Admin > Sheet & storage: paste the link of a new empty Google Sheet (Anyone with the link - Editor), tap Check, tick the permission box, enter the password and tap *Move data now*. The last 1 year of data (plus every pending record), users, drivers, kitty and settings are copied to the new sheet, which becomes the live one. The old sheet stays as it is; Summary, Comparison and the Data Sheet's *Old data* button read finished records older than the move date from it on demand. Everybody logs in again after the move.
+- **Storage**: when the Google Sheet is 90% full (the Google Sheets limit is 20 million cells per file) the Admin sees an English notification. Admin > Sheet & storage: paste the link of a new empty Google Sheet (Anyone with the link - Editor), tap Check, tick the permission box, enter the password and tap *Move data now*. The last 1 year of data (plus every pending record), users, drivers, kitty and settings are copied to the new sheet, which becomes the live one. The old sheet stays as it is; Summary, Comparison and the Data Sheet's *Old data* button read finished records older than the move date from it on demand. Everybody logs in again after the move.
+
+## DISCOM head: tabs chosen by the app Creator
+
+In the Creator panel every DISCOM head has a **Tabs allowed** row (Summary, Comparison, Kitty, Data Sheet, Driver Master). The **Admin** tab can never be given. Default for a new head: Summary + Comparison. Changes are enforced by the server at once.
+
+- **Summary** - every division of the DISCOM one under the other (workshops inside each division): PR today, issued today, PR till date, issued till date, pending replacement, capacity wise tables. Return / pending-for-return are not shown.
+- **Comparison** - day wise damage (PR) of every division, this year against the same dates last year.
+- **Kitty, Data Sheet, Driver Master** - read only. A *Division* box on top lets the head pick one division at a time; everything is the same as the Division Head's own screen, but nothing can be edited.
+
+Storage meter and the 90% alert now use 20 million cells per Google Sheet and also show roughly how many more records fit.

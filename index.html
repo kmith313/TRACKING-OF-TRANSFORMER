@@ -27,6 +27,7 @@ header .u{font-size:12px;background:rgba(255,255,255,.16);padding:3px 10px;borde
 .btn.danger{background:#fdeaf1;color:var(--bad)}.btn.danger:hover{background:#fbd5e4}
 .btn:disabled{opacity:.5;cursor:default}
 nav{display:flex;gap:6px;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto;position:sticky;top:44px;z-index:40}
+  .crtabs{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.crc{display:inline-flex;align-items:center;gap:5px;font-size:13px;white-space:nowrap}.crt .btn{margin-top:4px}
 nav button{border:0;background:none;padding:6px 14px;cursor:pointer;color:var(--mut);font-weight:600;border-radius:99px;white-space:nowrap}
 nav button:hover{background:var(--sub)}
 nav button.on{color:#fff;background:var(--pri);box-shadow:0 2px 6px rgba(59,91,219,.35)}
@@ -934,7 +935,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
     <button class="btn g" id="bout">Logout</button>
   </header>
   <nav>
-    <button data-t="sum" class="on">Summary</button>
+    <button data-t="sum" id="tsum" class="on">Summary</button>
     <button data-t="cmp" id="tcmp">Comparison</button>
     <button data-t="kit" id="tkit">Kitty</button>
     <button data-t="data" id="tdata">Data Sheet</button>
@@ -943,6 +944,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
   </nav></div>
   <div id="sbanner" class="sbanner hide"><span><b>Storage alert:</b> your Google Sheet is <b id="sbp">0</b>% full. Add a new Google Sheet and move the last 1 year of data to it to keep the app fast.</span><button class="btn sm" id="sbgo">Move data to a new sheet</button><button class="btn sec sm" id="sbx" title="Hide">&#10005;</button></div>
   <main>
+    <div class="card hide" id="dhbar"><div class="bar sbar"><div><label>Division</label><select id="dhdiv"></select></div><span class="muted" style="font-size:12px;align-self:center">View only - choose a division to see its workshops.</span></div></div>
     <!-- SUMMARY -->
     <section id="t-sum">
       <div class="card">
@@ -1181,13 +1183,14 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 <!-- CREATOR PANEL -->
 <div id="cr-ov" class="ov hide" style="z-index:90"><div class="md">
   <div class="bar" style="justify-content:space-between"><h2 style="margin:0">App Creator &middot; DISCOM head access <span class="muted" id="cr-who" style="font-size:12px;text-transform:none"></span></h2><button class="btn sec" id="cr-close">Close</button></div>
-  <div class="muted" style="margin:6px 0 8px">Give a DISCOM head (PUVVNL or any other DISCOM) access with his Google e-mail. He sees the combined summary of every sheet registered under his DISCOM (read only). A one-time password is e-mailed to him and is also shown below / in the <b>DiscomHeads</b> tab of the registry sheet. He must set his own password at the first login; later he can reset it himself with <b>Forgot password</b> (Google sign-in with this e-mail).</div>
+  <div class="muted" style="margin:6px 0 8px">Give a DISCOM head (PUVVNL or any other DISCOM) access with his Google e-mail. He sees every division registered under his DISCOM, division wise and read only - only the tabs you tick below (the <b>Admin</b> tab can never be given). A one-time password is e-mailed to him and is also shown below / in the <b>DiscomHeads</b> tab of the registry sheet. He must set his own password at the first login; later he can reset it himself with <b>Forgot password</b> (Google sign-in with this e-mail).</div>
   <div class="fg">
     <div><div class="lbl">DISCOM</div><input type="text" id="cr-d" list="cr-dl" placeholder="PUVVNL" maxlength="30"><datalist id="cr-dl"></datalist></div>
     <div><div class="lbl">Name</div><input type="text" id="cr-n" maxlength="40"></div>
     <div><div class="lbl">Google e-mail</div><input type="text" id="cr-e" autocapitalize="off" placeholder="name@gmail.com"></div>
     <div><div class="lbl">Login ID (optional, starts with DH)</div><input type="text" id="cr-i" autocapitalize="off" placeholder="DH-PUVVNL"></div>
   </div>
+  <div style="margin-top:8px"><div class="lbl">Tabs this head can open</div><div id="cr-tabs" class="crtabs"></div></div>
   <div class="bar" style="margin-top:8px"><button class="btn" id="cr-add">Give access</button></div><div id="cr-msg"></div>
   <div class="wrap" style="margin-top:8px"><table id="cr-t"></table></div>
   <div class="card" style="margin-top:12px"><h3>Daily backup (one file per organisation, updated every night)</h3>
@@ -1454,12 +1457,16 @@ function showApp(me) {
   fillWs(me.wsAll); lsSet('tt_sub', subText(me.org, me.wsAll));
   $('who').textContent = me.display + ' (' + me.role + ')';
   $('tusr').classList.toggle('hide', !me.admin); $('dold').classList.toggle('hide', !(me.old > 0)); bannerUpd();
-  $('tdata').classList.toggle('hide', !!(me.admin || me.dh));          // the Division Head does not need the Data Sheet
-  $('tdrv').classList.toggle('hide', !!me.dh); $('tkit').classList.toggle('hide', !!me.dh); $('tkit').textContent = 'Kitty'; KIT = null; KED = {}; KAPN = -1; if (me.admin && !me.dh) setTimeout(kapCheck, 600);      // the DISCOM head sees the Summary and the day wise Comparison
-  $('tcmp').classList.remove('hide'); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
+  var DT = me.dh ? (me.tabs || ['summary', 'comparison']) : null, has = function (k) { return !DT || DT.indexOf(k) >= 0; };      // the DISCOM head sees only the tabs the app Creator allowed (never Admin)
+  $('tsum').classList.toggle('hide', !has('summary'));
+  $('tdata').classList.toggle('hide', me.dh ? !has('data') : !!me.admin);          // the Division Head does not need the Data Sheet
+  $('tdrv').classList.toggle('hide', me.dh ? !has('drivers') : false); $('tkit').classList.toggle('hide', me.dh ? !has('kitty') : false); $('tkit').textContent = 'Kitty'; KIT = null; KED = {}; KAPN = -1; if (me.admin && !me.dh) setTimeout(kapCheck, 600);
+  $('tcmp').classList.toggle('hide', !has('comparison')); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
+  $('dhbar').classList.add('hide');
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
   $('cf').value = '01.04.' + (t.getMonth() >= 3 ? t.getFullYear() : t.getFullYear() - 1); $('ct').value = fmt(t);
-  showTab('sum');
+  DTAB = me.dh ? (['sum', 'cmp', 'kit', 'data', 'drv'].filter(function (k) { return !$('t' + k).classList.contains('hide'); })[0] || 'sum') : 'sum';
+  showTab(DTAB);
   if (me.must) { MUST = true; openPw(true); } else loadInitial();
   if (me.admin && !/^EWD/i.test(me.division || '')) openDiv();
 }
@@ -1478,6 +1485,8 @@ function afterLogin(r) {
   showApp(r.me);
 }
 function loadInitial() {
+  DHP = (ME && ME.dh && ME.tabs && ME.tabs.some(function (k) { return k === 'data' || k === 'drivers' || k === 'kitty'; })) ? dhInit() : null;
+  if (ME && ME.dh && DTAB !== 'sum') return dhOpen(DTAB);
   loadSummary().then(function () { if (ME && ME.dh) return; loadDM(); if (ME && ME.canEdit !== false && !ME.admin) call('getData', TOKEN, { date: dsel(), all: false }).then(function (r) { cset('data|' + dsel(), r); }).catch(function () {}); });
 }
 $('lbtn').onclick = function () {
@@ -1506,7 +1515,28 @@ function showTab(t) {
   CURTAB = t;
   document.querySelectorAll('nav button').forEach(function (x) { x.classList.toggle('on', x.dataset.t === t); });
   ['sum', 'cmp', 'kit', 'data', 'drv', 'usr'].forEach(function (k) { $('t-' + k).classList.toggle('hide', k !== t); });
+  $('dhbar').classList.toggle('hide', !(ME && ME.dh && (t === 'kit' || t === 'data' || t === 'drv')));
 }
+/* DISCOM head: Data / Driver / Kitty tabs show one division at a time (read only) */
+var DHP = null, DTAB = 'sum';
+function dhInit() {
+  return call('dhDivs', TOKEN).then(function (r) {
+    $('dhdiv').innerHTML = r.divs.map(function (d) { return '<option>' + esc(d) + '</option>'; }).join('') || '<option value="">No division registered yet</option>';
+    var want = r.cur || r.divs[0] || ''; $('dhdiv').value = want;
+    return want && !r.cur ? call('dhPick', TOKEN, want) : null;
+  }).catch(function () {});
+}
+function dhOpen(t) {
+  showTab(t);
+  return (DHP || Promise.resolve()).then(function () {
+    if (!$('dhdiv').value) return msg(t === 'kit' ? 'kmsg' : t === 'data' ? 'dmsg' : 'mmsg', 'No division is registered under your DISCOM yet.', 'info');
+    if (t === 'kit') loadKitty(); else if (t === 'data') loadData(); else loadMaster();
+  });
+}
+$('dhdiv').onchange = function () {
+  var v = $('dhdiv').value; if (!v) return;
+  call('dhPick', TOKEN, v).then(function () { cclear(); KIT = null; KED = {}; DMLOADED = false; if (D) D.reset(); if (M) M.reset(); dhOpen(CURTAB); }).catch(function (e) { alert(e.message); });
+};
 document.querySelectorAll('nav button').forEach(function (b) {
   b.onclick = function () {
     var t = b.dataset.t;
@@ -1514,6 +1544,7 @@ document.querySelectorAll('nav button').forEach(function (b) {
     showTab(t);
     if (t === 'sum') loadSummary();          // clicking Summary reloads it with the dates shown
     if (t === 'cmp') loadCompare();
+    if (ME && ME.dh && (t === 'kit' || t === 'data' || t === 'drv')) return dhOpen(t);
     if (t === 'kit') loadKitty();
     if (t === 'usr') { loadUsers(); adminPane(document.querySelector('#asub button.on').dataset.as); }
     if (t === 'data' && !D.dirty()) loadData();
@@ -3158,22 +3189,27 @@ $('go-creator').onclick = function (e) {
 };
 $('cr-close').onclick = function () { $('cr-ov').classList.add('hide'); CRT = null; };
 function crShow(r, what) { msg('cr-msg', what + ' <b>' + esc(r.id) + '</b> &middot; one-time password: <span style="font:700 18px ui-monospace,monospace">' + esc(r.otp) + '</span><br><span class="muted">' + (r.mailed ? 'It was also e-mailed to the DISCOM head.' : 'The e-mail could not be sent - please give this password to him yourself.') + '</span>', 'ok'); }
+var CRTABS = [['summary', 'Summary'], ['comparison', 'Comparison'], ['kitty', 'Kitty'], ['data', 'Data Sheet'], ['drivers', 'Driver Master']];
+function crBoxes(id, on) { return CRTABS.map(function (t) { return '<label class="crc"><input type="checkbox" data-tb="' + esc(id) + '" value="' + t[0] + '"' + (on.indexOf(t[0]) >= 0 ? ' checked' : '') + '> ' + t[1] + '</label>'; }).join(''); }
+function crPicked(sel) { return [].map.call(document.querySelectorAll(sel + ' input:checked'), function (i) { return i.value; }); }
 function crLoad() {
   cbLoad();
   call('creatorHeads', CRT).then(function (r) {
     $('cr-dl').innerHTML = r.discoms.map(function (d) { return '<option value="' + esc(d) + '">'; }).join('');
-    var h = '<tr><th>Login ID</th><th>DISCOM</th><th>Name</th><th>Google e-mail</th><th>One-time password</th><th>Status</th><th></th></tr>';
-    r.heads.forEach(function (x) { h += '<tr><td>' + esc(x.id) + '</td><td>' + esc(x.discom) + '</td><td>' + esc(x.name) + '</td><td>' + esc(x.email) + '</td><td style="font-family:ui-monospace,monospace">' + (x.must ? esc(x.otp) : '<span class="muted">own password set</span>') + '</td><td>' + (x.active ? 'Active' : 'Blocked') + '</td><td><button class="btn sec" data-r="' + esc(x.id) + '">New one-time password</button> <button class="btn sec" data-a="' + esc(x.id) + '" data-v="' + (x.active ? 0 : 1) + '">' + (x.active ? 'Block' : 'Unblock') + '</button></td></tr>'; });
+    var h = '<tr><th>Login ID</th><th>DISCOM</th><th>Name</th><th>Google e-mail</th><th>One-time password</th><th>Status</th><th>Tabs allowed</th><th></th></tr>';
+    r.heads.forEach(function (x) { h += '<tr><td>' + esc(x.id) + '</td><td>' + esc(x.discom) + '</td><td>' + esc(x.name) + '</td><td>' + esc(x.email) + '</td><td style="font-family:ui-monospace,monospace">' + (x.must ? esc(x.otp) : '<span class="muted">own password set</span>') + '</td><td>' + (x.active ? 'Active' : 'Blocked') + '</td><td class="crt" data-row="' + esc(x.id) + '">' + crBoxes(x.id, x.tabs || []) + '<button class="btn sec sm" data-s="' + esc(x.id) + '">Save tabs</button></td><td><button class="btn sec" data-r="' + esc(x.id) + '">New one-time password</button> <button class="btn sec" data-a="' + esc(x.id) + '" data-v="' + (x.active ? 0 : 1) + '">' + (x.active ? 'Block' : 'Unblock') + '</button></td></tr>'; });
+    if (!$('cr-tabs').innerHTML) $('cr-tabs').innerHTML = crBoxes('new', ['summary', 'comparison']);
     $('cr-t').innerHTML = r.heads.length ? h : '<tr><td class="muted">No DISCOM head yet.</td></tr>';
   }).catch(function (e) { msg('cr-msg', esc(e.message), 'err'); });
 }
 $('cr-add').onclick = function () {
   var b = $('cr-add'); msg('cr-msg', ''); busy(b, true, 'Saving...');
-  call('creatorAddHead', CRT, $('cr-d').value, $('cr-n').value, $('cr-e').value, $('cr-i').value).then(function (r) { busy(b, false); crShow(r, 'Access given -'); ['cr-n', 'cr-e', 'cr-i'].forEach(function (i) { $(i).value = ''; }); crLoad(); })
+  call('creatorAddHead', CRT, $('cr-d').value, $('cr-n').value, $('cr-e').value, $('cr-i').value, crPicked('#cr-tabs')).then(function (r) { busy(b, false); crShow(r, 'Access given -'); ['cr-n', 'cr-e', 'cr-i'].forEach(function (i) { $(i).value = ''; }); crLoad(); })
     .catch(function (e) { busy(b, false); msg('cr-msg', esc(e.message), 'err'); });
 };
 $('cr-t').onclick = function (e) {
-  var r = e.target.dataset.r, a = e.target.dataset.a;
+  var r = e.target.dataset.r, a = e.target.dataset.a, sv = e.target.dataset.s;
+  if (sv) { var tb = crPicked('td.crt[data-row="' + sv + '"]'); if (!tb.length) return msg('cr-msg', 'Select at least one tab.', 'err'); return call('creatorSetTabs', CRT, sv, tb).then(function () { msg('cr-msg', 'Tabs saved for <b>' + esc(sv) + '</b>. They apply at his next login.', 'ok'); crLoad(); }).catch(function (er) { msg('cr-msg', esc(er.message), 'err'); }); }
   if (r) call('creatorResetHead', CRT, r).then(function (x) { crShow(x, 'New password for'); crLoad(); }).catch(function (er) { msg('cr-msg', esc(er.message), 'err'); });
   if (a) call('creatorSetActive', CRT, a, e.target.dataset.v === '1').then(crLoad).catch(function (er) { msg('cr-msg', esc(er.message), 'err'); });
 };
@@ -3270,7 +3306,7 @@ function loadStorage() {
   call('adminStorage', TOKEN).then(function (r) {
     var u = r.usage, p = u.pct; ME.usage = u; bannerUpd();
     $('st-bar').style.width = Math.min(p, 100) + '%'; $('st-bar').className = p >= 90 ? 'hi' : p >= 70 ? 'mid' : '';
-    $('st-txt').innerHTML = '<b>' + p + '%</b> of the Google Sheet is used (' + (u.cells / 1e6).toFixed(2) + ' million of ' + (u.limit / 1e6) + ' million cells).' + (p >= 90 ? ' <b style="color:#b91c1c">The sheet is almost full - please move the data to a new sheet.</b>' : '');
+    $('st-txt').innerHTML = '<b>' + p + '%</b> of the Google Sheet is used (' + (u.cells / 1e6).toFixed(2) + ' million of ' + (u.limit / 1e6) + ' million cells).' + (u.room != null ? ' About <b>' + u.room.toLocaleString('en-IN') + '</b> more records fit.' : '') + (p >= 90 ? ' <b style="color:#b91c1c">The sheet is almost full - please move the data to a new sheet.</b>' : '');
     $('st-old').innerHTML = r.old.length ? '<div class="muted" style="margin-bottom:6px"><b>Old sheets</b> (finished records older than the date are read from them when needed):</div>' + r.old.map(function (o) { return '<div class="wsrow"><b>Data before ' + esc(fmtCut(o.cut)) + '</b><span class="muted">moved ' + esc(o.on) + '</span><a class="btn sec sm" href="' + esc(o.url) + '" target="_blank" rel="noopener">Open</a></div>'; }).join('') : '';
   }).catch(function () {});
 }
