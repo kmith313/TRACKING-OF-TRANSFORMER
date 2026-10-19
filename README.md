@@ -108,3 +108,7 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 ## Comparison - day wise
 - **Unit head (Admin / workshop user):** har din ka damage (PR) - pichhla saal vs is saal, workshop wise, aakhir me TOTAL (inc/dec count + %).
 - **DISCOM head:** har division ka pichhla saal | is saal | inc/dec (count) | %, din ke hisaab se, aur total.
+
+## Kitty tab & day-wise layout
+- **Kitty** tab (next to Comparison): every workshop fills Kitty / Issue / Repair / Previous-year kitty per capacity (10, 16, 25, 63, 160, 250, 400, 630). Balance kitty = Kitty - Issue + Repair; Kitty difference = Kitty - Previous-year kitty. The Division Head sees all workshops plus the division total (view only). Data is stored in the sheet's `Kitty` tab and included in the daily backup.
+- Day-wise comparison: left column is this year's date; each workshop (or division, for the DISCOM head) shows Previous year | This year | Diff; Inc/Dec % appears only in the final total group.
