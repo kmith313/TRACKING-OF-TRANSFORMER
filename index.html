@@ -746,18 +746,26 @@ table.cmpt{font-size:11.5px}.cmpt thead th{font-size:10px}.cmpt td.ic{font-size:
 .cmpt.dayt td.pl{color:var(--mut)}
 .cmpt.dayt td.ic.up,.cmpt.dayt td.ic.dn{white-space:nowrap}
 
-.kc{margin-bottom:12px}.kch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}.kch h3{margin:0;font-size:15px}
+.kc{margin-bottom:12px}.kch{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}.kch h3{margin:0;font-size:15px;color:var(--pri)}
 table.kt{border-collapse:collapse;width:100%;font-size:13px}
 .kt th,.kt td{border:1px solid #e1e6f2;padding:5px 8px;text-align:center}
-.kt th{background:#243061;color:#fff;font-size:10.5px;letter-spacing:.3px}.kt th.kb{background:#0f766e}
+.kt th{background:#243061;color:#fff;font-size:10.5px;letter-spacing:.3px}.kt th.kb{background:#0f766e}.kt th.ko{background:#7c3aed}
 .kt td.l,.kt th.l{text-align:left}
-.kt td.kb{background:#eefaf7;font-weight:800}
+.kt td.kb{background:#eefaf7;font-weight:800}.kt td.ko{background:#f5f0ff;font-weight:800}
 .kt td.kp{color:#15803d}.kt td.kn{color:#b91c1c}
-.kt tr.t td{background:#17224d;color:#fff;font-weight:800}.kt tr.t td.kb{background:#0f766e}
-.kt input.ki{width:78px;text-align:center;padding:5px 4px;border:1px solid #c9d3ee;border-radius:7px;font-size:13px;background:#fbfcff}
-.kt input.ki:focus{outline:2px solid #4c6ef5;background:#fff}
+.kt tr.t td{background:#17224d;color:#fff;font-weight:800}.kt tr.t td.kb{background:#0f766e}.kt tr.t td.ko{background:#6d28d9}
+.kt input.ki{width:72px;text-align:center;padding:5px 3px;border:1px solid #c9d3ee;border-radius:7px;font-size:13px;background:#fbfcff}
+.kt input.ki:focus{outline:2px solid #4c6ef5;background:#fff}.kt input.kopen{border-color:#a78bfa;background:#faf7ff}
 .kt td .z{color:#b6bdcb}
-.ktot{border-color:#17224d}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:12px;align-items:start}.kgrid.one{grid-template-columns:1fr}.kgrid .kc{margin:0}
+.kchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.kchip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#eef1f8;color:#5b6784}.kchip.ok{background:#dcfce7;color:#166534}
+.kbar{margin-top:10px;align-items:center}.kpend{background:#fff7e6;border:1px solid #fcd9a0;color:#92580a;padding:8px 10px;border-radius:9px;margin-bottom:8px;font-size:12.5px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.kcmpb{padding:5px 10px;font-size:12px}
+.kdt{display:flex;align-items:center;gap:6px}.kar{padding:6px 10px;font-size:12px}
+.kaph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.kaph h2{margin:0}.kacts{display:flex;gap:6px}.kx{font-weight:900}
+.kcmm{max-width:min(1100px,96vw)}.kapm{max-width:460px}
+.kapr{border:1px solid #e1e6f2;border-radius:12px;padding:10px;margin:10px 0}.kapt{font-size:14px}.kapt2{margin:8px 0;font-size:12.5px}
+@media(max-width:640px){#cmode{display:flex;width:100%}#cmode button{flex:1;padding:9px 2px;font-size:12px;white-space:normal;line-height:1.15}.sbar>.cmw{flex:1 1 100%}.sbar>.cdw{flex:1 1 100%}.cdw select{width:100%}.kt input.ki{width:58px}.kt th,.kt td{padding:4px 5px}.kdt .dtx{width:100px}}
 </style>
 </head>
 <body>
@@ -904,8 +912,8 @@ table.kt{border-collapse:collapse;width:100%;font-size:13px}
         <div class="bar sbar">
           <div><label>From</label><div class="dt"><input type="text" class="dtx" id="cf" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="cf"></span></div></div>
           <div><label>To</label><div class="dt"><input type="text" class="dtx" id="ct" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="ct"></span></div></div>
-          <div><label>Compare</label><div class="seg" id="cmode"><button data-m="div" class="on">Division wise</button><button data-m="sub">Substation wise</button><button data-m="day">Day wise</button></div></div>
-          <div><label>Division</label><select id="cdiv"><option value="">All Divisions</option></select></div>
+          <div class="cmw"><label>Compare</label><div class="seg" id="cmode"><button data-m="div" class="on">Division wise</button><button data-m="sub">Substation wise</button><button data-m="day">Day wise</button></div></div>
+          <div class="cdw"><label>Division</label><select id="cdiv"><option value="">All Divisions</option></select></div>
           <button class="btn" id="cbtn">Compare</button><button class="btn sec" id="cxl">&#11015; Excel</button><button class="btn sec" id="cpr">Print</button>
         </div>
         <details class="dtl"><summary>How it works</summary>PRs (by PR DATE) of the dates you choose are compared with the <b>same dates of the previous year</b>. Capacity columns show the number of PRs; <b>Inc/Dec %</b> = change against last year (green = fewer PRs, red = more). Tap any number to open its list.</details>
@@ -917,9 +925,10 @@ table.kt{border-collapse:collapse;width:100%;font-size:13px}
     <!-- KITTY -->
     <section id="t-kit" class="hide">
       <div class="card">
-        <div class="bar sbar"><div style="flex:1 1 220px"><div class="lbl" style="font-size:13px;color:var(--pri);font-weight:800">KITTY &middot; stock of transformers</div><div class="muted" id="kit-sub" style="font-size:12px"></div></div>
-          <button class="btn sec" id="kit-ref">Refresh</button><button class="btn sec" id="kit-xl">&#11015; Excel</button><button class="btn sec" id="kit-pr">Print</button></div>
-        <details class="dtl"><summary>How it works</summary>Each workshop fills its own table: <b>Kitty</b>, <b>Issue</b>, <b>Repair</b> and the <b>Previous year kitty</b> for every capacity, then taps <b>Save</b>. <b>Balance kitty = Kitty &minus; Issue + Repair</b> and <b>Kitty difference = Kitty &minus; Previous year kitty</b> are calculated automatically. The Division Head sees every workshop and the division total (view only).</details>
+        <div class="bar sbar"><div><label>Date</label><div class="dt kdt"><button class="btn sec kar" id="kprev" title="Previous day">&#9664;</button><input type="text" class="dtx" id="kdate" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="kdate"></span><button class="btn sec kar" id="knext" title="Next day">&#9654;</button></div></div>
+          <button class="btn sec" id="ktoday">Today</button><button class="btn sec" id="kit-ref">Refresh</button><button class="btn sec" id="kit-xl">&#11015; Excel</button><button class="btn sec" id="kit-pr">Print</button></div>
+        <div class="muted" id="kit-sub" style="font-size:12px;margin-top:4px"></div>
+        <details class="dtl"><summary>How it works</summary>Choose the date and enter that day's <b>Issue</b>, <b>Repair</b>, <b>Issue to other workshop</b> and <b>Receive from other workshop</b>, then tap <b>Save</b>. <b>Balance kitty = Opening + Repair &minus; Issue &minus; Issue to other workshop + Receive from other workshop</b>. The balance of a day automatically becomes the <b>opening kitty of the next day</b>. To correct an opening kitty tap <b>Edit opening kitty</b> and <b>Send approval</b>: the Division Head gets a request and the change is made only after approval. <b>Kitty difference = Balance &minus; Previous year kitty.</b></details>
       </div>
       <div id="kmsg"></div>
       <div id="kout"></div>
@@ -1056,6 +1065,15 @@ table.kt{border-collapse:collapse;width:100%;font-size:13px}
 
 
 <!-- DIVISION NAME (Division Head) -->
+<div id="kap" class="ov hide" style="z-index:95"><div class="md s kapm">
+  <div class="kaph"><h2>Opening kitty change</h2></div>
+  <div id="kapl"></div>
+  <div class="bar"><button class="btn sec" id="kapx">Later</button></div>
+</div></div>
+<div id="kcm" class="ov hide" style="z-index:92"><div class="md kcmm">
+  <div class="kaph"><h2 id="kcmt">Kitty comparison</h2><div class="kacts"><button class="btn sec" id="kcmp-pr">Print</button><button class="btn sec kx" id="kcmx" title="Close">&#10005;</button></div></div>
+  <div id="kcmb"></div>
+</div></div>
 <div id="dv-ov" class="ov hide" style="z-index:90"><div class="md s">
   <h2>Your division name</h2>
   <div class="muted" style="margin:6px 0 10px">Enter your division name. It must start with <b>EWD</b>, for example <b>EWD AZAMGARH</b>. The DISCOM head sees your data under this name.</div>
@@ -1341,7 +1359,7 @@ function showApp(me) {
   $('who').textContent = me.display + ' (' + me.role + ')';
   $('tusr').classList.toggle('hide', !me.admin);
   $('tdata').classList.toggle('hide', !!(me.admin || me.dh));          // the Division Head does not need the Data Sheet
-  $('tdrv').classList.toggle('hide', !!me.dh); $('tkit').classList.toggle('hide', !!me.dh);      // the DISCOM head sees the Summary and the day wise Comparison
+  $('tdrv').classList.toggle('hide', !!me.dh); $('tkit').classList.toggle('hide', !!me.dh); $('tkit').textContent = 'Kitty'; KIT = null; KED = {}; KAPN = -1; if (me.admin && !me.dh) setTimeout(kapCheck, 600);      // the DISCOM head sees the Summary and the day wise Comparison
   $('tcmp').classList.remove('hide'); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
   $('cf').value = '01.04.' + (t.getMonth() >= 3 ? t.getFullYear() : t.getFullYear() - 1); $('ct').value = fmt(t);
@@ -2630,80 +2648,150 @@ $('cpr').onclick = function () {
 
 
 /* ---------- Kitty tab ---------- */
-var KIT = null, KSEQ = 0;
-function kcalc(x) { return { bal: x.kitty - x.issue + x.repair, diff: x.kitty - x.prev }; }
+var KIT = null, KSEQ = 0, KED = {}, KAPN = -1;
+function kdv() { var v = $('kdate').value.trim(); return validD(v) ? v : fmt(new Date()); }
+function ksgn(v) { return (v > 0 ? '+' : '') + v; }
 function kcol(v) { return v > 0 ? ' kp' : v < 0 ? ' kn' : ''; }
-function ksum(rows) { var t = { kitty: 0, issue: 0, repair: 0, prev: 0 }; rows.forEach(function (x) { t.kitty += x.kitty; t.issue += x.issue; t.repair += x.repair; t.prev += x.prev; }); return t; }
+function kbal(x) { return x.open + x.repair - x.issue - x.iso + x.rfo; }
 function kcard(w, K, canEdit) {
-  var by = {}; K.rows.forEach(function (r) { if (r.ws === w) by[r.cap] = r; });
-  var rows = K.caps.map(function (cp) { return by[cp] || { ws: w, cap: cp, kitty: 0, issue: 0, repair: 0, prev: 0 }; }), up = K.updated[w];
-  var h = '<div class="card kc" data-ws="' + esc(w) + '"><div class="kch"><h3>' + esc(w) + '</h3><span class="muted">' + (up ? 'Updated ' + esc(up.on) + (up.by ? ' &middot; ' + esc(up.by) : '') : 'Not filled yet') + '</span></div>' +
-    '<div class="wrap"><table class="kt"><thead><tr><th class="l">CAPACITY</th><th>KITTY</th><th>ISSUE</th><th>REPAIR</th><th class="kb">BALANCE KITTY</th><th>PREVIOUS YEAR KITTY</th><th class="kb">KITTY DIFFERENCE</th></tr></thead><tbody>';
+  var rows = K.rows.filter(function (r) { return r.ws === w; }), up = K.updated[w], pend = K.pending[w], ed = canEdit && KED[w];
+  var h = '<div class="card kc" data-ws="' + esc(w) + '"><div class="kch"><h3>' + esc(w) + '</h3><span class="muted">' + (up ? 'Updated ' + esc(up.on) + (up.by ? ' &middot; ' + esc(up.by) : '') : 'Nothing saved for this date') + '</span></div>';
+  if (pend) h += '<div class="kpend"><b>Waiting for approval</b> &middot; opening kitty change requested on ' + esc(pend.on) + ' (date ' + esc(pend.date) + ')' + (canEdit ? ' <button class="btn sec kcancel">Cancel request</button>' : '') + '</div>';
+  h += '<div class="wrap"><table class="kt" data-name="' + esc(w) + '"><thead><tr><th class="l">CAPACITY</th><th class="ko">OPENING KITTY</th><th>ISSUE</th><th>REPAIR</th><th>ISSUE TO OTHER WORKSHOP</th><th>RECEIVE FROM OTHER WORKSHOP</th><th class="kb">BALANCE KITTY</th><th>PREVIOUS YEAR KITTY</th><th class="kb">KITTY DIFFERENCE</th></tr></thead><tbody>';
+  var T = { open: 0, issue: 0, repair: 0, iso: 0, rfo: 0, bal: 0, prev: 0 };
   rows.forEach(function (x) {
-    var c = kcalc(x);
     function cell(f) { return canEdit ? '<td><input type="text" inputmode="numeric" class="ki" data-f="' + f + '" value="' + (x[f] || '') + '" placeholder="0"></td>' : '<td>' + nzv(x[f]) + '</td>'; }
-    h += '<tr data-cap="' + x.cap + '"><td class="l"><b>' + x.cap + '</b> kVA</td>' + cell('kitty') + cell('issue') + cell('repair') + '<td class="kb kbal' + kcol(c.bal) + '">' + c.bal + '</td>' + cell('prev') + '<td class="kb kdif' + kcol(c.diff) + '">' + (c.diff > 0 ? '+' : '') + c.diff + '</td></tr>';
+    var open = ed ? '<td class="ko"><input type="text" inputmode="numeric" class="ki kopen" data-f="open" data-o="' + x.open + '" value="' + x.open + '"></td>' : '<td class="ko kovv">' + x.open + '</td>';
+    h += '<tr data-cap="' + x.cap + '" data-open="' + x.open + '"><td class="l"><b>' + x.cap + '</b> kVA</td>' + open + cell('issue') + cell('repair') + cell('iso') + cell('rfo') + '<td class="kb kbal' + kcol(x.bal) + '">' + x.bal + '</td>' + cell('prev') + '<td class="kb kdif' + kcol(x.bal - x.prev) + '">' + ksgn(x.bal - x.prev) + '</td></tr>';
+    ['open', 'issue', 'repair', 'iso', 'rfo', 'bal', 'prev'].forEach(function (f) { T[f] += x[f]; });
   });
-  var t = ksum(rows), c = kcalc(t);
-  h += '<tr class="t"><td class="l">TOTAL</td><td class="tk">' + t.kitty + '</td><td class="ti">' + t.issue + '</td><td class="tr">' + t.repair + '</td><td class="kb tb">' + c.bal + '</td><td class="tp">' + t.prev + '</td><td class="kb td">' + (c.diff > 0 ? '+' : '') + c.diff + '</td></tr></tbody></table></div>';
-  if (canEdit) h += '<div class="bar" style="margin-top:8px"><button class="btn ksave">Save kitty</button><span class="kmsg muted"></span></div>';
+  h += '<tr class="t"><td class="l">TOTAL</td><td class="ko t_open">' + T.open + '</td><td class="t_issue">' + T.issue + '</td><td class="t_repair">' + T.repair + '</td><td class="t_iso">' + T.iso + '</td><td class="t_rfo">' + T.rfo + '</td><td class="kb t_bal">' + T.bal + '</td><td class="t_prev">' + T.prev + '</td><td class="kb t_dif">' + ksgn(T.bal - T.prev) + '</td></tr></tbody></table></div>';
+  if (canEdit) {
+    h += '<div class="bar kbar">' + (ed ? '<button class="btn ksendap">Send approval</button><button class="btn sec kedcancel">Cancel</button><span class="muted">Change the opening kitty and send it to the Division Head.</span>'
+      : '<button class="btn ksave">Save kitty</button><button class="btn sec kedit">Edit opening kitty</button><span class="kmsg muted"></span>') + '</div>';
+  }
   return h + '</div>';
 }
+// Division Head: one table per item, columns = workshops + TOTAL
+function ktable(K, f, title, fn, extra) {
+  var W = K.wsList, h = '<div class="card kc kblk"><div class="kch"><h3>' + title + '</h3>' + (extra || '') + '</div><div class="wrap"><table class="kt" data-name="' + esc(title) + '"><thead><tr><th class="l">CAPACITY</th>' + W.map(function (w) { return '<th>' + esc(w) + '</th>'; }).join('') + '<th class="kb">TOTAL</th></tr></thead><tbody>';
+  var col = W.map(function () { return 0; }), all = 0, chg = !!fn;
+  K.caps.forEach(function (cp) {
+    var tr = '', t = 0; W.forEach(function (w, i) {
+      var x = K.rows.filter(function (r) { return r.ws === w && r.cap === cp; })[0] || { open: 0, issue: 0, repair: 0, iso: 0, rfo: 0, prev: 0, bal: 0 }, v = fn ? fn(x) : x[f];
+      tr += '<td' + (chg ? ' class="' + kcol(v).trim() + '"' : '') + '>' + (chg ? ksgn(v) : nzv(v)) + '</td>'; col[i] += v; t += v;
+    });
+    all += t; h += '<tr><td class="l"><b>' + cp + '</b> kVA</td>' + tr + '<td class="kb' + (chg ? kcol(t) : '') + '">' + (chg ? ksgn(t) : t) + '</td></tr>';
+  });
+  return h + '<tr class="t"><td class="l">TOTAL</td>' + col.map(function (v) { return '<td>' + (chg ? ksgn(v) : v) + '</td>'; }).join('') + '<td class="kb">' + (chg ? ksgn(all) : all) + '</td></tr></tbody></table></div></div>';
+}
 function renderKitty(K) {
-  KIT = K; var h = '', one = K.wsList.length === 1;
-  $('kit-sub').textContent = K.edit.length ? 'Fill your workshop table and tap Save.' : 'View only - every workshop fills its own kitty.';
-  K.wsList.forEach(function (w) { h += kcard(w, K, K.edit.indexOf(w) >= 0); });
-  if (K.wsList.length > 1) {
-    var rows = K.caps.map(function (cp) { var t = ksum(K.rows.filter(function (r) { return r.cap === cp; })); t.cap = cp; return t; }), tt = ksum(rows), c = kcalc(tt);
-    h += '<div class="card kc ktot"><div class="kch"><h3>DIVISION TOTAL</h3><span class="muted">All workshops together</span></div><div class="wrap"><table class="kt"><thead><tr><th class="l">CAPACITY</th><th>KITTY</th><th>ISSUE</th><th>REPAIR</th><th class="kb">BALANCE KITTY</th><th>PREVIOUS YEAR KITTY</th><th class="kb">KITTY DIFFERENCE</th></tr></thead><tbody>';
-    rows.forEach(function (x) { var q = kcalc(x); h += '<tr><td class="l"><b>' + x.cap + '</b> kVA</td><td>' + nzv(x.kitty) + '</td><td>' + nzv(x.issue) + '</td><td>' + nzv(x.repair) + '</td><td class="kb' + kcol(q.bal) + '">' + q.bal + '</td><td>' + nzv(x.prev) + '</td><td class="kb' + kcol(q.diff) + '">' + (q.diff > 0 ? '+' : '') + q.diff + '</td></tr>'; });
-    h += '<tr class="t"><td class="l">TOTAL</td><td>' + tt.kitty + '</td><td>' + tt.issue + '</td><td>' + tt.repair + '</td><td class="kb">' + c.bal + '</td><td>' + tt.prev + '</td><td class="kb">' + (c.diff > 0 ? '+' : '') + c.diff + '</td></tr></tbody></table></div></div>';
-    h = h.replace('<div class="card kc ktot">', '<div class="card kc ktot" id="ktot">');
-    h = h.replace(/(<div class="card kc ktot"[\s\S]*)$/, function (m) { return m; });
+  KIT = K; $('kdate').value = K.date;
+  var isNext = K.date === fmt(new Date()); $('knext').disabled = isNext;
+  var h = '';
+  if (K.admin) {
+    $('kit-sub').textContent = 'View only - each workshop fills its own kitty. Balance of a day = opening kitty of the next day.';
+    h += '<div class="kchips">' + K.wsList.map(function (w) { var u = K.updated[w]; return '<span class="kchip' + (u ? ' ok' : '') + '" title="' + (u ? esc(u.on) : 'not filled') + '">' + (u ? '&#10003; ' : '&#9675; ') + esc(w) + '</span>'; }).join('') + '</div>';
+    h += ktable(K, 'open', 'KITTY (OPENING)') + ktable(K, 'issue', 'ISSUE') + ktable(K, 'repair', 'REPAIR') + ktable(K, 'iso', 'ISSUE TO OTHER WORKSHOP') + ktable(K, 'rfo', 'RECEIVE FROM OTHER WORKSHOP') +
+      ktable(K, 'bal', 'BALANCE KITTY', null, '<button class="btn sec kcmpb" id="kcmpb">&#8644; Comparison</button>');
+    h = h.replace(/(<div class="kchips">[\s\S]*?<\/div>)([\s\S]*)/, function (m, a, b) { return a + '<div class="kgrid' + (K.wsList.length > 4 ? ' one' : '') + '">' + b + '</div>'; });
+  } else {
+    $('kit-sub').textContent = K.edit.length ? 'Fill the day\'s figures and tap Save. Opening kitty = balance of the previous day.' : 'View only.';
+    K.wsList.forEach(function (w) { h += kcard(w, K, K.edit.indexOf(w) >= 0); });
   }
   $('kout').innerHTML = h || '<div class="card muted">No workshop found.</div>';
+  var b = $('kcmpb'); if (b) b.onclick = openKcmp;
 }
-function loadKitty() {
-  var seq = ++KSEQ, c = cget('kit'); msg('kmsg', '');
-  if (c && c.wsList) renderKitty(c); else $('kout').innerHTML = SKH;
-  return call('getKitty', TOKEN).then(function (r) { if (seq !== KSEQ) return; cset('kit', r); if (!document.querySelector('#kout .ki:focus')) renderKitty(r); })
+function openKcmp() {
+  var K = KIT; if (!K) return;
+  var H = ktable(K, 'bal', 'BALANCE KITTY') + ktable(K, 'prev', 'LAST YEAR KITTY') + ktable(K, null, 'KITTY DIFFERENCE', function (x) { return x.bal - x.prev; });
+  $('kcmt').textContent = 'Kitty comparison - ' + K.date; $('kcmb').innerHTML = '<div class="kgrid' + (K.wsList.length > 4 ? ' one' : '') + '">' + H + '</div>'; $('kcm').classList.remove('hide');
+}
+$('kcmx').onclick = function () { $('kcm').classList.add('hide'); };
+$('kcmp-pr').onclick = function () { printHtml('Kitty comparison - ' + (KIT ? KIT.date : ''), '<div class="ps">' + $('kcmb').innerHTML + '</div>'); };
+function loadKitty(date) {
+  var seq = ++KSEQ; msg('kmsg', '');
+  if (date) $('kdate').value = date; var d = $('kdate').value.trim(); if (d && !validD(d)) return msg('kmsg', 'Enter the date as DD.MM.YYYY.', 'err');
+  if (!KIT) $('kout').innerHTML = SKH;
+  return call('getKitty', TOKEN, d).then(function (r) { if (seq !== KSEQ) return; renderKitty(r); kapCheck(); })
     .catch(function (e) { if (seq !== KSEQ) return; msg('kmsg', esc(e.message), 'err'); });
 }
+function kshift(n) { var d = parseD(kdv()); d.setDate(d.getDate() + n); if (d > new Date()) return; KED = {}; loadKitty(fmt(d)); }
+$('kprev').onclick = function () { kshift(-1); }; $('knext').onclick = function () { kshift(1); };
+$('ktoday').onclick = function () { KED = {}; loadKitty(fmt(new Date())); }; $('kit-ref').onclick = function () { loadKitty(); };
+$('kdate').addEventListener('change', function () { KED = {}; loadKitty(); });
+document.querySelector('input[data-c=kdate]').addEventListener('change', function () { setTimeout(function () { KED = {}; loadKitty(); }, 0); });
 document.addEventListener('input', function (e) {                    // live balance / difference while typing
   var t = e.target; if (!t.classList || !t.classList.contains('ki')) return;
   t.value = t.value.replace(/\D/g, '').slice(0, 6);
-  var card = t.closest('.kc'), tot = { kitty: 0, issue: 0, repair: 0, prev: 0 };
+  var card = t.closest('.kc'), T = { open: 0, issue: 0, repair: 0, iso: 0, rfo: 0, bal: 0, prev: 0 };
   card.querySelectorAll('tbody tr[data-cap]').forEach(function (tr) {
-    var x = {}; ['kitty', 'issue', 'repair', 'prev'].forEach(function (f) { x[f] = +(tr.querySelector('[data-f=' + f + ']').value || 0); tot[f] += x[f]; });
-    var c = kcalc(x), b = tr.querySelector('.kbal'), d = tr.querySelector('.kdif');
-    b.textContent = c.bal; b.className = 'kb kbal' + kcol(c.bal); d.textContent = (c.diff > 0 ? '+' : '') + c.diff; d.className = 'kb kdif' + kcol(c.diff);
+    var x = {}; ['issue', 'repair', 'iso', 'rfo', 'prev'].forEach(function (f) { x[f] = +(tr.querySelector('[data-f=' + f + ']').value || 0); });
+    var oi = tr.querySelector('[data-f=open]'); x.open = oi ? +(oi.value || 0) : +tr.dataset.open; x.bal = kbal(x);
+    var b = tr.querySelector('.kbal'), d = tr.querySelector('.kdif'); b.textContent = x.bal; b.className = 'kb kbal' + kcol(x.bal); d.textContent = ksgn(x.bal - x.prev); d.className = 'kb kdif' + kcol(x.bal - x.prev);
+    ['open', 'issue', 'repair', 'iso', 'rfo', 'bal', 'prev'].forEach(function (f) { T[f] += x[f]; });
   });
-  var c2 = kcalc(tot), q = function (s) { return card.querySelector(s); };
-  q('.tk').textContent = tot.kitty; q('.ti').textContent = tot.issue; q('.tr').textContent = tot.repair; q('.tp').textContent = tot.prev; q('.tb').textContent = c2.bal; q('.td').textContent = (c2.diff > 0 ? '+' : '') + c2.diff;
+  ['open', 'issue', 'repair', 'iso', 'rfo', 'bal', 'prev'].forEach(function (f) { card.querySelector('.t_' + f).textContent = T[f]; }); card.querySelector('.t_dif').textContent = ksgn(T.bal - T.prev);
 });
 document.addEventListener('click', function (e) {
-  var b = e.target.closest && e.target.closest('.ksave'); if (!b) return;
-  var card = b.closest('.kc'), w = card.dataset.ws, items = [];
-  card.querySelectorAll('tbody tr[data-cap]').forEach(function (tr) { var x = { cap: +tr.dataset.cap }; ['kitty', 'issue', 'repair', 'prev'].forEach(function (f) { x[f] = +(tr.querySelector('[data-f=' + f + ']').value || 0); }); items.push(x); });
-  var note = card.querySelector('.kmsg'); busy(b, true, 'Saving...'); note.textContent = '';
-  call('saveKitty', TOKEN, w, items).then(function (r) { busy(b, false); cset('kit', r); renderKitty(r); var n = document.querySelector('#kout .kc[data-ws="' + w + '"] .kmsg'); if (n) { n.textContent = '✓ Saved'; n.style.color = '#15803d'; } })
-    .catch(function (er) { busy(b, false); note.textContent = er.message; note.style.color = '#b91c1c'; });
+  var el = e.target, card = el.closest && el.closest('.kc'); if (!card || !card.dataset.ws) return;
+  var w = card.dataset.ws, date = kdv(), b;
+  if ((b = el.closest('.ksave'))) {
+    var items = []; card.querySelectorAll('tbody tr[data-cap]').forEach(function (tr) { var x = { cap: +tr.dataset.cap }; ['issue', 'repair', 'iso', 'rfo', 'prev'].forEach(function (f) { x[f] = +(tr.querySelector('[data-f=' + f + ']').value || 0); }); items.push(x); });
+    var note = card.querySelector('.kmsg'); busy(b, true, 'Saving...'); note.textContent = '';
+    call('saveKitty', TOKEN, w, date, items).then(function (r) { busy(b, false); renderKitty(r); var n = document.querySelector('#kout .kc[data-ws="' + w + '"] .kmsg'); if (n) { n.textContent = '✓ Saved'; n.style.color = '#15803d'; } })
+      .catch(function (er) { busy(b, false); note.textContent = er.message; note.style.color = '#b91c1c'; });
+  } else if (el.closest('.kedit')) { KED[w] = true; renderKitty(KIT); }
+  else if (el.closest('.kedcancel')) { delete KED[w]; renderKitty(KIT); }
+  else if ((b = el.closest('.ksendap'))) {
+    var vals = {}, n = 0; card.querySelectorAll('.kopen').forEach(function (i) { var v = +(i.value || 0); if (String(v) !== i.dataset.o) { vals[i.closest('tr').dataset.cap] = v; n++; } });
+    if (!n) return msg('kmsg', 'Change at least one opening kitty first.', 'info');
+    busy(b, true, 'Sending...');
+    call('kitRequestOpen', TOKEN, w, date, vals).then(function (r) { busy(b, false); delete KED[w]; renderKitty(r); msg('kmsg', 'Sent to the Division Head for approval. The opening kitty changes after approval.', 'ok'); })
+      .catch(function (er) { busy(b, false); msg('kmsg', esc(er.message), 'err'); });
+  } else if (el.closest('.kcancel')) {
+    call('kitCancelReq', TOKEN, w, date).then(function (r) { renderKitty(r); }).catch(function (er) { msg('kmsg', esc(er.message), 'err'); });
+  }
 });
-$('kit-ref').onclick = function () { loadKitty(); };
 $('kit-xl').onclick = function () {
-  var sheets = []; document.querySelectorAll('#kout .kc').forEach(function (card) {
-    var t = card.querySelector('table'); if (!t) return;
-    var rows = []; t.querySelectorAll('tr').forEach(function (tr) { rows.push(Array.prototype.map.call(tr.children, function (td) { var i = td.querySelector('input'); var v = i ? i.value : td.textContent.trim(); return /^[+\-]?\d+$/.test(v) ? +v : v; })); });
-    var nm = (card.querySelector('h3') || {}).textContent || 'Kitty';
-    sheets.push({ name: nm.slice(0, 28), rows: [[{ v: 'Kitty - ' + nm, s: 3 }]].concat(rows), merges: [], hdr: 0, skipw: 1 });
+  var sheets = []; document.querySelectorAll('#kout table.kt').forEach(function (t) {
+    var tt = t.cloneNode(true); tt.querySelectorAll('input').forEach(function (i) { i.replaceWith(document.createTextNode(i.value || '0')); });
+    var a = tableToAoa(tt), nm = t.dataset.name || 'Kitty';
+    sheets.push({ name: nm, rows: [[{ v: 'Kitty - ' + nm + ' - ' + (KIT ? KIT.date : ''), s: 3 }]].concat(a.rows), merges: a.merges.map(function (m) { return [m[0] + 1, m[1], m[2] + 1, m[3]]; }), hdr: 0, skipw: 1 });
   });
   if (!sheets.length) return msg('kmsg', 'Nothing to download yet.', 'info');
-  xlsxDownload('Kitty.xlsx', sheets);
+  xlsxDownload('Kitty_' + fileSafe(KIT ? KIT.date : '') + '.xlsx', sheets);
 };
 $('kit-pr').onclick = function () {
-  var c = $('kout').cloneNode(true); c.querySelectorAll('input').forEach(function (i) { i.replaceWith(document.createTextNode(i.value || '0')); }); c.querySelectorAll('button,.kmsg').forEach(function (x) { x.remove(); });
-  printHtml('Kitty - stock of transformers', '<div class="ps">' + c.innerHTML + '</div>');
+  var c = $('kout').cloneNode(true); c.querySelectorAll('input').forEach(function (i) { i.replaceWith(document.createTextNode(i.value || '0')); }); c.querySelectorAll('button,.kmsg,.kbar,.kpend').forEach(function (x) { x.remove(); });
+  printHtml('Kitty - ' + (KIT ? KIT.date : ''), '<div class="ps">' + c.innerHTML + '</div>');
 };
+/* Division Head: popup when a workshop asks to change its opening kitty */
+function kapRender(list) {
+  var h = ''; list.forEach(function (r) {
+    var caps = Object.keys(r.vals).map(Number).sort(function (a, b) { return a - b; });
+    h += '<div class="kapr" data-id="' + esc(r.id) + '"><div class="kapt"><b>' + esc(r.ws) + '</b> requested to change opening kitty</div><div class="muted" style="font-size:12px">Date ' + esc(r.date) + ' &middot; by ' + esc(r.by) + ' &middot; ' + esc(r.on) + '</div>' +
+      '<table class="kt kapt2"><thead><tr><th class="l">CAPACITY</th><th>NOW</th><th>REQUESTED</th></tr></thead><tbody>' + caps.map(function (c) { return '<tr><td class="l"><b>' + c + '</b> kVA</td><td>' + (r.cur[c] || 0) + '</td><td class="kb">' + r.vals[c] + '</td></tr>'; }).join('') + '</tbody></table>' +
+      '<div class="bar"><button class="btn kok">Approve</button><button class="btn sec kno">Reject</button></div></div>';
+  });
+  $('kapl').innerHTML = h;
+}
+function kapCheck() {
+  if (!ME || !ME.admin || !TOKEN) return;
+  call('kitPending', TOKEN).then(function (l) {
+    var n = l.length; $('tkit').textContent = n ? 'Kitty (' + n + ')' : 'Kitty';
+    if (!n) { $('kap').classList.add('hide'); KAPN = 0; return; }
+    if ($('kap').classList.contains('hide') && n !== KAPN) { kapRender(l); $('kap').classList.remove('hide'); }
+    KAPN = n;
+  }).catch(function () {});
+}
+$('kapx').onclick = function () { $('kap').classList.add('hide'); };
+$('kapl').addEventListener('click', function (e) {
+  var b = e.target.closest('.kok,.kno'); if (!b) return; var id = b.closest('.kapr').dataset.id; b.disabled = true;
+  call('kitDecide', TOKEN, id, b.classList.contains('kok')).then(function (l) { KAPN = l.length; $('tkit').textContent = l.length ? 'Kitty (' + l.length + ')' : 'Kitty'; if (l.length) kapRender(l); else $('kap').classList.add('hide'); if (!$('t-kit').classList.contains('hide')) loadKitty(); })
+    .catch(function (er) { b.disabled = false; alert(er.message); });
+});
+setInterval(function () { if (!document.hidden) kapCheck(); }, 120000);
 
 /* ---------- Summary: Excel / Print ---------- */
 var SNAMES = ['Workshop wise', 'Division wise', 'Capacity wise', 'Division x Capacity PR'];

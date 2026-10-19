@@ -109,6 +109,10 @@ From–To dates ke PR (PR DATE) ko pichhle saal ki **same dates** se compare kar
 - **Unit head (Admin / workshop user):** har din ka damage (PR) - pichhla saal vs is saal, workshop wise, aakhir me TOTAL (inc/dec count + %).
 - **DISCOM head:** har division ka pichhla saal | is saal | inc/dec (count) | %, din ke hisaab se, aur total.
 
-## Kitty tab & day-wise layout
-- **Kitty** tab (next to Comparison): every workshop fills Kitty / Issue / Repair / Previous-year kitty per capacity (10, 16, 25, 63, 160, 250, 400, 630). Balance kitty = Kitty - Issue + Repair; Kitty difference = Kitty - Previous-year kitty. The Division Head sees all workshops plus the division total (view only). Data is stored in the sheet's `Kitty` tab and included in the daily backup.
-- Day-wise comparison: left column is this year's date; each workshop (or division, for the DISCOM head) shows Previous year | This year | Diff; Inc/Dec % appears only in the final total group.
+## Kitty tab (daily) & day-wise layout
+- **Kitty** tab (next to Comparison) is date-wise. A workshop enters that day's Issue, Repair, Issue to other workshop and Receive from other workshop (and the Previous year kitty). Balance kitty = Opening + Repair - Issue - Issue to other workshop + Receive from other workshop; the balance of a day becomes the opening kitty of the next day automatically. Kitty difference = Balance - Previous year kitty. Capacities: 10, 16, 25, 63, 100, 160, 250, 400, 630, 800, 1000.
+- **Edit opening kitty** (workshop) -> **Send approval**. The Division Head (Admin) gets a small popup "<workshop> requested to change opening kitty" with the old and new values and taps Approve / Reject. Only after approval does the opening kitty change.
+- The Division Head sees one table per item (workshops as columns + TOTAL) and a **Comparison** button next to Balance kitty (Balance | Last year | Difference) with Print and a close button.
+- Sheet tabs created automatically: `KittyDay`, `KittyOpen`, `KittyReq` (all included in the daily backup).
+- A JE/AE who is transferred keeps the same User ID: the new Division Head can add the same ID in his workshop (no "already exists" error for another organisation). At login the password decides which organisation opens.
+- Day-wise comparison: left column is this year's date; each workshop (or division for the DISCOM head) shows Previous year | This year | Diff; Inc/Dec % appears only in the final total group. On phones the Division / Substation / Day wise buttons now fit on one row.
