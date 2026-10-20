@@ -406,7 +406,8 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 :is(#sout,.soutp) .kxt .kv{font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.5px;color:var(--a,#4c6ef5)}
 :is(#sout,.soutp) .kxt .kv a.n{color:inherit;text-decoration:none}
 :is(#sout,.soutp) .kxt .kl{font-size:10.5px;font-weight:800;color:#5c6785;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
-.k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-pr2{--a:#c2410c;--k:#ffe9d5}.k-td{--a:#1c7ed6;--k:#dcecff}
+.k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-pr2{--a:#c2410c;--k:#ffe9d5}.k-td{--a:#1c7ed6;--k:#dcecff}.k-dp{--a:#b45309;--k:#fff3c4}
+td.dp{background:#fff8dc}.wt.dp{background:#fff3c4}:is(#sout,.soutp) .wt.dp{background:#fff3c4}:is(#sout,.soutp) td.dp{background:#fff8dc}
 :is(#sout,.soutp) .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
 :is(#sout,.soutp) .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
 :is(#sout,.soutp) .card>h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--acc,var(--pri))}
@@ -755,8 +756,9 @@ table.kt{border-collapse:collapse;width:100%;font-size:13px}
 .kt td.kb{background:#eefaf7;font-weight:800}.kt td.ko{background:#f5f0ff;font-weight:800}
 .kt td.kp{color:#15803d}.kt td.kn{color:#b91c1c}
 .kt tr.t td{background:#17224d;color:#fff;font-weight:800}.kt tr.t td.kb{background:#0f766e}.kt tr.t td.ko{background:#6d28d9}
-.kt input.ki{width:72px;text-align:center;padding:5px 3px;border:1px solid #c9d3ee;border-radius:7px;font-size:13px;background:#fbfcff}
-.kt input.ki:focus{outline:2px solid #4c6ef5;background:#fff}.kt input.kopen{border-color:#a78bfa;background:#faf7ff}
+.kt td:has(>input.ki){padding:0}
+.kt input.ki{display:block;width:100%;min-width:56px;box-sizing:border-box;text-align:center;padding:9px 4px;border:0;border-radius:0;font-size:13px;background:transparent;margin:0}
+.kt input.ki:focus{outline:2px solid #4c6ef5;outline-offset:-2px;background:#fff}.kt input.kopen{background:#f3edff;font-weight:800}
 .kt td .z{color:#b6bdcb}
 .kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));gap:12px;align-items:start}.kgrid.one{grid-template-columns:1fr}.kgrid .kc{margin:0}
 .kchips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}.kchip{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#eef1f8;color:#5b6784}.kchip.ok{background:#dcfce7;color:#166534}
@@ -769,7 +771,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 .kaph{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px}.kaph h2{margin:0}.kacts{display:flex;gap:6px}.kx{font-weight:900}
 .kcmm{max-width:min(1100px,96vw)}.kapm{max-width:460px}
 .kapr{border:1px solid #e1e6f2;border-radius:12px;padding:10px;margin:10px 0}.kapt{font-size:14px}.kapt2{margin:8px 0;font-size:12.5px}
-@media(max-width:640px){#cmode{display:flex;width:100%}#cmode button{flex:1;padding:9px 2px;font-size:12px;white-space:normal;line-height:1.15}.sbar>.cmw{flex:1 1 100%}.sbar>.cdw{flex:1 1 100%}.cdw select{width:100%}.kt input.ki{width:58px}.kt th,.kt td{padding:4px 5px}.kdt .dtx{width:100px}}
+@media(max-width:640px){#cmode{display:flex;width:100%}#cmode button{flex:1;padding:9px 2px;font-size:12px;white-space:normal;line-height:1.15}.sbar>.cmw{flex:1 1 100%}.sbar>.cdw{flex:1 1 100%}.cdw select{width:100%}.kt input.ki{min-width:48px}.kt th,.kt td{padding:4px 5px}.kdt .dtx{width:100px}}
 
 @media print{
   #pz .ps{font-size:10px;color:#000}
@@ -1582,15 +1584,15 @@ function N(v, spec, title) {
 function LK(label, spec, title) { spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + label + '</a>'; }
 var DVOPEN = { div: false, dc: false };
 document.addEventListener('toggle', function (e) { var o = e.target && e.target.dataset && e.target.dataset.o; if (o) DVOPEN[o] = e.target.open; }, true);
-var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN'];
-var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return'];
-var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10, 13];       // column order of the tables
+var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN', 'WRONG / DUPLICATE PR'];
+var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return', 'Wrong / dup. PR'];
+var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 14, 9, 10, 13];       // column order of the tables
 function head11(first, s) {
   return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="7">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
     ORD_T.concat(ORD_P).map(function (m) { return '<th class="' + (ORD_T.indexOf(m) >= 0 ? 'g1' : 'g2') + '">' + ((m >= 9) ? LK(H11S[m], S({ metric: m }), H11[m] + ' - all') : H11S[m]) + '</th>'; }).join('') + '</tr>';
 }
 function cells11(v, base, name) {
-  return [0].concat(ORD_T, ORD_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + ((i === 9 || i === 10 || i === 13) ? ' class="pe"' : (i === 11 || i === 12) ? ' class="rt"' : '') + '>' + N(v[i], sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
+  return [0].concat(ORD_T, ORD_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + ((i === 9 || i === 10 || i === 13) ? ' class="pe"' : (i === 11 || i === 12) ? ' class="rt"' : i === 14 ? ' class="dp"' : '') + '>' + N(v[i], sp, name + ' - ' + H11[i]) + '</td>'; }).join('');
 }
 function pctOf(a, b) { var t = a + b; return t ? Math.round(a * 100 / t) : 0; }
 // one pretty card per workshop (also the TOTAL card)
@@ -1599,12 +1601,12 @@ function wcard(label, cls, v, base, name, s, n) {
   var a = pctOf(v[7], v[9]), b = pctOf(v[8], v[10]);
   return '<div class="wc ' + cls + '" style="--i:' + n + '"><div class="wh"><b>' + esc(label) + '</b><span>' + v[6] + ' PR</span></div>' +
     '<div class="wbars"><div class="wbar"><span>Issued</span><u><i style="--w:' + a + '%"></i></u><em>' + a + '%</em></div><div class="wbar r"><span>Replaced</span><u><i style="--w:' + b + '%"></i></u><em>' + b + '%</em></div></div>' +
-    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + T(13, 'Pending return', ' pw') + '</div>' +
+    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(14, 'Wrong / dup. PR', ' dp') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + T(13, 'Pending return', ' pw') + '</div>' +
     '<div class="wsec">Today <small>' + s.date + '</small></div><div class="wg">' + T(1, 'Today PR') + T(2, 'Issue vs today PR') + T(3, 'Repl. vs today PR') + T(4, 'Today issue') + T(5, 'Today repl.') + T(11, 'Today return', ' rt') + '</div></div>';
 }
 function renderSummary(s, quiet) {
   var h = '', tt = s.top.total;
-  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [13, 'Pending for return', 'k-pr2', '\uD83D\uDCE6']];
+  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [14, 'Wrong / duplicate PR', 'k-dp', '\u26A0'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [13, 'Pending for return', 'k-pr2', '\uD83D\uDCE6']];
   h += '<div class="kx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + N(tt[k[0]], S({ metric: k[0] }), 'TOTAL - ' + H11[k[0]]) + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
 
   var adm = !!(ME && ME.admin);              // TOTAL is shown only to the admin
@@ -1634,15 +1636,15 @@ function capLbl(c) { return c ? c : 'Unknown'; }
 function shortDiv(n) { return String(n).replace(/^EWD[\s.\-]*/i, '') || n; }
 function renderDiscom(s, quiet) {
   var t = s.total, h = '', nz = function (v) { return v ? v : '<span class="z">0</span>'; };
-  var K = [[0, 'Today PR', 'k-td', '\uD83C\uDF1E'], [1, 'Today issue', 'k-is', '\uD83D\uDCE4'], [2, 'Total PR', 'k-pr', '\u26A1'], [3, 'Total issue', 'k-rp', '\u2705'], [4, 'Pending for issue', 'k-pi', '\u23F3']];
+  var K = [[0, 'Today PR', 'k-td', '\uD83C\uDF1E'], [1, 'Today issue', 'k-is', '\uD83D\uDCE4'], [2, 'Total PR', 'k-pr', '\u26A1'], [3, 'Total issue', 'k-rp', '\u2705'], [4, 'Pending for issue', 'k-pi', '\u23F3'], [5, 'Wrong / duplicate PR', 'k-dp', '\u26A0']];
   h += '<div class="kx dkx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + t.v[k[0]] + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
   // 1. workshop division -> workshops
   h += '<div class="card k-ws"><h3>Workshop division wise summary <span class="muted" style="text-transform:none">(' + esc(s.discom) + ' &middot; ' + s.divs.length + ' divisions)</span></h3><div class="wrap tbl11d"><table>' +
-    '<tr><th class="l" rowspan="2">WORKSHOP DIVISION / WORKSHOP</th><th class="g1" colspan="2">TODAY (' + s.date + ')</th><th class="g2" colspan="3">TILL DATE (' + s.from + ' to ' + s.to + ')</th></tr>' +
-    '<tr><th class="g1">PR</th><th class="g1">ISSUE</th><th class="g2">PR</th><th class="g2">ISSUE</th><th class="g2 pe">PENDING ISSUE</th></tr>';
+    '<tr><th class="l" rowspan="2">WORKSHOP DIVISION / WORKSHOP</th><th class="g1" colspan="2">TODAY (' + s.date + ')</th><th class="g2" colspan="4">TILL DATE (' + s.from + ' to ' + s.to + ')</th></tr>' +
+    '<tr><th class="g1">PR</th><th class="g1">ISSUE</th><th class="g2">PR</th><th class="g2">ISSUE</th><th class="g2 pe">PENDING ISSUE</th><th class="g2 dp">WRONG / DUP. PR</th></tr>';
   s.divs.forEach(function (d) {
-    h += '<tr class="dvr"><td class="l"><b>' + esc(d.name) + '</b></td>' + d.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>';
-    d.ws.forEach(function (w) { h += '<tr class="dws"><td class="l">' + esc(w.name) + '</td>' + w.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>'; });
+    h += '<tr class="dvr"><td class="l"><b>' + esc(d.name) + '</b></td>' + d.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : i === 5 ? ' class="dp"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>';
+    d.ws.forEach(function (w) { h += '<tr class="dws"><td class="l">' + esc(w.name) + '</td>' + w.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : i === 5 ? ' class="dp"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>'; });
   });
   h += '<tr class="t"><td class="l">TOTAL</td>' + t.v.map(function (v) { return '<td>' + v + '</td>'; }).join('') + '</tr></table></div></div>';
   // 2. capacity wise: columns = workshop divisions
@@ -2790,7 +2792,7 @@ function kcard(w, K, canEdit) {
   h += '<div class="wrap"><table class="kt" data-name="' + esc(w) + '"><thead><tr><th class="l">CAPACITY</th><th class="ko">OPENING KITTY</th><th>ISSUE</th><th>REPAIR</th><th>ISSUE TO OTHER WORKSHOP</th><th>RECEIVE FROM OTHER WORKSHOP</th><th class="kb">BALANCE KITTY</th><th class="kpvh">PREVIOUS YEAR KITTY</th><th class="kb">KITTY DIFFERENCE</th></tr></thead><tbody>';
   var T = { open: 0, issue: 0, repair: 0, iso: 0, rfo: 0, bal: 0, prev: 0 };
   rows.forEach(function (x) {
-    function cell(f) { return canEdit ? '<td><input type="text" inputmode="numeric" class="ki" data-f="' + f + '" value="' + (x[f] || '') + '" placeholder="0"></td>' : '<td>' + nzv(x[f]) + '</td>'; }
+    function cell(f) { return canEdit ? '<td><input type="text" inputmode="numeric" enterkeyhint="next" class="ki" data-f="' + f + '" value="' + (x[f] || '') + '" placeholder="0"></td>' : '<td>' + nzv(x[f]) + '</td>'; }
     var open = ed ? '<td class="ko"><input type="text" inputmode="numeric" class="ki kopen" data-f="open" data-o="' + x.open + '" value="' + x.open + '"></td>' : '<td class="ko kovv">' + x.open + '</td>';
     h += '<tr data-cap="' + x.cap + '" data-open="' + x.open + '" data-prev="' + x.prev + '"><td class="l"><b>' + x.cap + '</b> kVA</td>' + open + cell('issue') + cell('repair') + cell('iso') + cell('rfo') + '<td class="kb kbal' + kcol(x.bal) + '">' + x.bal + '</td><td class="kpv">' + nzv(x.prev) + '</td><td class="kb kdif' + kcol(x.bal - x.prev) + '">' + ksgn(x.bal - x.prev) + '</td></tr>';
     ['open', 'issue', 'repair', 'iso', 'rfo', 'bal', 'prev'].forEach(function (f) { T[f] += x[f]; });
@@ -2831,6 +2833,17 @@ function renderKitty(K) {
   }
   $('kout').innerHTML = h || '<div class="card muted">No workshop found.</div>';
   var b = $('kcmpb'); if (b) b.onclick = openKcmp;
+  kgTabs();
+}
+// phone keyboards: the Next / Enter key goes DOWN the column (like Enter in the Data Sheet) - tab order is made column by column
+function kgTabs() {
+  try { if (!matchMedia('(pointer:coarse)').matches) return; } catch (e) { return; }
+  var base = 1;
+  document.querySelectorAll('#kout table.kt').forEach(function (t) {
+    var rows = [].map.call(t.querySelectorAll('tbody tr'), function (tr) { return [].slice.call(tr.querySelectorAll('input.ki')); }).filter(function (a) { return a.length; });
+    var nc = rows.reduce(function (m, a) { return Math.max(m, a.length); }, 0);
+    for (var c = 0; c < nc; c++) rows.forEach(function (a) { if (a[c]) a[c].tabIndex = base++; });
+  });
 }
 function openKcmp() {
   var K = KIT; if (!K) return;
@@ -2947,7 +2960,7 @@ document.addEventListener('keydown', function (e) {
   var t = kgIn(e); if (!t) return; var p = kgPos(t); if (!p) return;
   var k = e.key, dr = 0, dc = 0, mod = e.ctrlKey || e.metaKey;
   if (k === 'ArrowDown') dr = 1; else if (k === 'ArrowUp') dr = -1; else if (k === 'ArrowRight') dc = 1; else if (k === 'ArrowLeft') dc = -1;
-  else if (k === 'Enter') dr = e.shiftKey ? -1 : 1;
+  else if (k === 'Enter' || e.keyCode === 13) dr = e.shiftKey ? -1 : 1;
   if (dr || dc) {
     e.preventDefault();
     if (e.shiftKey && k !== 'Enter' && KG && KG.tbl === p.tbl) { KG.fr = Math.max(0, Math.min(p.g.length - 1, KG.fr + dr)); KG.fc = Math.max(0, Math.min(p.g[0].length - 1, KG.fc + dc)); kgPaint(); return; }
@@ -3306,7 +3319,7 @@ function loadStorage() {
   call('adminStorage', TOKEN).then(function (r) {
     var u = r.usage, p = u.pct; ME.usage = u; bannerUpd();
     $('st-bar').style.width = Math.min(p, 100) + '%'; $('st-bar').className = p >= 90 ? 'hi' : p >= 70 ? 'mid' : '';
-    $('st-txt').innerHTML = '<b>' + p + '%</b> of the Google Sheet is used (' + (u.cells / 1e6).toFixed(2) + ' million of ' + (u.limit / 1e6) + ' million cells).' + (u.room != null ? ' About <b>' + u.room.toLocaleString('en-IN') + '</b> more records fit.' : '') + (p >= 90 ? ' <b style="color:#b91c1c">The sheet is almost full - please move the data to a new sheet.</b>' : '');
+    $('st-txt').innerHTML = '<b>' + p + '%</b> of the Google Sheet is used (' + (u.cells / 1e6).toFixed(2) + ' million of ' + (u.limit / 1e6) + ' million cells).' + (p >= 90 ? ' <b style="color:#b91c1c">The sheet is almost full - please move the data to a new sheet.</b>' : '');
     $('st-old').innerHTML = r.old.length ? '<div class="muted" style="margin-bottom:6px"><b>Old sheets</b> (finished records older than the date are read from them when needed):</div>' + r.old.map(function (o) { return '<div class="wsrow"><b>Data before ' + esc(fmtCut(o.cut)) + '</b><span class="muted">moved ' + esc(o.on) + '</span><a class="btn sec sm" href="' + esc(o.url) + '" target="_blank" rel="noopener">Open</a></div>'; }).join('') : '';
   }).catch(function () {});
 }

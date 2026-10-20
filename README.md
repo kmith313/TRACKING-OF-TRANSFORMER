@@ -137,4 +137,18 @@ In the Creator panel every DISCOM head has a **Tabs allowed** row (Summary, Comp
 - **Comparison** - day wise damage (PR) of every division, this year against the same dates last year.
 - **Kitty, Data Sheet, Driver Master** - read only. A *Division* box on top lets the head pick one division at a time; everything is the same as the Division Head's own screen, but nothing can be edited.
 
-Storage meter and the 90% alert now use 20 million cells per Google Sheet and also show roughly how many more records fit.
+Storage meter and the 90% alert use 20 million cells per Google Sheet (no record estimate is shown).
+
+## Wrong / duplicate PR
+
+Every Driver Master gets a default firm **DUPLICATE/WRONG PR** for each workshop (added automatically the first time the Driver Master / Data is opened; it cannot be edited or deleted). Choose it as *Issued to firm* for a wrong or duplicate PR:
+
+- the Issue, Replacement, Time and Return dates are cleared and cannot be kept;
+- the record is not counted in PR, issue, pending or comparison figures; it is counted only in its own column **Wrong / dup. PR** (workshop cards, tables and the top tiles - right after *Total return*; also in the DISCOM head's Summary);
+- tap the number to open the list - the **Remark** of every record is visible to everyone who can open the list.
+
+Kitty: the figures are typed in a flat grid like the Data Sheet; on phones the keyboard's Next / Enter key moves down the column.
+
+## Home-page search scope
+
+The fast browser index holds only the **last 31 days** of PRs plus **every PR that is not replaced yet** (wrong/duplicate PRs excluded). If nothing is found there the app automatically searches the older records of the DATA tab on the server (a moment slower, first 60 results). ARCHIVE and old Google Sheets are not searched.

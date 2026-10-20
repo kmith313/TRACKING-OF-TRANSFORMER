@@ -115,10 +115,15 @@ function capNum(s){var t=String(s==null?'':s).replace(/\u00a0/g,' ').toUpperCase
     if (!d) { had = false; empty(); return meta('First select your DISCOM.'); }
     if (q.length < 3) { had = false; empty(); return meta(IDX && IDX.d === d && !IDX.big ? 'Fast search is ready - type at least 3 characters.' : 'Type at least 3 characters of your complaint / PR number.'); }
     var ql = q.toLowerCase();
-    if (IDX && IDX.d === d && !IDX.big) { $('cs-spin').classList.remove('on'); return show(localFind(ql), C, q, d, true); }
-    $('cs-spin').classList.add('on'); meta('Searching...');
+    var older = false;
+    if (IDX && IDX.d === d && !IDX.big) {                  // the local index holds the last month + pending PRs; nothing found there -> older records are searched on the server
+      var lr = localFind(ql); if (lr.total) { $('cs-spin').classList.remove('on'); return show(lr, C, q, d, true); }
+      older = true;
+    }
+    $('cs-spin').classList.add('on'); meta(older ? 'Searching older records...' : 'Searching...');
     if (!quiet && !had) out.innerHTML = '<div class="a-results"><div class="a-sk"></div><div class="a-sk"></div></div>';
-    window.call('complainSearch', d, q).then(function (r) {
+    new Promise(function (ok) { setTimeout(ok, older ? 400 : 0); }).then(function () { if (my !== runId) return null; return window.call('complainSearch', d, q); }).then(function (r) {
+      if (r === null) return;
       if (my !== runId) return; $('cs-spin').classList.remove('on'); show(r || { total: 0, rows: [] }, F, q, d, false);
     }).catch(function (e) { if (my !== runId) return; $('cs-spin').classList.remove('on'); out.innerHTML = ''; meta(e.message); });
   }
