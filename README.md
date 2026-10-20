@@ -152,3 +152,11 @@ Kitty: the figures are typed in a flat grid like the Data Sheet; on phones the k
 ## Home-page search scope
 
 The fast browser index holds only the **last 31 days** of PRs plus **every PR that is not replaced yet** (wrong/duplicate PRs excluded). If nothing is found there the app automatically searches the older records of the DATA tab on the server (a moment slower, first 60 results). ARCHIVE and old Google Sheets are not searched.
+
+## Pasting rows of another workshop
+
+If a workshop user pastes rows that belong to another workshop of the same Admin, a **new** PR is saved under that workshop (it appears in that workshop's Data Sheet and Summary). If the PR already exists there (DATA or ARCHIVE) the row is **skipped** and never changed. Existing records of other workshops can still be edited only by their own workshop or the Admin.
+
+## Share button (home screen)
+
+The small **Share** button on the home screen opens three choices: Android user (shares the APK link), Windows / Mac user and iPhone user (share the website link). Upload your APK to the repository root, next to `index.html`, and write its exact file name in `config.js` (`TT_APK_URL`, default `TF-Tracker.apk`). On phones the normal share sheet opens; on a computer the link is copied.

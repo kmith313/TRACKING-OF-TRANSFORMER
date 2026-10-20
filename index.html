@@ -644,7 +644,13 @@ a.call:active{transform:scale(.96)}
 
 .ibtn{display:none;align-items:center;gap:6px;border:0;border-radius:99px;background:linear-gradient(135deg,#17224d,#2f4aa8);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;cursor:pointer;box-shadow:0 4px 14px rgba(23,34,77,.3)}
 .ibtn.show{display:inline-flex}
-.hinst{text-align:center;margin:14px 0 4px}
+.hinst{text-align:center;margin:14px 0 4px;display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+.shbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid #c9d3ee;border-radius:99px;background:#fff;color:#243061;font-weight:700;font-size:13px;padding:7px 13px;cursor:pointer}.shbtn svg{width:16px;height:16px}
+#shov{position:fixed;inset:0;z-index:99999;background:rgba(10,16,40,.55);display:flex;align-items:flex-end;justify-content:center}#shov.hide{display:none}
+.shbox{background:#fff;color:#1b2540;width:min(440px,100%);border-radius:18px 18px 0 0;padding:16px 16px 20px;box-shadow:0 -10px 40px rgba(0,0,0,.3)}@media(min-width:600px){#shov{align-items:center}.shbox{border-radius:18px}}
+.shbox h3{margin:0 0 4px;font-size:16px}.shbox .sub{font-size:12px;color:#64708a;margin-bottom:10px}
+.shopt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1px solid #dbe2f3;background:#f7f9ff;border-radius:12px;padding:12px;margin-top:8px;cursor:pointer;font:inherit;color:inherit}.shopt:hover{background:#eaf0ff}.shopt b{display:block;font-size:14px}.shopt span{font-size:12px;color:#64708a}.shopt i{font-style:normal;font-size:24px}
+#shmsg{font-size:12px;margin-top:10px;color:#0f766e;min-height:16px;word-break:break-all}
 .ihelp{position:fixed;inset:0;background:rgba(10,15,40,.6);display:none;align-items:flex-end;justify-content:center;z-index:9999}
 .ihelp.show{display:flex}
 .ihelp>div{background:#fff;color:#17224d;border-radius:18px 18px 0 0;padding:20px 18px 26px;max-width:460px;width:100%;font-size:14px;line-height:1.6}
@@ -882,7 +888,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
       <div class="hsrch"><input type="search" id="cs-q" class="hin" placeholder="Type at least 3 characters" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search"><span class="hsp" id="cs-spin"></span></div>
     </section>
 
-    <div class="hinst"><button class="ibtn" data-install>⬇ Install app</button></div>
+    <div class="hinst"><button class="ibtn" data-install>⬇ Install app</button><button class="shbtn" id="shopen" title="Share this app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Share</button></div>
 
     <section id="h-login" class="hide">
       <label class="hl">User ID / Profit Center</label>
@@ -3404,5 +3410,29 @@ $('marc').onclick = function () {
 })();
 </script>
 <script>if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("sw.js").catch(function () {});</script>
+<div id="shov" class="hide" role="dialog" aria-modal="true"><div class="shbox"><h3>Share TF-Tracker</h3><div class="sub">Choose who you are sharing with</div>
+  <button class="shopt" data-sh="android"><i>&#129302;</i><div><b>Share to Android user</b><span>Sends the app file (APK) link</span></div></button>
+  <button class="shopt" data-sh="desk"><i>&#128187;</i><div><b>Share to Windows / Mac user</b><span>Sends the website link (installable from the browser)</span></div></button>
+  <button class="shopt" data-sh="ios"><i>&#127823;</i><div><b>Share to iPhone (iOS) user</b><span>Sends the website link (Safari &rarr; Share &rarr; Add to Home Screen)</span></div></button>
+  <div id="shmsg"></div><button class="btn sec" id="shx" style="margin-top:10px;width:100%">Close</button></div></div>
+<script>
+(function () {
+  var SITE = window.TT_SITE_URL || 'https://kmith313.github.io/TRACKING-OF-TRANSFORMER/';
+  function abs(u) { try { return new URL(u, SITE).href; } catch (e) { return u; } }
+  var APK = abs(window.TT_APK_URL || 'TF-Tracker.apk');
+  var $ = function (i) { return document.getElementById(i); };
+  function open(o) { $('shov').classList.toggle('hide', !o); $('shmsg').textContent = ''; }
+  $('shopen').onclick = function () { open(true); }; $('shx').onclick = function () { open(false); };
+  $('shov').onclick = function (e) { if (e.target === $('shov')) open(false); };
+  function copy(t) { try { return navigator.clipboard.writeText(t); } catch (e) { return Promise.reject(e); } }
+  function go(kind) {
+    var url = kind === 'android' ? APK : SITE;
+    var text = kind === 'android' ? 'TF-Tracker (Tracking of Transformer) - Android app. Download and install: ' : kind === 'ios' ? 'TF-Tracker (Tracking of Transformer). Open in Safari, then Share > Add to Home Screen: ' : 'TF-Tracker (Tracking of Transformer). Open in Chrome / Edge and install: ';
+    if (navigator.share) { navigator.share({ title: 'TF-Tracker', text: text, url: url }).catch(function () {}); return; }
+    copy(text + url).then(function () { $('shmsg').textContent = 'Link copied: ' + url; }, function () { $('shmsg').innerHTML = 'Copy this link: <b>' + url + '</b> &middot; <a href="https://wa.me/?text=' + encodeURIComponent(text + url) + '" target="_blank" rel="noopener">Send on WhatsApp</a>'; });
+  }
+  document.querySelectorAll('[data-sh]').forEach(function (b) { b.onclick = function () { go(b.dataset.sh); }; });
+})();
+</script>
 </body>
 </html>
