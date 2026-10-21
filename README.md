@@ -160,3 +160,19 @@ If a workshop user pastes rows that belong to another workshop of the same Admin
 ## Share button (home screen)
 
 The small **Share** button on the home screen opens three choices: Android user (shares the APK link), Windows / Mac user and iPhone user (share the website link). Upload your APK to the repository root, next to `index.html`, and write its exact file name in `config.js` (`TT_APK_URL`, default `TF-Tracker.apk`). On phones the normal share sheet opens; on a computer the link is copied.
+
+## Pending for issue - date wise report (Summary tab)
+
+Replaces the old workshop table. For every workshop: PR date (rows) x capacity 10 / 16 / 25 / 63 / 100 / 160 / 250 / 400 / 630 (columns), counting PRs whose transformer is **not issued yet** (till the "To" date; wrong / duplicate PRs are not counted). A workshop sees its own table; the Admin sees one table per workshop plus an ALL WORKSHOPS table. Tap a number to open that list and fill firm / driver / date.
+
+## Wrong / duplicate PR - what changes in the screens
+
+Choosing the firm **DUPLICATE/WRONG PR** switches the date fields off at once (pending cards, edit form and Data Sheet cells are locked and cleared) and the driver list is replaced by two boxes, **JE name (D)** and **JE mobile**, that the user types. The Driver Master default entry is Firm *DUPLICATE/WRONG PR*, driver *JE(D)*, no mobile.
+
+## Big paste
+
+A paste of thousands of rows is saved in parts of 1000 rows with a progress line ("Saving... 5000 of 28000 rows").
+
+## Background saving
+
+Switching tabs never asks for confirmation: pasted rows keep saving in the background. The Data Sheet / Driver Master tab button shows *(saving...)* or *(N pending)*. If the server is busy or the network drops, the save is retried automatically (2, 4, 8, 15 seconds); if it still fails the tab shows the error with a **Retry now** button and the app tries again after 1 minute. The browser warns only when the whole page is being closed while rows are unsaved.

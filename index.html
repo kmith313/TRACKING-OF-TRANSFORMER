@@ -28,6 +28,7 @@ header .u{font-size:12px;background:rgba(255,255,255,.16);padding:3px 10px;borde
 .btn:disabled{opacity:.5;cursor:default}
 nav{display:flex;gap:6px;padding:8px 12px;background:var(--card);border-bottom:1px solid var(--line);overflow-x:auto;position:sticky;top:44px;z-index:40}
   .crtabs{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.crc{display:inline-flex;align-items:center;gap:5px;font-size:13px;white-space:nowrap}.crt .btn{margin-top:4px}
+nav button.navpend{color:#b45309}
 nav button{border:0;background:none;padding:6px 14px;cursor:pointer;color:var(--mut);font-weight:600;border-radius:99px;white-space:nowrap}
 nav button:hover{background:var(--sub)}
 nav button.on{color:#fff;background:var(--pri);box-shadow:0 2px 6px rgba(59,91,219,.35)}
@@ -94,6 +95,7 @@ a.n:hover{color:var(--pri-d);text-decoration-color:var(--pri-d)}
 .gt th.ix{z-index:4}
 .gt tbody tr:hover td.gc{background:#fafbff}
 .gt tr.dirty td.gc{background:#fffbe3}
+.gt td.gc.lk{background:repeating-linear-gradient(135deg,#f1f3f8 0 6px,#e6e9f2 6px 12px)!important;cursor:not-allowed}
 .gt tr.dirty td.ix{background:#ffe9a8;color:#7a5200}
 .gt td.sel{background:var(--sel)!important}
 .gt td.act{box-shadow:inset 0 0 0 2px var(--pri);background:#fff!important}
@@ -407,6 +409,8 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 :is(#sout,.soutp) .kxt .kv a.n{color:inherit;text-decoration:none}
 :is(#sout,.soutp) .kxt .kl{font-size:10.5px;font-weight:800;color:#5c6785;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
 .k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-pr2{--a:#c2410c;--k:#ffe9d5}.k-td{--a:#1c7ed6;--k:#dcecff}.k-dp{--a:#b45309;--k:#fff3c4}
+.pc .dupf{display:none}.pc.isdup .dupf{display:block}.pc.isdup .nodup,.pc.isdup .dbx{display:none}.pc .dupf input{width:100%;box-sizing:border-box}
+.pdw{margin-top:10px}.pdtb{border-collapse:collapse;width:100%;font-size:13px}.pdtb th,.pdtb td{border:1px solid #e1e6f2;padding:6px 8px;text-align:center}.pdtb th{background:#243061;color:#fff;font-size:11px}.pdtb td.l,.pdtb th.l{text-align:left}.pdtb td.sub{background:#fff1dc}.pdtb tr.t td{background:#e8eefc;font-weight:800}.pdtb a.n{font-weight:700}
 td.dp{background:#fff8dc}.wt.dp{background:#fff3c4}:is(#sout,.soutp) .wt.dp{background:#fff3c4}:is(#sout,.soutp) td.dp{background:#fff8dc}
 :is(#sout,.soutp) .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
 :is(#sout,.soutp) .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
@@ -1507,6 +1511,7 @@ $('lbtn').onclick = function () {
   }).catch(function (e) { busy(b, false); msg('lmsg', esc(e.message), 'err'); });
 };
 $('lp').onkeydown = function (e) { if (e.key === 'Enter') $('lbtn').click(); };
+window.addEventListener('beforeunload', function (e) { try { if (TOKEN && (anyDirty() || (D && D.saving) || (M && M.saving))) { e.preventDefault(); e.returnValue = ''; } } catch (x) {} });      // only when the page itself is being closed while data is still unsaved
 function anyDirty() { return (D && D.dirty()) || (M && M.dirty()); }
 function doLogout(silent) {
   if (TOKEN && !silent) call('logout', TOKEN).catch(function () {});
@@ -1548,7 +1553,6 @@ $('dhdiv').onchange = function () {
 document.querySelectorAll('nav button').forEach(function (b) {
   b.onclick = function () {
     var t = b.dataset.t;
-    if (anyDirty() && t !== 'data' && t !== 'drv' && !confirm('There are unsaved changes in a data grid. Leave anyway?')) return;
     showTab(t);
     if (t === 'sum') loadSummary();          // clicking Summary reloads it with the dates shown
     if (t === 'cmp') loadCompare();
@@ -1619,10 +1623,8 @@ function renderSummary(s, quiet) {
   h += '<div class="card k-ws"><h3>Workshop wise summary</h3><div class="wcs">';
   s.top.rows.forEach(function (r, i) { h += wcard(r.label, 'w' + (s.wsAll.indexOf(r.ws) % 3), r.v, S({ ws: r.ws }), r.label, s, i); });
   if (adm) h += wcard('TOTAL', 'wt0', s.top.total, S({}), 'TOTAL', s, s.top.rows.length);
-  h += '</div><details class="tdet"><summary>Show as table</summary><div class="wrap tbl11d"><table>' + head11('WORKSHOP', s);
-  s.top.rows.forEach(function (r) { h += '<tr class="wr w' + (s.wsAll.indexOf(r.ws) % 3) + '"><td class="l"><b>' + r.label + '</b></td>' + cells11(r.v, S({ ws: r.ws }), r.label) + '</tr>'; });
-  if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.top.total, S({}), 'TOTAL') + '</tr>';
-  h += '</table></div></details></div>';
+  h += '</div></div>';
+  h += renderPend(s);
 
   h += '<details class="card k-div opt" data-o="div"' + (DVOPEN.div ? ' open' : '') + '><summary><span class="oi">&#9638;</span><h3>Division wise summary</h3><span class="ot">tap to open</span></summary><div class="wrap tbl11d"><table>' + head11('DIVISION', s);
   s.div.rows.forEach(function (r) { h += '<tr class="' + r.t + '"><td class="l">' + esc(r.label) + '</td>' + cells11(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
@@ -1637,7 +1639,29 @@ function renderSummary(s, quiet) {
     (function f(t) { var k = Math.min(1, (t - t0) / 700); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(f); })(t0);
   });
 }
+function isDupF(v) { return /^DUPLICATE\s*\/?\s*WRONG\s*PR\.?$/i.test(String(v || '').replace(/\s+/g, ' ').trim()); }
+var DUP_COLS = [13, 16, 17, 18];       // issue date, replacement date, time, return date: not used for a wrong / duplicate PR
 function capLbl(c) { return c ? c : 'Unknown'; }
+/* Pending for issue: PR date wise x capacity, one table per workshop (a workshop sees its own, the Admin sees all + a combined table) */
+function pendTable(name, caps, rows, ws) {
+  var n = caps.length, tot = caps.map(function () { return 0; }), all = 0;
+  var h = '<div class="wrap tbl11d"><table class="pdtb"><thead><tr><th class="l">' + esc(name) + '</th>' + caps.map(function (c) { return '<th>' + esc(capLbl(c)) + '</th>'; }).join('') + '<th>TOTAL</th></tr></thead><tbody>';
+  rows.forEach(function (r) {
+    var sum = 0; r.v.forEach(function (v, i) { sum += v; tot[i] += v; }); all += sum;
+    h += '<tr><td class="l">' + esc(r.date) + '</td>' + r.v.map(function (v, i) { return '<td>' + N(v, S({ metric: 9, ws: ws, caps: [caps[i]], prd: r.date }), name + ' - ' + r.date + ' - ' + capLbl(caps[i]) + ' kVA - pending for issue') + '</td>'; }).join('') + '<td class="sub"><b>' + N(sum, S({ metric: 9, ws: ws, prd: r.date }), name + ' - ' + r.date + ' - pending for issue') + '</b></td></tr>';
+  });
+  if (!rows.length) return h + '<tr><td class="l muted" colspan="' + (n + 2) + '">No pending PR</td></tr></tbody></table></div>';
+  return h + '<tr class="t"><td class="l">TOTAL</td>' + tot.map(function (v, i) { return '<td>' + N(v, S({ metric: 9, ws: ws, caps: [caps[i]] }), name + ' - ' + capLbl(caps[i]) + ' kVA - pending for issue') + '</td>'; }).join('') + '<td><b>' + N(all, S({ metric: 9, ws: ws }), name + ' - pending for issue') + '</b></td></tr></tbody></table></div>';
+}
+function renderPend(s) {
+  var caps = s.caps, P = s.pend || [], h = '<div class="card k-pd"><h3>Pending for issue - date wise <span class="muted" style="text-transform:none">(PR raised, transformer not issued yet &middot; till ' + esc(s.to) + ')</span></h3>';
+  if (ME && ME.admin && P.length > 1) {
+    var m = {}; P.forEach(function (w) { w.rows.forEach(function (r) { var o = m[r.k] || (m[r.k] = { k: r.k, date: r.date, v: caps.map(function () { return 0; }) }); r.v.forEach(function (v, i) { o.v[i] += v; }); }); });
+    h += '<div class="pdw">' + pendTable('ALL WORKSHOPS', caps, Object.keys(m).map(Number).sort(function (a, b) { return a - b; }).map(function (k) { return m[k]; }), '') + '</div>';
+  }
+  P.forEach(function (w) { h += '<div class="pdw">' + pendTable(w.ws, caps, w.rows, w.ws) + '</div>'; });
+  return h + '</div>';
+}
 /* ---------- DISCOM head: workshop division wise summary ---------- */
 function shortDiv(n) { return String(n).replace(/^EWD[\s.\-]*/i, '') || n; }
 function renderDiscom(s, quiet) {
@@ -1834,7 +1858,7 @@ function optList(list, cur, ph) {
 var PDN = 0;
 function dateBox(label, col, val, quick) {
   var id = 'pdx' + (++PDN);
-  return '<div><div class="lb"><label>' + label + '</label>' +
+  return '<div class="dbx"><div class="lb"><label>' + label + '</label>' +
     (quick && SUM ? '<button class="btn sec sm qd" data-qd="' + col + '" title="Use ' + esc(SUM.date) + '">' + esc(SUM.date.slice(0, 5)) + '</button>' : '') + '</div>' +
     '<div class="dr"><input type="text" class="dtx pd" id="' + id + '" data-f="' + col + '" value="' + esc(val) + '" inputmode="numeric" maxlength="10" placeholder="DD.MM.YYYY" autocomplete="off">' +
     '<span class="calw">&#128197;<input type="date" data-c="' + id + '"></span></div></div>';
@@ -1861,10 +1885,13 @@ function pcard(r, gi) {
     return h + '<div class="pf">' + ro('Firm', r[12]) + ro('Driver', r[14]) + '<div><label>Driver mobile</label><div class="rv">' + (r[15] ? esc(r[15]) + ' ' + callBtn(r[15]) : '-') + '</div></div>' + ro('Issue date', r[13]) + ro('Replacement date', r[16]) + (r[19] ? '<div class="full"><label>Remark</label><div class="rv">' + esc(r[19]) + '</div></div>' : '') + '</div></div>';
   }
   if (!DM.length) h += '<div class="msg info">Driver Master is empty for your workshop - add firms / drivers there first.</div>';
-  return h + '<div class="pf">' +
+  var dup = isDupF(r[12]);
+  return h.replace('<div class="pc', '<div class="pc' + (dup ? ' isdup' : '')) + '<div class="pf">' +
     '<div class="full"><label>Issued to firm</label><select data-f="12">' + optList(firmsOf(ws), r[12], PH_F) + '</select></div>' +
-    '<div><label>Driver</label><select data-f="14">' + optList(driversOf(ws, r[12]), r[14], PH_D) + '</select></div>' +
-    '<div><label>Driver mobile</label><div class="mob" data-mob data-v="' + esc(r[15]) + '">' + mobHtml(r[15]) + '</div></div>' +
+    '<div class="nodup"><label>Driver</label><select data-f="14">' + optList(driversOf(ws, r[12]), r[14], PH_D) + '</select></div>' +
+    '<div class="nodup"><label>Driver mobile</label><div class="mob" data-mob data-v="' + esc(r[15]) + '">' + mobHtml(r[15]) + '</div></div>' +
+    '<div class="dupf"><label>JE name (D)</label><input type="text" data-dn maxlength="60" value="' + esc(dup && r[14] !== 'JE(D)' ? r[14] : '') + '" placeholder="Type the name" autocomplete="off"></div>' +
+    '<div class="dupf"><label>JE mobile</label><input type="text" data-dm inputmode="numeric" maxlength="13" value="' + esc(dup ? r[15] : '') + '" placeholder="10 digit mobile" autocomplete="off"></div>' +
     dateBox('Issue date', 13, r[13], LMODE === 'issue') + dateBox('Replacement date', 16, r[16], LMODE === 'rep') + (LMODE === 'ret' ? dateBox('Return date', 18, r[18], true) : '') +
     '<div class="full"><label>Remark (reason if not replaced / pending)</label><input type="text" data-f="19" class="rmk" maxlength="300" value="' + esc(r[19]) + '" placeholder="e.g. firm has no stock, road blocked..." autocomplete="off"></div>' +
     '</div><div class="pa"><button class="btn sm" data-sv>Save</button><button class="btn sec sm" data-edit="' + gi + '">More fields</button><span class="stx" data-st></span></div></div>';
@@ -1887,6 +1914,7 @@ function pcChange(card, el) {
   var gi = +card.dataset.gi, r = LIST.rows[gi], ws = wsK(r[0]), f = el.dataset.f;
   var fs = card.querySelector('[data-f="12"]'), ds = card.querySelector('[data-f="14"]');
   if (f === '12') {                                        // firm chosen -> driver list of that firm
+    card.classList.toggle('isdup', isDupF(fs.value));          // wrong / duplicate PR: no dates, name and mobile are typed
     var list = driversOf(ws, fs.value), cur = ds.value;
     var keep = cur && list.some(function (x) { return nk(x) === nk(cur); });
     var nd = keep ? cur : (fs.value && list.length === 1 ? list[0] : '');
@@ -1917,10 +1945,13 @@ function pcSave(card) {
   if (card._busy) { card._again = true; return; }
   var gi = +card.dataset.gi, r = LIST.rows[gi], st = card.querySelector('[data-st]'), btn = card.querySelector('[data-sv]'), vals = {}, n = 0;
   function put(c, v) { v = v == null ? '' : v; if (v !== r[c]) { vals[c] = v; n++; } }
-  put(12, card.querySelector('[data-f="12"]').value); put(14, card.querySelector('[data-f="14"]').value); put(15, card.querySelector('[data-mob]').dataset.v || '');
+  var isd = card.classList.contains('isdup');
+  put(12, card.querySelector('[data-f="12"]').value);
+  if (isd) { put(14, card.querySelector('[data-dn]').value.trim()); put(15, card.querySelector('[data-dm]').value.replace(/[^\d]/g, '').slice(-10)); [13, 16, 17, 18].forEach(function (c) { put(c, ''); }); }
+  else { put(14, card.querySelector('[data-f="14"]').value); put(15, card.querySelector('[data-mob]').dataset.v || ''); }
   var rk = card.querySelector('input[data-f="19"]'); if (rk) put(19, rk.value.trim());
   var badD = false;
-  [13, 16, 18].forEach(function (c) { var el = card.querySelector('input[data-f="' + c + '"]'); if (!el) return; var dv = normDate(el.value.trim()); if (dv && !validD(dv)) { badD = true; return; } put(c, dv); });
+  if (!isd) [13, 16, 18].forEach(function (c) { var el = card.querySelector('input[data-f="' + c + '"]'); if (!el) return; var dv = normDate(el.value.trim()); if (dv && !validD(dv)) { badD = true; return; } put(c, dv); });
   if (badD) { st.className = 'stx bad'; st.textContent = 'Enter the date as DD.MM.YYYY'; return; }
   if (!n) { st.className = 'stx ok'; st.textContent = '\u2713 Saved'; btn.textContent = 'Saved'; return; }
   card._busy = true; st.className = 'stx'; st.textContent = 'Saving...'; btn.disabled = true;
@@ -1934,6 +1965,7 @@ function pcSave(card) {
 $('lcards').addEventListener('change', function (e) { var el = e.target, card = el.closest && el.closest('.pc'); if (card && el.dataset.f) pcChange(card, el); });
 $('lcards').addEventListener('input', function (e) {
   var el = e.target, card = el.closest && el.closest('.pc');
+  if (card && (el.hasAttribute('data-dn') || el.hasAttribute('data-dm'))) { var s1 = card.querySelector('[data-st]'); s1.className = 'stx'; s1.textContent = 'Unsaved...'; clearTimeout(card._t); card._t = setTimeout(function () { pcSave(card); }, 1200); return; }
   if (card && el.classList.contains('rmk')) { var s0 = card.querySelector('[data-st]'); s0.className = 'stx'; s0.textContent = 'Unsaved...'; clearTimeout(card._t); card._t = setTimeout(function () { pcSave(card); }, 1200); return; }
   if (card && el.classList.contains('pd') && /^\d{2}\.\d{2}\.\d{4}$/.test(el.value)) pcChange(card, el);
   else if (card && el.classList.contains('pd')) { var st = card.querySelector('[data-st]'); st.className = 'stx'; st.textContent = el.value ? 'Typing...' : ''; }
@@ -1959,8 +1991,10 @@ function openEdit(i) {
   $('efields').innerHTML = h; $('eov').classList.remove('hide');
   // firm -> driver -> mobile also work inside this form
   var f = $('ef12'), d = $('ef14'), m = $('ef15'), ws = wsK(r[0]);
+  function edDup() { var on = !!f && isDupF(f.value); DUP_COLS.forEach(function (c) { var e = $('ef' + c); if (e) { e.disabled = on; if (on) e.value = ''; } }); if (on) { f.value = 'DUPLICATE/WRONG PR'; if (d && d.value === 'JE(D)') d.value = ''; } }
+  if (f) { f.addEventListener('input', edDup); f.addEventListener('change', edDup); } edDup();
   if (f) f.onfocus = function () { $('gdl').innerHTML = optHtml(firmsOf(ws)); };
-  if (d) { d.onfocus = function () { $('gdl').innerHTML = optHtml(driversOf(ws, f.value)); }; d.onchange = function () { var x = findDriver(ws, f.value, d.value); if (x) { if (m) m.value = x.mobile; if (f && !f.value.trim()) f.value = x.firm; } }; }
+  if (d) { d.onfocus = function () { $('gdl').innerHTML = optHtml(driversOf(ws, f.value)); }; d.onchange = function () { var x = isDupF(f.value) ? null : findDriver(ws, f.value, d.value); if (x) { if (m) m.value = x.mobile; if (f && !f.value.trim()) f.value = x.firm; } }; }
 }
 var eT = null, eBusy = false, eAgain = false, eClose = false, eDirty = false, eChanged = false;
 function eFlushClose() {
@@ -2061,7 +2095,7 @@ function makeGrid(cfg) {
     g.view.forEach(function (ri, vi) {
       var r = g.rows[ri];
       h += '<tr data-vi="' + vi + '"' + (r.d ? ' class="dirty"' : '') + '><td class="ix">' + (vi + 1) + '</td>';
-      for (var c = 0; c < NCOL; c++) h += '<td class="gc' + (badCell(r, c) ? ' bad' : '') + '" data-c="' + c + '">' + esc(r.v[c]) + '</td>';
+      for (var c = 0; c < NCOL; c++) h += '<td class="gc' + (badCell(r, c) ? ' bad' : '') + (cfg.lock && cfg.lock(r, c) ? ' lk' : '') + '" data-c="' + c + '">' + esc(r.v[c]) + '</td>';
       h += '</tr>';
     });
     T.innerHTML = h + '</tbody>'; g.selEls = [];
@@ -2074,6 +2108,10 @@ function makeGrid(cfg) {
     $(cfg.p + 'info').innerHTML = (cfg.infoText ? cfg.infoText(g) : g.view.length + ' rows') + (g.trunc ? ' &nbsp;|&nbsp; <b>showing the first ' + cfg.cap + ' of ' + g.trunc + ' - use the date or search to narrow down</b>' : '') +
       (n ? ' &nbsp;|&nbsp; <b style="color:var(--warn)">' + n + (cfg.auto ? ' row(s) pending - saving automatically' : ' rows changed - press Save') + '</b>' : '');
   }
+  g.info = info;
+  var navEl = cfg.nav ? $(cfg.nav) : null, navBase = navEl ? navEl.textContent : '';
+  var info0 = info;
+  info = function () { info0(); if (navEl) { var n = g.rows.filter(pend).length; navEl.textContent = navBase + (g.saving ? ' (saving...)' : n ? ' (' + n + ' pending)' : ''); navEl.classList.toggle('navpend', !!(g.saving || n)); } };
   g.info = info;
   g.pending = function () { return g.rows.filter(pend).length; };
   g.exportRows = function () { return g.view.map(function (ri) { return g.rows[ri]; }).filter(function (r) { return !(r.n && blank(r.v)); }).map(function (r) { return r.v.slice(); }); };
@@ -2100,18 +2138,18 @@ function makeGrid(cfg) {
   function beginBatch() { if (!g.batch) g.batch = []; }
   function endBatch() { if (g.batch && g.batch.length) { g.undo.push(g.batch); if (g.undo.length > 100) g.undo.shift(); } g.batch = null; }
   g.setCell = function (ri, c, val) {
-    var r = g.rows[ri]; val = isDate(c) ? normDate(val) : String(val == null ? '' : val).replace(/[\r\n\t]+/g, ' ').trim();
+    var r = g.rows[ri]; if (cfg.lock && cfg.lock(r, c)) return false; val = isDate(c) ? normDate(val) : String(val == null ? '' : val).replace(/[\r\n\t]+/g, ' ').trim();
     if (isMob(c) && val !== '') { var mc = cleanMob(val); if (mc !== null) val = mc; }      // 10 digit; +91 / space hata do
     if (r.v[c] === val) return false;
     r.ver = (r.ver || 0) + 1;
     if (g.batch) g.batch.push({ ri: ri, c: c, old: r.v[c], oldD: r.d });
-    r.v[c] = val; r.d = true; return true;
+    r.v[c] = val; r.d = true; if (cfg.onSet) cfg.onSet(r, c, val); return true;
   };
   function touch(ri) { if (cfg.touch) cfg.touch(g, ri); }
   function refreshRow(vi) {
     var tr = T.tBodies[0].rows[vi]; if (!tr) return; var r = g.rows[g.view[vi]];
     tr.classList.toggle('dirty', !!r.d);
-    for (var c = 0; c < NCOL; c++) { var td = tr.cells[c + 1]; if (td && !td.classList.contains('ed')) { if (td.textContent !== r.v[c]) td.textContent = r.v[c]; td.classList.toggle('bad', badCell(r, c)); } }
+    for (var c = 0; c < NCOL; c++) { var td = tr.cells[c + 1]; if (td && !td.classList.contains('ed')) { if (td.textContent !== r.v[c]) td.textContent = r.v[c]; td.classList.toggle('bad', badCell(r, c)); td.classList.toggle('lk', !!(cfg.lock && cfg.lock(r, c))); } }
   }
   g.undoLast = function () {
     var b = g.undo.pop(); if (!b) return;
@@ -2123,6 +2161,7 @@ function makeGrid(cfg) {
     if (!g.canEdit || !g.sel || g.ed) return;
     var p = g.sel.a, td = tdAt(p.vi, p.c); if (!td) return;
     var ri = g.view[p.vi], r = g.rows[ri], inp = document.createElement('input');
+    if (cfg.lock && cfg.lock(r, p.c)) return;
     inp.className = 'cin'; inp.type = 'text'; inp.value = clear ? '' : r.v[p.c]; inp.autocomplete = 'off';
     if (isDate(p.c)) { inp.inputMode = 'numeric'; inp.placeholder = 'DD.MM.YYYY'; inp.maxLength = 10; inp.addEventListener('input', function () { if (/^[\d.]*$/.test(inp.value)) { var f = dotFmt(inp.value); if (f !== inp.value) inp.value = f; } }); }
     else if (isMob(p.c)) { inp.inputMode = 'numeric'; inp.placeholder = '10 digit'; }
@@ -2298,6 +2337,21 @@ function makeGrid(cfg) {
   };
   /* ----- automatic save (a moment after the last edit) ----- */
   g.queueAuto = function () { if (!cfg.auto || !g.canEdit) return; clearTimeout(g.at); g.at = setTimeout(g.autoSave, 600); };
+  // a save that fails because the server is busy / the network dropped is tried again by itself (2, 4, 8, 15 seconds)
+  function saveRetry(part) {
+    var tries = 0;
+    function go() {
+      return cfg.save(part).catch(function (e) {
+        var m = String((e && e.message) || e);
+        if (tries < 4 && /lock|timeout|timed out|busy|too many|fetch|network|load failed|unavailable|try again|quota|invoked/i.test(m) && !/SESSION|MUSTCHANGE|expired/i.test(m)) {
+          tries++; msg(cfg.p + 'msg', 'The server is busy - trying again (' + tries + '/4)... your data stays here and is saved automatically.', 'info');
+          return new Promise(function (ok) { setTimeout(ok, [2000, 4000, 8000, 15000][tries - 1]); }).then(go);
+        }
+        throw e;
+      });
+    }
+    return go();
+  }
   g.autoSave = function () {
     if (!cfg.auto) return;
     if (g.ed || g.saving) { g.again = true; if (!g.saving) g.queueAuto(); return; }
@@ -2314,11 +2368,12 @@ function makeGrid(cfg) {
     if (!idx.length) { if (wait) msg(cfg.p + 'msg', 'Not saved yet - ' + esc(first) + (wait > 1 ? ' (+' + (wait - 1) + ' more)' : ''), 'info'); return; }
     var sent = idx.map(function (i) { return { i: i, ver: g.rows[i].ver, v: g.rows[i].v.slice() }; });
     var items = idx.map(function (i) { return { k: g.rows[i].k, id: g.rows[i].k, r: g.rows[i].v, o: g.rows[i].o }; });
-    g.saving = true; msg(cfg.p + 'msg', 'Saving...', 'info');
+    g.saving = true; clearTimeout(g.rt); msg(cfg.p + 'msg', 'Saving...', 'info'); info();
     var tot = { updated: 0, added: 0, same: 0, skipped: 0, notes: [], bad: [], rows: {} }, p = Promise.resolve();
-    for (var s0 = 0; s0 < items.length; s0 += 250) (function (a, part) {
-      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes || []); (r.bad || []).forEach(function (b) { tot.bad.push(a + b); }); for (var k in (r.rows || {})) tot.rows[a + +k] = r.rows[k]; }); });
-    })(s0, items.slice(s0, s0 + 250));
+    var CHK = items.length > 2000 ? 1000 : 250;                 // a big paste is sent in bigger parts (fewer round trips to Google)
+    for (var s0 = 0; s0 < items.length; s0 += CHK) (function (a, part) {
+      p = p.then(function () { if (items.length > CHK) msg(cfg.p + 'msg', 'Saving... ' + Math.min(a, items.length) + ' of ' + items.length + ' rows. Please keep this page open.', 'info'); return saveRetry(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes || []); (r.bad || []).forEach(function (b) { tot.bad.push(a + b); }); for (var k in (r.rows || {})) tot.rows[a + +k] = r.rows[k]; }); });
+    })(s0, items.slice(s0, s0 + CHK));
     p.then(function () {
       g.saving = false;
       sent.forEach(function (s, n) {
@@ -2338,7 +2393,12 @@ function makeGrid(cfg) {
         if (extraNote) $(cfg.p + 'msg').firstChild.insertAdjacentHTML('beforeend', '<br><span class="muted">' + extraNote + '</span>');
       }
       if (g.manual) { g.manual = false; g.save(); } else if (g.again) { g.again = false; g.queueAuto(); }
-    }).catch(function (e) { g.saving = false; g.manual = false; msg(cfg.p + 'msg', esc(e.message) + ' - press Save to retry', 'err'); });
+    }).catch(function (e) {
+      g.saving = false; g.manual = false; info();
+      msg(cfg.p + 'msg', esc(e.message) + ' <button class="btn sm" id="' + cfg.p + 'retry">Retry now</button><div class="muted" style="margin-top:4px">Your rows are still here. The app will try again by itself in 1 minute.</div>', 'err');
+      var rb = $(cfg.p + 'retry'); if (rb) rb.onclick = function () { clearTimeout(g.rt); g.autoSave(); };
+      clearTimeout(g.rt); g.rt = setTimeout(function () { g.autoSave(); }, 60000);
+    });
   };
   g.save = function () {
     clearTimeout(g.at);
@@ -2358,7 +2418,7 @@ function makeGrid(cfg) {
     var b = $(cfg.p + 'save'); busy(b, true, 'Saving...'); msg(cfg.p + 'msg', ''); g.saving = true;
     var p = Promise.resolve();
     for (var s0 = 0; s0 < items.length; s0 += 250) (function (part) {
-      p = p.then(function () { return cfg.save(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes); }); });
+      p = p.then(function () { return saveRetry(part).then(function (r) { tot.added += r.added; tot.updated += r.updated; tot.same += r.same || 0; tot.skipped += r.skipped; tot.notes = tot.notes.concat(r.notes); }); });
     })(items.slice(s0, s0 + 250));
     p.then(function () {
       busy(b, false); g.saving = false;
@@ -2382,7 +2442,9 @@ function makeGrid(cfg) {
 /* ---------- Data Sheet (date wise) ---------- */
 function dsel() { var d = $('dd').value.trim(); return validD(d) ? d : ''; }
 var D = makeGrid({
-  p: 'd', cols: COLS, dateCols: DATE_IDX, mobCols: [11, 15], skipFirst: function (row) { return !wsK(row[0]) && !!wsK(row[1]); }, auto: true, wsCol: 0, hasWs: true, q: true, cap: 500, blankRows: 30, addRows: 50, ixLabel: '#',
+  nav: 'tdata', p: 'd', cols: COLS, dateCols: DATE_IDX, mobCols: [11, 15], skipFirst: function (row) { return !wsK(row[0]) && !!wsK(row[1]); }, auto: true, wsCol: 0, hasWs: true, q: true, cap: 500, blankRows: 30, addRows: 50, ixLabel: '#',
+  lock: function (r, c) { return DUP_COLS.indexOf(c) >= 0 && isDupF(r.v[12]); },
+  onSet: function (r, c) { if (c === 12 && isDupF(r.v[12])) { r.v[12] = 'DUPLICATE/WRONG PR'; DUP_COLS.forEach(function (x) { r.v[x] = ''; }); } },
   keyOf: function (r) { return wsK(r.v[0]) + '|' + r.v[8]; },
   fromServer: function (a) { return { k: wsK(a[0]) + '|' + a[8], v: a.slice(0, NC), d: false, n: false }; },
   match: function (r) { if ($('dall').checked) return true; var d = dsel(); return !d || r.v[9] === d; },
@@ -2408,7 +2470,7 @@ var D = makeGrid({
   },
   after: function (g, ri, c, how) {  // choosing a driver fills the mobile number (and the firm if it was empty)
     var r = g.rows[ri], ws = wsK(r.v[0]) || g.one;
-    if (c === 14 && r.v[14]) {
+    if (c === 14 && r.v[14] && !isDupF(r.v[12])) {      // wrong / duplicate PR: name and mobile are typed, never filled automatically
       var x = findDriver(ws, r.v[12], r.v[14]);
       if (x) { g.setCell(ri, 15, x.mobile); if (!r.v[12]) g.setCell(ri, 12, x.firm); }
     }
@@ -2477,7 +2539,7 @@ $('dall').onchange = function () { reloadDay(); };
 
 /* ---------- Driver Master ---------- */
 var M = makeGrid({
-  p: 'm', cols: DCOLS, mobCols: [3], auto: true, wsCol: 1, hasWs: true, q: true, cap: 3000, blankRows: 20, addRows: 20, ixLabel: 'SL NO',
+  nav: 'tdrv', p: 'm', cols: DCOLS, mobCols: [3], auto: true, wsCol: 1, hasWs: true, q: true, cap: 3000, blankRows: 20, addRows: 20, ixLabel: 'SL NO',
   recToV: function (rec) { return rec.slice(1, 7); }, recKey: function (rec) { return rec[0]; }, afterAuto: function () { loadDM(); },
   alias: { 'FIRM': 0, 'WORKSHOPNAME': 1, 'DRIVER': 2, 'MOBILE': 3, 'MOBILENO': 3, 'MOBILENUMBER': 3, 'GPSURL': 4, 'VEHICLEGPSURL': 4, 'VEHICALENO': 5, 'VEHICLENO': 5, 'VEHICLENUMBER': 5 },
   fromServer: function (a) { return { k: a[0], v: a.slice(1, 7), d: false, n: false }; },
