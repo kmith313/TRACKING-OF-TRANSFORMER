@@ -1250,7 +1250,8 @@ function cclear(part) { try { for (var i = localStorage.length - 1; i >= 0; i--)
 var SKH = '<div class="skg"><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i><i class="sk"></i></div><div class="sk skb"></div><div class="sk skb"></div>';
 function call(fn) {
   var args = [].slice.call(arguments, 1), url = window.TT_API_URL || '';
-  if (/^(save|delete|admin|changePassword)/.test(fn)) cclear();          // data is about to change: old saved copies are no longer valid
+  if (/^(saveRecord|saveGrid|saveRows|deleteRecord)$/.test(fn)) cclear('data|');   // a record is saved: the old Summary / Comparison stay on screen (dimmed) and are refreshed in the background; only the saved Data lists are dropped
+  else if (/^(save|delete|admin|changePassword)/.test(fn)) cclear();          // other changes (users, kitty, password ...): old saved copies are no longer valid
   return new Promise(function (res, rej) {
     function fail(m) {
       m = String(m || '').replace(/^Error:\s*/, '');
@@ -1580,7 +1581,7 @@ function loadSummary() {
   var key = 'sum|' + p.date + '|' + p.from + '|' + p.to, c = cget(key), seq = ++SSEQ, b = $('sbtn'); msg('smsg', '');
   var DH = !!(ME && ME.dh), okc = c && (DH ? c.divs : c.top), rend = DH ? renderDiscom : renderSummary;
   if (okc && SKIPKEY === key) { SKIPKEY = ''; SUM = c; rend(c, false); $('sout').classList.remove('stale'); return Promise.resolve(); }
-  if (okc) { SUM = c; rend(c, true); $('sout').classList.add('stale'); }
+  if (okc) { SUM = c; rend(c, true); $('sout').classList.add('stale'); if (!b.disabled) busy(b, true, 'Updating...'); }      // the last Summary is shown at once, the new one replaces it when it arrives
   else { busy(b, true, 'Loading...'); $('sout').classList.remove('stale'); $('sout').innerHTML = SKH; }
   return call(DH ? 'getDiscomSummary' : 'getSummary', TOKEN, p).then(function (s) {
     if (seq !== SSEQ) return; cset(key, s); busy(b, false); SUM = s; rend(s, !!okc); $('sout').classList.remove('stale');
