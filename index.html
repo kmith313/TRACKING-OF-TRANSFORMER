@@ -415,7 +415,7 @@ td.dp{background:#fff8dc}.wt.dp{background:#fff3c4}:is(#sout,.soutp) .wt.dp{back
 :is(#sout,.soutp) .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
 :is(#sout,.soutp) .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
 :is(#sout,.soutp) .card>h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--acc,var(--pri))}
-:is(#sout,.soutp) .wcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+:is(#sout,.soutp) .wcs{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:920px}
 :is(#sout,.soutp) .wc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 22px rgba(40,60,120,.12),inset 0 0 0 1px rgba(60,80,140,.08);animation:rise .6s both;animation-delay:calc(var(--i,0)*90ms + .2s);--wa:#4c6ef5;--wb:#7c9dff}
 :is(#sout,.soutp) .wc.w1{--wa:#0c9a9a;--wb:#4fd1c5}:is(#sout,.soutp) .wc.w2{--wa:#e8890c;--wb:#ffc06b}:is(#sout,.soutp) .wc.wt0{--wa:#1f2a52;--wb:#4c5fb0}
 :is(#sout,.soutp) .wh{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:linear-gradient(100deg,var(--wa),var(--wb));color:#fff}
@@ -679,6 +679,8 @@ details.opt .ot::after{content:" \25BE";font-size:12px}
 details.opt[open] .ot{font-size:0}details.opt[open] .ot::after{content:"\25B4 hide";font-size:10.5px}
 details.opt>.wrap{padding:0 10px 8px}
 details.opt>.lg{padding:0 10px 8px}
+details.opt>.pdbody{padding:0 10px 8px}
+.pdh{display:none}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
 .seg button{border:0;background:transparent;padding:7px 11px;font-size:12px;font-weight:700;color:var(--mut);cursor:pointer;white-space:nowrap}
 .seg button.on{background:var(--pri);color:#fff}
@@ -795,6 +797,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
   #pz .soutp td.l,#pz .soutp th.l{min-width:0;max-width:none}
   #pz .soutp .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
   #pz .soutp details>summary{display:none}
+  #pz .soutp .pdh{display:block;margin:6px 0}
   #pz .soutp .kx{grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin-bottom:6px}
   #pz .soutp .kxt{padding:5px 6px;border-radius:6px;box-shadow:none;border:1px solid #c9d1e6;background:#fff}
   #pz .soutp .kxt .kv{font-size:15px}#pz .soutp .kxt .kl{font-size:7px;margin-top:2px}#pz .soutp .kxt .ki{display:none}
@@ -978,7 +981,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
         <div class="bar sbar">
           <div><label>From</label><div class="dt"><input type="text" class="dtx" id="cf" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="cf"></span></div></div>
           <div><label>To</label><div class="dt"><input type="text" class="dtx" id="ct" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="ct"></span></div></div>
-          <div class="cmw"><label>Compare</label><div class="seg" id="cmode"><button data-m="div" class="on">Division wise</button><button data-m="sub">Substation wise</button><button data-m="day">Day wise</button></div></div>
+          <div class="cmw"><label>Compare</label><div class="seg" id="cmode"><button data-m="div" class="on">Division wise</button><button data-m="day">Day wise</button></div></div>
           <div class="cdw"><label>Division</label><select id="cdiv"><option value="">All Divisions</option></select></div>
           <button class="btn" id="cbtn">Compare</button><button class="btn sec" id="cxl">&#11015; Excel</button><button class="btn sec" id="cpr">Print</button>
         </div>
@@ -1026,7 +1029,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
           <span class="lbl">From</span><div class="dt"><input type="text" class="dtx" id="dfrom" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="dfrom"></span></div>
           <span class="lbl">To</span><div class="dt"><input type="text" class="dtx" id="dto" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="dto"></span></div>
           <select id="dbasis" style="width:auto"><option value="any">Any date (PR / Issue / Replacement)</option><option value="pr">PR date</option><option value="issue">Issue date</option><option value="rep">Replacement date</option></select>
-          <button class="btn sm" id="ddl">&#11015; Download Excel</button><span class="muted">Includes archived data (2 years+).</span>
+          <button class="btn sm" id="ddl">&#11015; Download Excel</button><span class="muted">Includes archived data (earlier financial years).</span>
         </div>
         <div class="helpbox" id="dhelp"></div>
         <div id="dmsg"></div>
@@ -1122,8 +1125,10 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
       <div class="apane hide" data-as="mt">
         <div class="card acard"><h3>Maintenance</h3>
-          <div class="muted">Data check: shows problems in the sheet (changes nothing). Archive: moves completed records older than 2 years to the ARCHIVE tab (keeps the sheet light).</div>
-          <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button></div>
+          <div class="muted">Data check: shows problems in the sheet (changes nothing). Archive: moves finished records of earlier months to the ARCHIVE tab (1 record = 1 cell).</div>
+          <div class="muted" style="margin-top:6px"><b>Convert (monthly mode):</b> the DATA tab keeps only the <b>current + previous month</b> and every unfinished record (pending for issue / replacement / return). Everything older goes to ARCHIVE and a monthly summary (STATS) is built so last year's comparison stays fast. After that, a new month starts automatically at the first login. A backup copy of DATA is kept in a hidden tab. Do it once, while nobody is entering data (takes 1-2 minutes).</div>
+          <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button><button class="btn" id="mconv">Convert to monthly mode</button></div>
+          <div class="muted" id="mconvst"></div>
           <div id="amsg"></div>
         </div>
       </div>
@@ -1593,7 +1598,7 @@ function N(v, spec, title) {
   spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + v + '</a>';
 }
 function LK(label, spec, title) { spec.t = title; return '<a class="n" data-s=\'' + esc(JSON.stringify(spec)).replace(/'/g, '&#39;') + '\'>' + label + '</a>'; }
-var DVOPEN = { div: false, dc: false };
+var DVOPEN = { div: false, dc: false, pd: false };
 document.addEventListener('toggle', function (e) { var o = e.target && e.target.dataset && e.target.dataset.o; if (o) DVOPEN[o] = e.target.open; }, true);
 var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN', 'WRONG / DUPLICATE PR'];
 var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return', 'Wrong / dup. PR'];
@@ -1633,7 +1638,6 @@ function renderSummary(s, quiet) {
   h += '</table></div></details>';
 
   h += capAll(s);
-  h += divCapTable(s);
   var o = $('sout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
   if (!quiet && !(window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches)) o.querySelectorAll('.kxt .kv a.n').forEach(function (el) {   // numbers count up
     var to = +el.textContent; if (!to || to > 99999) return; var t0 = performance.now();
@@ -1655,13 +1659,14 @@ function pendTable(name, caps, rows, ws) {
   return h + '<tr class="t"><td class="l">TOTAL</td>' + tot.map(function (v, i) { return '<td>' + N(v, S({ metric: 9, ws: ws, caps: [caps[i]] }), name + ' - ' + capLbl(caps[i]) + ' kVA - pending for issue') + '</td>'; }).join('') + '<td><b>' + N(all, S({ metric: 9, ws: ws }), name + ' - pending for issue') + '</b></td></tr></tbody></table></div>';
 }
 function renderPend(s) {
-  var caps = s.caps, P = s.pend || [], h = '<div class="card k-pd"><h3>Pending for issue - date wise <span class="muted" style="text-transform:none">(PR raised, transformer not issued yet &middot; till ' + esc(s.to) + ')</span></h3>';
+  var caps = s.caps, P = s.pend || [], ttl = 'Pending for issue - date wise <span class="muted" style="text-transform:none">(PR raised, transformer not issued yet &middot; till ' + esc(s.to) + ')</span>';
+  var h = '<details class="card k-pd opt" data-o="pd"' + (DVOPEN.pd ? ' open' : '') + '><summary><span class="oi">&#9203;</span><h3>' + ttl + '</h3><span class="ot">tap to open</span></summary><div class="pdbody"><h3 class="pdh">' + ttl + '</h3>';
   if (ME && ME.admin && P.length > 1) {
     var m = {}; P.forEach(function (w) { w.rows.forEach(function (r) { var o = m[r.k] || (m[r.k] = { k: r.k, date: r.date, v: caps.map(function () { return 0; }) }); r.v.forEach(function (v, i) { o.v[i] += v; }); }); });
     h += '<div class="pdw">' + pendTable('ALL WORKSHOPS', caps, Object.keys(m).map(Number).sort(function (a, b) { return a - b; }).map(function (k) { return m[k]; }), '') + '</div>';
   }
   P.forEach(function (w) { h += '<div class="pdw">' + pendTable(w.ws, caps, w.rows, w.ws) + '</div>'; });
-  return h + '</div>';
+  return h + '</div></details>';
 }
 /* ---------- DISCOM head: workshop division wise summary ---------- */
 function shortDiv(n) { return String(n).replace(/^EWD[\s.\-]*/i, '') || n; }
@@ -3356,6 +3361,7 @@ function loadAdminInfo() {
   bkInfo();
   call('adminInfo', TOKEN).then(function (r) {
     ADM = r; $('lk-sheet').href = r.sheet;
+    if ($('mconvst')) { $('mconvst').textContent = r.conv ? 'Monthly mode is ON (last month roll: ' + (r.ym || '-') + ').' : 'Monthly mode is OFF - press Convert once.'; }
     r.userLink = location.origin + location.pathname; $('lk-copy').classList.remove('hide');
     $('wslist').innerHTML = r.workshops.map(function (w, i) { return '<div class="wsrow"><b>' + esc(w) + '</b><button class="btn sec sm" data-wr="' + i + '">Rename</button><button class="btn sec sm danger" data-wd="' + i + '">Delete</button></div>'; }).join('');
     $('wslist').querySelectorAll('[data-wr]').forEach(function (b) { b.onclick = function () { wsRename(r.workshops[+b.dataset.wr]); }; });
@@ -3436,9 +3442,17 @@ $('mchk').onclick = function () {
   call('adminHealth', TOKEN).then(function (l) { busy(b, false); msg('amsg', l.map(esc).join('<br>'), 'info'); }).catch(function (e) { busy(b, false); msg('amsg', esc(e.message), 'err'); });
 };
 $('marc').onclick = function () {
-  if (!confirm('Records older than 2 years (issued and replaced) will be moved to the ARCHIVE tab. Continue?')) return;
+  if (!confirm('Finished records (returned / wrong PR) of earlier periods will be moved to the ARCHIVE tab. Pending records stay. Make sure a backup exists. Continue?')) return;
   var b = $('marc'); msg('amsg', ''); busy(b, true, 'Archive...');
   call('adminArchive', TOKEN).then(function (n) { busy(b, false); msg('amsg', n ? n + ' old records were moved to ARCHIVE.' : 'No old data eligible for archiving was found.', 'ok'); }).catch(function (e) { busy(b, false); msg('amsg', esc(e.message), 'err'); });
+};
+$('mconv').onclick = function () {
+  if (!confirm('Convert to monthly mode?\n\nDATA will keep only the current + previous month and all unfinished records. Older finished records go to ARCHIVE. A backup copy of DATA is saved in a hidden tab.\nIt can take 1-2 minutes. Nobody should enter data meanwhile. Continue?')) return;
+  var b = $('mconv'); msg('amsg', ''); busy(b, true, 'Converting... please wait');
+  call('adminConvert', TOKEN).then(function (r) {
+    busy(b, false); $('mconvst').textContent = 'Monthly mode is ON.';
+    msg('amsg', 'Done. ' + r.moved + ' records moved to ARCHIVE. DATA now has ' + r.hot + ' rows. Backup tab: ' + esc(r.backup) + ' (you may delete it later).', 'ok');
+  }).catch(function (e) { busy(b, false); msg('amsg', esc(e.message), 'err'); });
 };
 
 /* ---------- start: saved sheet / ?s= link / old session ---------- */

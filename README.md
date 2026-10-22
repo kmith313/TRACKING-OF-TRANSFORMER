@@ -176,3 +176,19 @@ A paste of thousands of rows is saved in parts of 1000 rows with a progress line
 ## Background saving
 
 Switching tabs never asks for confirmation: pasted rows keep saving in the background. The Data Sheet / Driver Master tab button shows *(saving...)* or *(N pending)*. If the server is busy or the network drops, the save is retried automatically (2, 4, 8, 15 seconds); if it still fails the tab shows the error with a **Retry now** button and the app tries again after 1 minute. The browser warns only when the whole page is being closed while rows are unsaved.
+
+## Financial year (April-March) archive + faster saving
+- The **DATA** tab is meant to hold only the **current financial year** (1 April - 31 March) plus every record that is not finished yet. Finished records of earlier financial years (wrong PR, or RETURN DATE entered) go to **ARCHIVE** (Admin > Maintenance > *Archive*; run it once after 1 April each year, after taking a backup). Records that are replaced but never returned stay in DATA (they count in "Pending for return") and move only after 2 years.
+- Summary / Excel download / Comparison read the ARCHIVE automatically when a date range goes before 1 April. DISCOM head Summary / Comparison do the same.
+- Public complaint status search covers the DATA tab only: finished complaints of earlier financial years are no longer found after archiving.
+- To go back to the old rule (2 years) set `var ARCH_FY = false;` in Code.gs.
+- Saving a cell change in the Data Sheet (driver, firm, dates, remark ...) now patches the cached index instead of discarding it, so the next "Loading data..." no longer re-reads the whole sheet. Adding / deleting rows or changing workshop, division, substation, capacity or PR NO still rebuilds it once.
+- Summary: "Division wise and capacity wise PR" was removed; "Pending for issue - date wise" is a tap-to-open block; workshop cards are shown one below the other. Comparison: "Substation wise" was removed.
+
+
+## Monthly hot/cold data (Convert) + Kitty 1-day-1-cell
+- Admin > Maintenance > **Convert to monthly mode** (once): DATA keeps only the current + previous month and all unfinished records;
+  older finished records go to ARCHIVE (1 record = 1 cell); tab **STATS** keeps month-wise PR counts so last year's comparison needs no big read.
+  A hidden backup tab `DATA_backup_YYYYMMDD` is created (delete it later). At the first login of every new month the previous month is moved automatically.
+- Kitty: new tab **KittyDays** (1 day = 1 cell). The old `KittyDay` tab is copied once on first use and then left untouched.
+- Limits: complaint search and the Data sheet show only the hot DATA; an archived PR returns to DATA if its row is pasted/saved again.
