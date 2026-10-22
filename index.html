@@ -1482,7 +1482,7 @@ function showApp(me) {
   $('tcmp').classList.toggle('hide', !has('comparison')); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
   $('dhbar').classList.add('hide');
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
-  $('cf').value = '01.04.' + (t.getMonth() >= 3 ? t.getFullYear() : t.getFullYear() - 1); $('ct').value = fmt(t);
+  $('cf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('ct').value = fmt(t);          // Comparison opens on the CURRENT MONTH until the user picks other dates
   DTAB = me.dh ? (['sum', 'cmp', 'kit', 'data', 'drv'].filter(function (k) { return !$('t' + k).classList.contains('hide'); })[0] || 'sum') : 'sum';
   showTab(DTAB);
   if (me.must) { MUST = true; openPw(true); } else loadInitial();
@@ -2342,7 +2342,7 @@ function makeGrid(cfg) {
     }).catch(function (er) { msg(cfg.p + 'msg', esc(er.message), 'err'); });
   };
   /* ----- automatic save (a moment after the last edit) ----- */
-  g.queueAuto = function () { if (!cfg.auto || !g.canEdit) return; clearTimeout(g.at); g.at = setTimeout(g.autoSave, 600); };
+  g.queueAuto = function () { if (!cfg.auto || !g.canEdit) return; clearTimeout(g.at); g.at = setTimeout(g.autoSave, 150); };
   // a save that fails because the server is busy / the network dropped is tried again by itself (2, 4, 8, 15 seconds)
   function saveRetry(part) {
     var tries = 0;
