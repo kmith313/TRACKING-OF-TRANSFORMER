@@ -410,12 +410,26 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 :is(#sout,.soutp) .kxt .kl{font-size:10.5px;font-weight:800;color:#5c6785;text-transform:uppercase;letter-spacing:.35px;margin-top:5px}
 .k-pr{--a:#4c6ef5;--k:#e3e9ff}.k-is{--a:#0c9a9a;--k:#d9f4f2}.k-rp{--a:#0f8a5f;--k:#dcf5e8}.k-rt{--a:#7c5cdb;--k:#ece5ff}.k-pi{--a:#e8890c;--k:#ffeacb}.k-pp{--a:#d6336c;--k:#ffe0ea}.k-lm{--a:#64708a;--k:#e6eaf2}.k-pr2{--a:#c2410c;--k:#ffe9d5}.k-td{--a:#1c7ed6;--k:#dcecff}.k-dp{--a:#b45309;--k:#fff3c4}
 .pc .dupf{display:none}.pc.isdup .dupf{display:block}.pc.isdup .nodup,.pc.isdup .dbx{display:none}.pc .dupf input{width:100%;box-sizing:border-box}
-.pdw{margin-top:10px}.pdtb{border-collapse:collapse;width:100%;font-size:13px}.pdtb th,.pdtb td{border:1px solid #e1e6f2;padding:6px 8px;text-align:center}.pdtb th{background:#243061;color:#fff;font-size:11px}.pdtb td.l,.pdtb th.l{text-align:left}.pdtb td.sub{background:#fff1dc}.pdtb tr.t td{background:#e8eefc;font-weight:800}.pdtb a.n{font-weight:700}
+.dkx .k-dp,:is(#sout,.soutp) td.dp,:is(#sout,.soutp) th.dp{display:none!important}
+:is(#sout,.soutp) table.xlt{border-collapse:collapse;width:100%;font-size:13px}
+:is(#sout,.soutp) table.xlt th,:is(#sout,.soutp) table.xlt td{border:1px solid #c9cfdd;padding:6px 8px;text-align:center}
+:is(#sout,.soutp) table.xlt td.l{text-align:left;font-weight:600;white-space:nowrap}
+:is(#sout,.soutp) table.xlt thead th{background:#fff200;color:#111;font-weight:700;font-size:11.5px}
+:is(#sout,.soutp) table.xlt thead th.l{background:#fff200}
+:is(#sout,.soutp) table.xlt thead th.xg1{background:#f4b183;color:#111}
+:is(#sout,.soutp) table.xlt thead th.xg2{background:#fff200;color:#111}
+:is(#sout,.soutp) table.xlt thead th.xdt{text-align:left}
+:is(#sout,.soutp) table.xlt thead a.n{color:#111;text-decoration:underline}
+:is(#sout,.soutp) table.xlt tr.xw td{background:#ffe0a3;font-weight:800}
+:is(#sout,.soutp) table.xlt tr.xo td{background:#fff6e5}
+:is(#sout,.soutp) table.xlt tr.xg td{background:#e2efda;font-weight:800}
+:is(#sout,.soutp) table.xlt tr.xt td{background:#fff200;font-weight:800}
+.pdws{display:block;width:100%;margin-top:10px}.pdtb{border-collapse:collapse;width:100%;font-size:13px}.pdtb th,.pdtb td{border:1px solid #e1e6f2;padding:6px 8px;text-align:center}.pdtb th{background:#243061;color:#fff;font-size:11px}.pdtb td.l,.pdtb th.l{text-align:left}.pdtb td.sub{background:#fff1dc}.pdtb tr.t td{background:#e8eefc;font-weight:800}.pdtb a.n{font-weight:700}
 td.dp{background:#fff8dc}.wt.dp{background:#fff3c4}:is(#sout,.soutp) .wt.dp{background:#fff3c4}:is(#sout,.soutp) td.dp{background:#fff8dc}
 :is(#sout,.soutp) .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
 :is(#sout,.soutp) .card>h3{display:flex;align-items:center;gap:9px;font-size:13px;margin-bottom:12px}
 :is(#sout,.soutp) .card>h3::before{content:"";width:5px;height:18px;border-radius:3px;background:var(--acc,var(--pri))}
-:is(#sout,.soutp) .wcs{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;max-width:920px}
+:is(#sout,.soutp) .wcs{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
 :is(#sout,.soutp) .wc{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 8px 22px rgba(40,60,120,.12),inset 0 0 0 1px rgba(60,80,140,.08);animation:rise .6s both;animation-delay:calc(var(--i,0)*90ms + .2s);--wa:#4c6ef5;--wb:#7c9dff}
 :is(#sout,.soutp) .wc.w1{--wa:#0c9a9a;--wb:#4fd1c5}:is(#sout,.soutp) .wc.w2{--wa:#e8890c;--wb:#ffc06b}:is(#sout,.soutp) .wc.wt0{--wa:#1f2a52;--wb:#4c5fb0}
 :is(#sout,.soutp) .wh{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:linear-gradient(100deg,var(--wa),var(--wb));color:#fff}
@@ -1602,9 +1616,9 @@ var DVOPEN = { div: false, dc: false, pd: false };
 document.addEventListener('toggle', function (e) { var o = e.target && e.target.dataset && e.target.dataset.o; if (o) DVOPEN[o] = e.target.open; }, true);
 var H11 = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT', 'TODAY RETURN', 'TOTAL RETURN', 'TOTAL PENDING FOR RETURN', 'WRONG / DUPLICATE PR'];
 var H11S = ['Last month pendency', 'Today PR', 'Issue vs today PR', 'Repl. vs today PR', 'Today issue', 'Today repl.', 'Total PR', 'Total issue', 'Total repl.', 'Pending for issue', 'Pending for repl.', 'Today return', 'Total return', 'Pending for return', 'Wrong / dup. PR'];
-var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 14, 9, 10, 13];       // column order of the tables
+var ORD_T = [1, 2, 3, 4, 5, 11], ORD_P = [6, 7, 8, 12, 9, 10, 13];       // column order of the tables
 function head11(first, s) {
-  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="7">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
+  return '<tr><th class="l" rowspan="2">' + first + '</th><th rowspan="2">' + LK(H11S[0], S({ metric: 0 }), 'LAST MONTH PENDENCY - all') + '<br><span class="muted">(before ' + s.from + ')</span></th><th class="g1" colspan="6">TODAY (' + s.date + ')</th><th class="g2" colspan="6">TILL TODAY (' + s.from + ' - ' + s.to + ')</th></tr><tr>' +
     ORD_T.concat(ORD_P).map(function (m) { return '<th class="' + (ORD_T.indexOf(m) >= 0 ? 'g1' : 'g2') + '">' + ((m >= 9) ? LK(H11S[m], S({ metric: m }), H11[m] + ' - all') : H11S[m]) + '</th>'; }).join('') + '</tr>';
 }
 function cells11(v, base, name) {
@@ -1617,25 +1631,34 @@ function wcard(label, cls, v, base, name, s, n) {
   var a = pctOf(v[7], v[9]), b = pctOf(v[8], v[10]);
   return '<div class="wc ' + cls + '" style="--i:' + n + '"><div class="wh"><b>' + esc(label) + '</b><span>' + v[6] + ' PR</span></div>' +
     '<div class="wbars"><div class="wbar"><span>Issued</span><u><i style="--w:' + a + '%"></i></u><em>' + a + '%</em></div><div class="wbar r"><span>Replaced</span><u><i style="--w:' + b + '%"></i></u><em>' + b + '%</em></div></div>' +
-    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(14, 'Wrong / dup. PR', ' dp') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + T(13, 'Pending return', ' pw') + '</div>' +
+    '<div class="wsec">Till ' + s.to + ' <small>(from ' + s.from + ')</small></div><div class="wg">' + T(0, 'Last month pend.') + T(6, 'Total PR') + T(7, 'Total issue') + T(8, 'Total repl.') + T(12, 'Total return', ' rt') + T(9, 'Pending issue', ' pw') + T(10, 'Pending repl.', ' pw') + T(13, 'Pending return', ' pw') + '</div>' +
     '<div class="wsec">Today <small>' + s.date + '</small></div><div class="wg">' + T(1, 'Today PR') + T(2, 'Issue vs today PR') + T(3, 'Repl. vs today PR') + T(4, 'Today issue') + T(5, 'Today repl.') + T(11, 'Today return', ' rt') + '</div></div>';
+}
+/* ---- workshop / division tables in the Excel layout: LAST MONTH PENDENCY | TODAY (5) | TILL TODAY (5). Issue, replacement and return are counted PR-wise. ---- */
+var X_T = [1, 2, 3, 4, 5], X_P = [6, 7, 8, 9, 10], X_L = true;          // X_L: the LAST MONTH PENDENCY column is shown only while there is such a pendency
+var X_H = ['LAST MONTH PENDENCY', 'TODAY PR', "ISSUE AGAINST TODAY'S PR", "REPLACEMENT AGAINST TODAY'S PR", 'TODAY ISSUE', 'TODAY REPLACEMENT', 'TOTAL PR', 'TOTAL ISSUE', 'TOTAL REPLACEMENT', 'TOTAL PENDING FOR ISSUE', 'TOTAL PENDING FOR REPLACEMENT'];
+function xtHead(first, s) {
+  return '<thead><tr class="xh1"><th class="l xdt">' + esc(s.date) + '</th>' + (X_L ? '<th></th>' : '') + '<th class="xg1" colspan="5">TODAY</th><th class="xg2" colspan="5">TILL TODAY</th></tr><tr class="xh2"><th class="l">' + first + '</th>' + (X_L ? '<th>' + LK(X_H[0], S({ metric: 0 }), X_H[0] + ' - all') + '<br><span class="muted">(before ' + esc(s.from) + ')</span></th>' : '') +
+    X_T.map(function (m) { return '<th class="xg1">' + X_H[m] + '</th>'; }).join('') +
+    X_P.map(function (m) { return '<th class="xg2">' + (m >= 9 ? LK(X_H[m], S({ metric: m }), X_H[m] + ' - all') : X_H[m]) + '</th>'; }).join('') + '</tr></thead>';
+}
+function xtCells(v, base, name) {
+  return (X_L ? [0] : []).concat(X_T, X_P).map(function (i) { var sp = {}; for (var k in base) sp[k] = base[k]; sp.metric = i; return '<td' + (i === 9 || i === 10 ? ' class="pe"' : '') + '>' + N(v[i], sp, name + ' - ' + X_H[i]) + '</td>'; }).join('');
 }
 function renderSummary(s, quiet) {
   var h = '', tt = s.top.total;
-  var K = [[6, 'Total PR', 'k-pr', '\u26A1'], [7, 'Total issue', 'k-is', '\uD83D\uDCE4'], [8, 'Total replacement', 'k-rp', '\u2705'], [12, 'Total return', 'k-rt', '\u21A9'], [14, 'Wrong / duplicate PR', 'k-dp', '\u26A0'], [9, 'Pending for issue', 'k-pi', '\u23F3'], [10, 'Pending for replacement', 'k-pp', '\uD83D\uDD27'], [0, 'Last month pendency', 'k-lm', '\uD83D\uDCC5'], [13, 'Pending for return', 'k-pr2', '\uD83D\uDCE6']];
-  h += '<div class="kx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + N(tt[k[0]], S({ metric: k[0] }), 'TOTAL - ' + H11[k[0]]) + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
-
   var adm = !!(ME && ME.admin);              // TOTAL is shown only to the admin
-  h += '<div class="card k-ws"><h3>Workshop wise summary</h3><div class="wcs">';
-  s.top.rows.forEach(function (r, i) { h += wcard(r.label, 'w' + (s.wsAll.indexOf(r.ws) % 3), r.v, S({ ws: r.ws }), r.label, s, i); });
-  if (adm) h += wcard('TOTAL', 'wt0', s.top.total, S({}), 'TOTAL', s, s.top.rows.length);
-  h += '</div></div>';
+  X_L = !!(s.top.total && s.top.total[0] > 0);                // no pendency at the start of the period -> the column disappears
+  // 1. workshop wise table  2. division wise table (same layout as the Excel sheet)
+  h += '<div class="card k-ws"><h3>Workshop wise summary</h3><div class="wrap tbl11d"><table class="xlt">' + xtHead('WORKSHOP NAME', s) + '<tbody>';
+  s.top.rows.forEach(function (r) { h += '<tr class="xd"><td class="l">' + esc(r.label) + '</td>' + xtCells(r.v, S({ ws: r.ws }), r.label) + '</tr>'; });
+  if (adm) h += '<tr class="xg"><td class="l">TOTAL</td>' + xtCells(s.top.total, S({}), 'TOTAL') + '</tr>';
+  h += '</tbody></table></div></div>';
+  h += '<div class="card k-div"><h3>Division wise summary</h3><div class="wrap tbl11d"><table class="xlt">' + xtHead('DIVISION', s) + '<tbody>';
+  s.div.rows.forEach(function (r) { h += '<tr class="' + (r.t === 'w' ? 'xw' : r.t === 'o' ? 'xo' : 'xd') + '"><td class="l">' + esc(r.label) + '</td>' + xtCells(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
+  if (adm) h += '<tr class="xt"><td class="l">TOTAL</td>' + xtCells(s.div.total, S({}), 'TOTAL') + '</tr>';
+  h += '</tbody></table></div></div>';
   h += renderPend(s);
-
-  h += '<details class="card k-div opt" data-o="div"' + (DVOPEN.div ? ' open' : '') + '><summary><span class="oi">&#9638;</span><h3>Division wise summary</h3><span class="ot">tap to open</span></summary><div class="wrap tbl11d"><table>' + head11('DIVISION', s);
-  s.div.rows.forEach(function (r) { h += '<tr class="' + r.t + '"><td class="l">' + esc(r.label) + '</td>' + cells11(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
-  if (adm) h += '<tr class="t"><td class="l">TOTAL</td>' + cells11(s.div.total, S({}), 'TOTAL') + '</tr>';
-  h += '</table></div></details>';
 
   h += capAll(s);
   var o = $('sout'); o.classList.toggle('noanim', !!quiet); o.innerHTML = h;
@@ -1647,26 +1670,25 @@ function renderSummary(s, quiet) {
 function isDupF(v) { return /^DUPLICATE\s*\/?\s*WRONG\s*PR\.?$/i.test(String(v || '').replace(/\s+/g, ' ').trim()); }
 var DUP_COLS = [13, 16, 17, 18];       // issue date, replacement date, time, return date: not used for a wrong / duplicate PR
 function capLbl(c) { return c ? c : 'Unknown'; }
-/* Pending for issue: PR date wise x capacity, one table per workshop (a workshop sees its own, the Admin sees all + a combined table) */
-function pendTable(name, caps, rows, ws) {
-  var n = caps.length, tot = caps.map(function () { return 0; }), all = 0;
-  var h = '<div class="wrap tbl11d"><table class="pdtb"><thead><tr><th class="l">' + esc(name) + '</th>' + caps.map(function (c) { return '<th>' + esc(capLbl(c)) + '</th>'; }).join('') + '<th>TOTAL</th></tr></thead><tbody>';
-  rows.forEach(function (r) {
-    var sum = 0; r.v.forEach(function (v, i) { sum += v; tot[i] += v; }); all += sum;
-    h += '<tr><td class="l">' + esc(r.date) + '</td>' + r.v.map(function (v, i) { return '<td>' + N(v, S({ metric: 9, ws: ws, caps: [caps[i]], prd: r.date }), name + ' - ' + r.date + ' - ' + capLbl(caps[i]) + ' kVA - pending for issue') + '</td>'; }).join('') + '<td class="sub"><b>' + N(sum, S({ metric: 9, ws: ws, prd: r.date }), name + ' - ' + r.date + ' - pending for issue') + '</b></td></tr>';
-  });
-  if (!rows.length) return h + '<tr><td class="l muted" colspan="' + (n + 2) + '">No pending PR</td></tr></tbody></table></div>';
-  return h + '<tr class="t"><td class="l">TOTAL</td>' + tot.map(function (v, i) { return '<td>' + N(v, S({ metric: 9, ws: ws, caps: [caps[i]] }), name + ' - ' + capLbl(caps[i]) + ' kVA - pending for issue') + '</td>'; }).join('') + '<td><b>' + N(all, S({ metric: 9, ws: ws }), name + ' - pending for issue') + '</b></td></tr></tbody></table></div>';
-}
+/* Pending for issue: AGE wise. One table: rows = workshops, columns = 0-24 hour / 1-2 days / 2-4 days / more than 4 days / total (age = To date minus PR date) */
 function renderPend(s) {
-  var caps = s.caps, P = s.pend || [], ttl = 'Pending for issue - date wise <span class="muted" style="text-transform:none">(PR raised, transformer not issued yet &middot; till ' + esc(s.to) + ')</span>';
+  var P = s.pend || [], ttl = 'Pending for issue - age wise <span class="muted" style="text-transform:none">(PR raised, transformer not issued yet &middot; age counted till ' + esc(s.to) + ')</span>';
   var h = '<details class="card k-pd opt" data-o="pd"' + (DVOPEN.pd ? ' open' : '') + '><summary><span class="oi">&#9203;</span><h3>' + ttl + '</h3><span class="ot">tap to open</span></summary><div class="pdbody"><h3 class="pdh">' + ttl + '</h3>';
-  if (ME && ME.admin && P.length > 1) {
-    var m = {}; P.forEach(function (w) { w.rows.forEach(function (r) { var o = m[r.k] || (m[r.k] = { k: r.k, date: r.date, v: caps.map(function () { return 0; }) }); r.v.forEach(function (v, i) { o.v[i] += v; }); }); });
-    h += '<div class="pdw">' + pendTable('ALL WORKSHOPS', caps, Object.keys(m).map(Number).sort(function (a, b) { return a - b; }).map(function (k) { return m[k]; }), '') + '</div>';
-  }
-  P.forEach(function (w) { h += '<div class="pdw">' + pendTable(w.ws, caps, w.rows, w.ws) + '</div>'; });
-  return h + '</div></details>';
+  if (!P.length) return h + '<div class="muted">No workshop.</div></div></details>';
+  var B = P[0].rows, tot = B.map(function () { return 0; }), all = 0;
+  h += '<div class="wrap tbl11d"><table class="pdtb pdage"><thead><tr><th class="l">WORKSHOP</th>' + B.map(function (r) { return '<th>' + esc(r.label) + '</th>'; }).join('') + '<th>TOTAL</th></tr></thead><tbody>';
+  P.forEach(function (w) {
+    var sum = 0;
+    h += '<tr><td class="l">' + esc(w.ws) + '</td>' + w.rows.map(function (r, k) {
+      var n = r.v.reduce(function (a, b) { return a + b; }, 0); sum += n; tot[k] += n;
+      return '<td>' + N(n, S({ metric: 9, ws: w.ws, ph: r.ph, pl: r.pl }), w.ws + ' - ' + r.label + ' - pending for issue') + '</td>';
+    }).join('');
+    all += sum;
+    h += '<td class="sub"><b>' + N(sum, S({ metric: 9, ws: w.ws }), w.ws + ' - pending for issue') + '</b></td></tr>';
+  });
+  if (ME && ME.admin && P.length > 1)
+    h += '<tr class="t"><td class="l">TOTAL</td>' + tot.map(function (n, k) { return '<td>' + N(n, S({ metric: 9, ph: B[k].ph, pl: B[k].pl }), 'All workshops - ' + B[k].label + ' - pending for issue') + '</td>'; }).join('') + '<td><b>' + N(all, S({ metric: 9 }), 'All workshops - pending for issue') + '</b></td></tr>';
+  return h + '</tbody></table></div></div></details>';
 }
 /* ---------- DISCOM head: workshop division wise summary ---------- */
 function shortDiv(n) { return String(n).replace(/^EWD[\s.\-]*/i, '') || n; }
@@ -1676,7 +1698,7 @@ function renderDiscom(s, quiet) {
   h += '<div class="kx dkx">' + K.map(function (k, i) { return '<div class="kxt ' + k[2] + '" style="--i:' + i + '"><span class="ki">' + k[3] + '</span><div class="kv">' + t.v[k[0]] + '</div><div class="kl">' + k[1] + '</div></div>'; }).join('') + '</div>';
   // 1. workshop division -> workshops
   h += '<div class="card k-ws"><h3>Workshop division wise summary <span class="muted" style="text-transform:none">(' + esc(s.discom) + ' &middot; ' + s.divs.length + ' divisions)</span></h3><div class="wrap tbl11d"><table>' +
-    '<tr><th class="l" rowspan="2">WORKSHOP DIVISION / WORKSHOP</th><th class="g1" colspan="2">TODAY (' + s.date + ')</th><th class="g2" colspan="4">TILL DATE (' + s.from + ' to ' + s.to + ')</th></tr>' +
+    '<tr><th class="l" rowspan="2">WORKSHOP DIVISION / WORKSHOP</th><th class="g1" colspan="2">TODAY (' + s.date + ')</th><th class="g2" colspan="3">TILL DATE (' + s.from + ' to ' + s.to + ')</th></tr>' +
     '<tr><th class="g1">PR</th><th class="g1">ISSUE</th><th class="g2">PR</th><th class="g2">ISSUE</th><th class="g2 pe">PENDING ISSUE</th><th class="g2 dp">WRONG / DUP. PR</th></tr>';
   s.divs.forEach(function (d) {
     h += '<tr class="dvr"><td class="l"><b>' + esc(d.name) + '</b></td>' + d.v.map(function (v, i) { return '<td' + (i === 4 ? ' class="pe"' : i === 5 ? ' class="dp"' : '') + '>' + nz(v) + '</td>'; }).join('') + '</tr>';
@@ -2160,7 +2182,7 @@ function makeGrid(cfg) {
   g.undoLast = function () {
     var b = g.undo.pop(); if (!b) return;
     for (var i = b.length - 1; i >= 0; i--) { var e = b[i], r = g.rows[e.ri]; if (r) { r.v[e.c] = e.old; r.d = e.oldD; } }
-    g.draw();
+    g.draw(); g.queueAuto();
   };
   /* ----- editing ----- */
   function startEdit(clear) {
@@ -2214,7 +2236,7 @@ function makeGrid(cfg) {
     if (c1 === c2) { if (c1 === 0) return; c1 = c1 - 1; }
     beginBatch();
     for (var vi = r.r1; vi <= r.r2; vi++) { var ri = g.view[vi], src = g.rows[ri].v[c1]; for (var c = c1 + 1; c <= c2; c++) g.setCell(ri, c, src); touch(ri); }
-    endBatch(); for (var v = r.r1; v <= r.r2; v++) refreshRow(v); info();
+    endBatch(); for (var v = r.r1; v <= r.r2; v++) refreshRow(v); info(); g.queueAuto();
   }
   function pasteText(txt) {
     if (!g.canEdit || !g.sel) return;
@@ -2223,7 +2245,7 @@ function makeGrid(cfg) {
     if (single && (r.r2 > r.r1 || r.c2 > r.c1)) {           // one value pasted over a selected block -> fill the block
       beginBatch();
       for (var vi = r.r1; vi <= r.r2; vi++) { for (var c = r.c1; c <= r.c2; c++) { g.setCell(g.view[vi], c, rows[0][0]); if (cfg.after) cfg.after(g, g.view[vi], c, 'paste'); } touch(g.view[vi]); }
-      endBatch(); g.draw(); info(); return;
+      endBatch(); g.draw(); info(); g.queueAuto(); return;           // one value pasted over a block: it was NOT saved automatically before
     }
     var map = null, start = 0, off = 0, hi = rows[0].map(nk), hits = 0;
     hi.forEach(function (x) { if (x && aliasMap[x] !== undefined) hits++; });
