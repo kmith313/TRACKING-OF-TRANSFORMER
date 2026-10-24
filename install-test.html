@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Install My Server</title>
+<meta name="robots" content="noindex">
+<script src="config.js"></script>
+<style>
+:root{--bg:#f3f5fb;--card:#fff;--ink:#17224d;--mut:#5a6486;--acc:#3b5bdb;--ok:#0f8a5f;--err:#b91c1c;--line:#dfe4f0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1430;--card:#17204a;--ink:#e8ecff;--mut:#a3adcf;--line:#2a356b}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif;padding:16px}
+main{max-width:720px;margin:0 auto}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin:12px 0}
+h1{font-size:20px;margin:6px 0}h2{font-size:16px;margin:0 0 8px}.mut{color:var(--mut);font-size:13px}
+button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:11px 16px;font-size:15px;font-weight:600;cursor:pointer}button:disabled{opacity:.5}
+ol{padding-left:20px}li{margin:4px 0}code,.url{background:rgba(120,130,170,.15);padding:2px 6px;border-radius:6px;word-break:break-all}
+.st{display:flex;gap:8px;align-items:flex-start;margin:6px 0}.st b{min-width:22px}.ok{color:var(--ok)}.er{color:var(--err)}
+a{color:var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<h1>Install my own server (test)</h1>
+<p class="mut">This page puts a copy of the TF-Tracker server script into <b>your own Google account</b>, so your users' work runs on your account and not on the shared server. It needs your permission once.</p>
+
+<div class="card">
+<h2>Before you start (one time)</h2>
+<ol>
+<li>Open <a href="https://script.google.com/home/usersettings" target="_blank" rel="noopener">script.google.com/home/usersettings</a> and turn <b>Google Apps Script API = ON</b>.</li>
+<li>Use the Google account that should own the server (the same one that owns your Google Sheet).</li>
+</ol>
+</div>
+
+<div class="card">
+<h2>Install</h2>
+<button id="go">Sign in with Google and install</button>
+<div id="log" style="margin-top:12px"></div>
+</div>
+
+<div class="card" id="done" hidden>
+<h2>Almost done - authorize once</h2>
+<ol>
+<li>Open the <a id="edit" target="_blank" rel="noopener">script editor</a>.</li>
+<li>At the top choose the function <code>authorizeAll</code> and press <b>Run</b>.</li>
+<li>Press <b>Review permissions</b>, choose your account, <b>Advanced &rarr; Go to ... (unsafe)</b> &rarr; <b>Allow</b>. (This warning is normal for your own script.)</li>
+<li>Then press <b>Deploy &rarr; Manage deployments</b> only if you changed the code. Not needed now.</li>
+</ol>
+<p>Your server link:</p><p class="url" id="exec"></p>
+<p>Open the app on your server (use this link for your users):</p><p class="url"><a id="app" target="_blank" rel="noopener"></a></p>
+<p class="mut">Test only: the first time, open the app link, choose "Setup", paste your Google Sheet link and create the Admin as usual.</p>
+</div>
+</main>
+<script>
+(function () {
+  var CID = window.TT_GOOGLE_CLIENT_ID || '', SC = 'https://www.googleapis.com/auth/script.projects https://www.googleapis.com/auth/script.deployments';
+  var $ = function (i) { return document.getElementById(i); }, tok = '';
+  function step(t, cls) { var d = document.createElement('div'); d.className = 'st'; d.innerHTML = '<b class="' + (cls || '') + '">' + (cls === 'ok' ? '&#10003;' : cls === 'er' ? '&#10007;' : '&#8226;') + '</b><span></span>'; d.lastChild.textContent = t; $('log').appendChild(d); return d; }
+  function done(d, t) { d.firstChild.className = 'ok'; d.firstChild.innerHTML = '&#10003;'; if (t) d.lastChild.textContent = t; }
+  function api(method, path, body) {
+    return fetch('https://script.googleapis.com/v1/' + path, { method: method, headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined })
+      .then(function (r) { return r.json().then(function (j) { if (!r.ok) { var m = (j.error && j.error.message) || ('HTTP ' + r.status); var e = new Error(m); e.status = r.status; throw e; } return j; }); });
+  }
+  function hint(e) {
+    var m = String(e.message || e);
+    if (/has not been used|is disabled|accessNotConfigured/i.test(m)) return m + ' - The "Apps Script API" is not enabled for the app (Creator: Google Cloud Console > APIs > enable "Apps Script API").';
+    if (/user has not enabled|Apps Script API.*(turn|enable)/i.test(m)) return m + ' - Turn ON "Google Apps Script API" at script.google.com/home/usersettings and try again.';
+    return m;
+  }
+  function run() {
+    $('go').disabled = true; $('log').innerHTML = '';
+    if (!/\.apps\.googleusercontent\.com$/.test(CID) || !window.google || !google.accounts) { step('Google sign-in is not available (check config.js / internet).', 'er'); $('go').disabled = false; return; }
+    var s1 = step('Waiting for your Google permission...');
+    google.accounts.oauth2.initTokenClient({
+      client_id: CID, scope: SC, prompt: 'consent',
+      callback: function (r) {
+        if (!r || !r.access_token) { s1.lastChild.textContent = 'Permission was not given' + (r && r.error ? ' (' + r.error + ')' : '') + '.'; s1.firstChild.className = 'er'; s1.firstChild.innerHTML = '&#10007;'; $('go').disabled = false; return; }
+        tok = r.access_token; done(s1, 'Permission given.');
+        install();
+      },
+      error_callback: function (e) { s1.lastChild.textContent = 'Sign-in stopped: ' + ((e && e.type) || 'error'); s1.firstChild.className = 'er'; $('go').disabled = false; }
+    }).requestAccessToken();
+  }
+  function install() {
+    var s2 = step('Reading the server script...'), code, pid, ver, dep;
+    fetch('apps-script/Code.gs', { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('Code.gs not found on this website (apps-script/Code.gs).'); return r.text(); })
+      .then(function (t) { if (t.length < 20000 || t.indexOf('function doPost') < 0) throw new Error('Code.gs looks incomplete.'); code = t; done(s2, 'Server script read (' + Math.round(t.length / 1024) + ' KB).'); var s = step('Creating your project...'); return api('POST', 'projects', { title: 'TF-Tracker Server' }).then(function (p) { pid = p.scriptId; done(s, 'Project created.'); }); })
+      .then(function () {
+        var s = step('Putting the script in your project...');
+        var manifest = { timeZone: 'Asia/Kolkata', exceptionLogging: 'STACKDRIVER', runtimeVersion: 'V8', webapp: { executeAs: 'USER_DEPLOYING', access: 'ANYONE_ANONYMOUS' } };
+        return api('PUT', 'projects/' + pid + '/content', { files: [{ name: 'Code', type: 'SERVER_JS', source: code }, { name: 'appsscript', type: 'JSON', source: JSON.stringify(manifest) }] }).then(function () { done(s, 'Script saved in your project.'); });
+      })
+      .then(function () { var s = step('Making a version...'); return api('POST', 'projects/' + pid + '/versions', { description: 'TF-Tracker ' + new Date().toISOString().slice(0, 10) }).then(function (v) { ver = v.versionNumber; done(s, 'Version ' + ver + ' made.'); }); })
+      .then(function () { var s = step('Deploying as web app...'); return api('POST', 'projects/' + pid + '/deployments', { versionNumber: ver, manifestFileName: 'appsscript', description: 'TF-Tracker web app' }).then(function (d) { dep = d; done(s, 'Deployed.'); }); })
+      .then(function () {
+        var url = '', ep = (dep.entryPoints || []).filter(function (e) { return e.entryPointType === 'WEB_APP'; })[0];
+        if (ep && ep.webApp && ep.webApp.url) url = ep.webApp.url; else if (dep.deploymentId) url = 'https://script.google.com/macros/s/' + dep.deploymentId + '/exec';
+        if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(url)) throw new Error('The deployment was made but the web app link was not returned. Open the script editor > Deploy > Manage deployments and copy the link.');
+        $('exec').textContent = url; $('edit').href = 'https://script.google.com/d/' + pid + '/edit';
+        var base = location.href.replace(/install-test\.html.*$/, '');
+        var a = $('app'); a.href = base + '?api=' + encodeURIComponent(url); a.textContent = a.href;
+        $('done').hidden = false; step('Finished. Now do the one-time authorization below.', 'ok'); $('go').disabled = false;
+      })
+      .catch(function (e) { step(hint(e), 'er'); $('go').disabled = false; });
+  }
+  $('go').addEventListener('click', run);
+  var g = document.createElement('script'); g.src = 'https://accounts.google.com/gsi/client'; g.async = true; document.head.appendChild(g);
+})();
+</script>
+</body>
+</html>
