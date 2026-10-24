@@ -424,6 +424,7 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 :is(#sout,.soutp) table.xlt tr.xo td{background:#fff6e5}
 :is(#sout,.soutp) table.xlt tr.xg td{background:#e2efda;font-weight:800}
 :is(#sout,.soutp) table.xlt tr.xt td{background:#fff200;font-weight:800}
+.btn.sec#srf.new{background:#e8890c;border-color:#e8890c;color:#fff}.btn#srf small{font-weight:500;opacity:.9}
 .pdws{display:block;width:100%;margin-top:10px}.pdtb{border-collapse:collapse;width:100%;font-size:13px}.pdtb th,.pdtb td{border:1px solid #e1e6f2;padding:6px 8px;text-align:center}.pdtb th{background:#243061;color:#fff;font-size:11px}.pdtb td.l,.pdtb th.l{text-align:left}.pdtb td.sub{background:#fff1dc}.pdtb tr.t td{background:#e8eefc;font-weight:800}.pdtb a.n{font-weight:700}
 td.dp{background:#fff8dc}.wt.dp{background:#fff3c4}:is(#sout,.soutp) .wt.dp{background:#fff3c4}:is(#sout,.soutp) td.dp{background:#fff8dc}
 :is(#sout,.soutp) .card{border-radius:18px;padding:14px;box-shadow:0 6px 20px rgba(40,60,120,.08);animation:rise .55s both;animation-delay:.25s}
@@ -981,7 +982,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
           <div><label>Date</label><div class="dt"><input type="text" class="dtx" id="sd" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="sd"></span></div></div>
           <div><label>From</label><div class="dt"><input type="text" class="dtx" id="sf" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="sf"></span></div></div>
           <div><label>To</label><div class="dt"><input type="text" class="dtx" id="st" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="st"></span></div></div>
-          <button class="btn" id="sbtn">Show Summary</button><button class="btn sec" id="sxl">&#11015; Excel</button><button class="btn sec" id="spr">Print</button>
+          <button class="btn" id="sbtn">Show Summary</button><button class="btn sec" id="srf" title="Load the latest figures (after data was entered / saved)">&#8635; Refresh</button><button class="btn sec" id="sxl">&#11015; Excel</button><button class="btn sec" id="spr">Print</button>
         </div>
         <details class="dtl"><summary>How it works</summary>Pick any past date: the TODAY columns show that day, and the TILL columns show the 1st of that month up to that date (From / To can still be changed). Tap any number or <b>Pending</b> heading to open its full list.</details>
       </div>
@@ -1077,7 +1078,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
     <!-- USERS -->
     <section id="t-usr" class="hide">
-      <div class="asub" id="asub"><button data-as="sheet" class="on">&#128451; Sheet &amp; storage</button><button data-as="ws">&#127981; Workshops</button><button data-as="users">&#128101; Users</button><button data-as="bk">&#128190; Backup</button><button data-as="mt">&#128295; Maintenance</button></div>
+      <div class="asub" id="asub"><button data-as="sheet" class="on">&#128451; Sheet &amp; storage</button><button data-as="ws">&#127981; Workshops</button><button data-as="users">&#128101; Users</button><button data-as="bk">&#128190; Backup</button><button data-as="mt">&#128295; Maintenance</button><button data-as="srv">&#9889; My server</button></div>
 
       <div class="apane" data-as="sheet">
         <div class="card acard"><h3>Google Sheet &amp; sharing</h3>
@@ -1144,6 +1145,35 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
           <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button><button class="btn" id="mconv">Convert to monthly mode</button></div>
           <div class="muted" id="mconvst"></div>
           <div id="amsg"></div>
+        </div>
+      </div>
+      <div class="apane hide" data-as="srv">
+        <div class="card acard"><h3>My own server</h3>
+          <div class="muted">Right now every Admin shares one server. Here you can put a copy of the server in <b>your own Google account</b>. Your users' work (save, summary, login) then runs on your account, so it does not slow down when other Admins are busy. Your Google Sheet and all your data stay exactly where they are - nothing is moved.</div>
+          <div id="srvst" class="muted" style="margin:8px 0">Loading...</div>
+          <div id="srvstart" class="hide">
+            <ol class="muted" style="margin:6px 0 8px 18px;padding:0">
+              <li>Open <a href="https://script.google.com/home/usersettings" target="_blank" rel="noopener">script.google.com/home/usersettings</a> and turn <b>Google Apps Script API = ON</b> (one time).</li>
+              <li>Press the button below, sign in with the same Google account that owns the Sheet and allow.</li>
+              <li>Do the one-time authorization shown after the install, then press <b>Activate</b>.</li>
+            </ol>
+            <div class="bar"><button class="btn" id="srvgo">Install my own server</button></div>
+          </div>
+          <div id="srvlog" style="margin-top:10px"></div>
+          <div id="srvdone" class="hide">
+            <div style="margin:10px 0 4px"><b>One-time authorization</b></div>
+            <ol class="muted" style="margin:0 0 8px 18px;padding:0">
+              <li>Open the <a id="srvedit" target="_blank" rel="noopener">script editor</a>.</li>
+              <li>At the top choose the function <code>authorizeAll</code> and press <b>Run</b>.</li>
+              <li><b>Review permissions</b> &rarr; your account &rarr; <b>Advanced &rarr; Go to ... (unsafe)</b> &rarr; <b>Allow</b>. (The warning is normal for your own script.)</li>
+              <li>Come back here and press <b>Activate</b>. You (and all your users) will have to log in again once.</li>
+            </ol>
+            <div class="bar"><button class="btn" id="srvact">Activate my server</button></div>
+          </div>
+          <div id="srvon" class="hide">
+            <div class="bar"><button class="btn sec danger" id="srvoff">Switch back to the shared server</button></div>
+          </div>
+          <div id="srvmsg"></div>
         </div>
       </div>
     </section>
@@ -1253,6 +1283,17 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 </div>
 <script src="complain.js"></script>
 <script>
+/* TEST: ?api=<Apps Script /exec link> makes this page use another Apps Script web app (an Admin who installed his own copy). The link is not saved anywhere. */
+(function () {
+  try {
+    var q = new URLSearchParams(location.search).get('api');
+    if (q && /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(q) && q !== window.TT_API_URL) {
+      if (!confirm('This link uses another server (an Admin\'s own copy):\n' + q + '\n\nPassword is sent to that server. Continue only if you trust the person who sent this link.')) return;
+      window.TT_API_URL = q; window.TT_TEST_API = true;
+    }
+  } catch (e) {}
+})();
+var TT_CENTRAL = window.TT_API_URL || '';            // the shared server; an Admin's own server replaces window.TT_API_URL after login
 var $ = function (id) { return document.getElementById(id); };
 var TOKEN = null, ME = null, SUM = null, LIST = null, LSPEC = null, DIRTY = false, MUST = false, DM = [], DMLOADED = false;
 var COLS = ['Workshop','DIVISION','SUBSTATION','FEEDER','PLACE OF DAMAGE','CAPACITY','Category of Transformer','COMPLAIN NUMBER','PR NO','PR DATE','JE Name','JE Mobile','ISSUED TO FIRM','ISSUE DATE','DRIVER NAME','DRIVER MOBILE','REPLACEMENT DATE','TIME','RETURN DATE','REMARK'];
@@ -1282,9 +1323,12 @@ function call(fn) {
     // text/plain = "simple request" -> CORS preflight nahi lagta (Apps Script OPTIONS support nahi karta)
     fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: fn, args: args }), redirect: 'follow' })
       .then(function (r) { return r.json(); })
-      .then(function (j) { if (j && j.ok) res(j.v); else fail(j && j.e); })
+      .then(function (j) { if (j && j.ok) { if (/^(saveRecord|saveGrid|saveRows|deleteRecord)$/.test(fn)) sumNew(true); res(j.v); } else fail(j && j.e); })
       .catch(function (e) { fail(e && e.message === 'Failed to fetch' ? 'Could not connect to the server. Check your internet connection / the Apps Script URL.' : e && e.message); });
   });
+}
+function sumNew(on) {                               // data was saved: tell the user the Summary on the main screen is older; one tap on Refresh loads the latest
+  try { var b = $('srf'); if (b) { b.classList.toggle('new', !!on); b.innerHTML = on ? '&#8635; Refresh <small>(new data)</small>' : '&#8635; Refresh'; } var n = document.querySelector('nav button[data-t="sum"]'); if (n) n.classList.toggle('navpend', !!on); } catch (e) {}
 }
 function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function msg(el, t, k) { $(el).innerHTML = t ? '<div class="msg ' + (k || 'info') + '">' + t + '</div>' : ''; }
@@ -1524,18 +1568,27 @@ function loadInitial() {
 $('lbtn').onclick = function () {
   var b = $('lbtn'); msg('lmsg', ''); busy(b, true, 'Login...');
   var tn = new Date(), want = { date: fmt(tn), from: '01.' + p2(tn.getMonth() + 1) + '.' + tn.getFullYear(), to: fmt(tn) };
-  call('login', '', $('lu').value, $('lp').value, want).then(function (r) {
+  var lu = $('lu').value, lp = $('lp').value;
+  call('login', '', lu, lp, want).then(function (r) { return (!r.ok && r.route) ? tryRoutes(r.route, lu, lp, want, 0, '') : r; }).then(function (r) {
     busy(b, false);
     if (!r.ok) return msg('lmsg', esc(r.msg), 'err');
     $('lp').value = ''; afterLogin(r);
   }).catch(function (e) { busy(b, false); msg('lmsg', esc(e.message), 'err'); });
 };
+function tryRoutes(list, user, pw, want, i, last) {      // this ID belongs to an Admin who runs an own server: log in there
+  if (i >= list.length) return Promise.resolve({ ok: false, msg: last || 'The ID or password is wrong.' });
+  window.TT_API_URL = list[i].url;
+  return call('login', list[i].sid, user, pw, want).then(function (r) {
+    if (r && r.ok) { store('srv', list[i].url); return r; }
+    window.TT_API_URL = TT_CENTRAL; return tryRoutes(list, user, pw, want, i + 1, r && r.msg);
+  }, function (e) { window.TT_API_URL = TT_CENTRAL; store('srv', null); throw e; });
+}
 $('lp').onkeydown = function (e) { if (e.key === 'Enter') $('lbtn').click(); };
 window.addEventListener('beforeunload', function (e) { try { if (TOKEN && (anyDirty() || (D && D.saving) || (M && M.saving))) { e.preventDefault(); e.returnValue = ''; } } catch (x) {} });      // only when the page itself is being closed while data is still unsaved
 function anyDirty() { return (D && D.dirty()) || (M && M.dirty()); }
 function doLogout(silent) {
   if (TOKEN && !silent) call('logout', TOKEN).catch(function () {});
-  cclear(); TOKEN = null; ME = null; store('tk', null); DM = []; DMLOADED = false;
+  cclear(); TOKEN = null; ME = null; store('tk', null); store('srv', null); window.TT_API_URL = TT_CENTRAL; DM = []; DMLOADED = false;
   $('app').classList.add('hide'); showScr('login');
   ['lov', 'eov', 'pov', 'tov'].forEach(function (i) { $(i).classList.add('hide'); });
   $('sout').innerHTML = ''; if (D) D.reset(); if (M) M.reset();
@@ -1586,6 +1639,7 @@ document.querySelectorAll('nav button').forEach(function (b) {
 
 /* ---------- summary ---------- */
 $('sbtn').onclick = function () { loadSummary(); };
+$('srf').onclick = function () { loadSummary(); };
 // choosing a date moves "To" to that date and "From" to the 1st of that month -> shows data of that day and up to that day
 function syncFromDate() {
   var d = $('sd').value.trim(); if (!validD(d)) return;
@@ -1595,6 +1649,7 @@ $('sd').addEventListener('change', syncFromDate);
 ['sd', 'sf', 'st'].forEach(function (i) { $(i).addEventListener('keydown', function (e) { if (e.key === 'Enter') { i === 'sd' ? syncFromDate() : loadSummary(); } }); });
 var SSEQ = 0;
 function loadSummary() {
+  sumNew(false);
   var p = { date: $('sd').value.trim(), from: $('sf').value.trim(), to: $('st').value.trim() };
   if (!validD(p.date) || !validD(p.from) || !validD(p.to)) { msg('smsg', 'Enter all three dates in DD.MM.YYYY format.', 'err'); return Promise.resolve(); }
   var key = 'sum|' + p.date + '|' + p.from + '|' + p.to, c = cget(key), seq = ++SSEQ, b = $('sbtn'); msg('smsg', '');
@@ -3408,8 +3463,86 @@ function adminPane(k) {
   document.querySelectorAll('#asub button').forEach(function (b) { b.classList.toggle('on', b.dataset.as === k); });
   document.querySelectorAll('#t-usr .apane').forEach(function (p) { p.classList.toggle('hide', p.dataset.as !== k); });
   if (k === 'sheet') loadStorage();
+  if (k === 'srv') srvLoad();
 }
 $('asub').onclick = function (e) { var b = e.target.closest('button'); if (b) adminPane(b.dataset.as); };
+/* ---------- Admin's own server: install a copy of the server script into the Admin's Google account ---------- */
+var SRV = { key: '', url: '', pid: '', tok: '' };
+function srvStep(t, cls) { var d = document.createElement('div'); d.className = 'muted'; d.innerHTML = '<b style="display:inline-block;width:18px;color:' + (cls === 'er' ? '#c92a2a' : cls === 'ok' ? '#2b8a3e' : 'inherit') + '">' + (cls === 'er' ? '&#10007;' : cls === 'ok' ? '&#10003;' : '&#8226;') + '</b><span></span>'; d.lastChild.textContent = t; $('srvlog').appendChild(d); return d; }
+function srvDoneStep(d, t) { d.firstChild.style.color = '#2b8a3e'; d.firstChild.innerHTML = '&#10003;'; if (t) d.lastChild.textContent = t; }
+function srvLoad() {
+  ['srvstart', 'srvdone', 'srvon'].forEach(function (i) { $(i).classList.add('hide'); }); $('srvlog').innerHTML = ''; msg('srvmsg', '');
+  if (!ME || !ME.admin) { $('srvst').textContent = 'Admin only.'; return; }
+  call('srvStatus', TOKEN).then(function (r) {
+    if (r.own) { $('srvst').innerHTML = '&#9889; <b>You are on your own server.</b> Your users log in as usual and their work runs in your Google account.'; $('srvon').classList.remove('hide'); return; }
+    if (r.status === 'Active') { $('srvst').innerHTML = '&#9889; <b>Your own server is ON.</b>'; return; }
+    $('srvst').textContent = 'You are on the shared server.'; $('srvstart').classList.remove('hide');
+    if (r.status === 'Pending') msg('srvmsg', 'An earlier install was not finished. Start again with the button above.', 'info');
+  }).catch(function (e) { $('srvst').textContent = e.message; });
+}
+function srvApi(method, path, body) {
+  return fetch('https://script.googleapis.com/v1/' + path, { method: method, headers: { Authorization: 'Bearer ' + SRV.tok, 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined })
+    .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error((j.error && j.error.message) || ('HTTP ' + r.status)); return j; }); });
+}
+function srvHint(e) {
+  var m = String((e && e.message) || e);
+  if (/has not been used|is disabled|accessNotConfigured/i.test(m)) return m + ' - The Apps Script API is not enabled for this app (Creator: Google Cloud Console > APIs > enable "Apps Script API").';
+  if (/user has not enabled|Apps Script API.*(turn|enable)/i.test(m)) return m + ' - Turn ON "Google Apps Script API" at script.google.com/home/usersettings and try again.';
+  return m;
+}
+$('srvgo').onclick = function () {
+  var b = $('srvgo'), CID = window.TT_GOOGLE_CLIENT_ID || '';
+  $('srvlog').innerHTML = ''; msg('srvmsg', '');
+  if (!/\.apps\.googleusercontent\.com$/.test(CID) || !window.google || !google.accounts) return msg('srvmsg', 'Google sign-in is not available (check config.js / internet).', 'err');
+  b.disabled = true;
+  var s1 = srvStep('Waiting for your Google permission...');
+  google.accounts.oauth2.initTokenClient({
+    client_id: CID, scope: 'https://www.googleapis.com/auth/script.projects https://www.googleapis.com/auth/script.deployments', prompt: 'consent',
+    callback: function (r) {
+      if (!r || !r.access_token) { s1.lastChild.textContent = 'Permission was not given' + (r && r.error ? ' (' + r.error + ')' : '') + '.'; s1.firstChild.innerHTML = '&#10007;'; b.disabled = false; return; }
+      SRV.tok = r.access_token; srvDoneStep(s1, 'Permission given.'); srvInstall(b);
+    },
+    error_callback: function (e) { s1.lastChild.textContent = 'Sign-in stopped: ' + ((e && e.type) || 'error'); s1.firstChild.innerHTML = '&#10007;'; b.disabled = false; }
+  }).requestAccessToken();
+};
+function srvInstall(b) {
+  var code, ver, dep, s;
+  s = srvStep('Preparing...');
+  call('srvPrepare', TOKEN, TT_CENTRAL).then(function (r) { SRV.key = r.key; srvDoneStep(s, 'Prepared.'); s = srvStep('Reading the server script...'); return fetch('apps-script/Code.gs', { cache: 'no-store' }); })
+    .then(function (r) { if (!r.ok) throw new Error('Code.gs was not found on this website (apps-script/Code.gs).'); return r.text(); })
+    .then(function (t) {
+      if (t.length < 20000 || t.indexOf('function doPost') < 0) throw new Error('Code.gs looks incomplete.');
+      var t2 = t.replace("var CENTRAL = '';", "var CENTRAL = '" + TT_CENTRAL + "';").replace("var CENTRAL_KEY = '';", "var CENTRAL_KEY = '" + SRV.key + "';");
+      if (t2 === t || t2.indexOf("var CENTRAL_KEY = '" + SRV.key + "';") < 0) throw new Error('This Code.gs on the website is an older version. Upload the newest Code.gs to GitHub (apps-script/Code.gs) first.');
+      code = t2; srvDoneStep(s, 'Server script read (' + Math.round(t.length / 1024) + ' KB).'); s = srvStep('Creating your project...');
+      return srvApi('POST', 'projects', { title: 'TF-Tracker Server' });
+    })
+    .then(function (p) { SRV.pid = p.scriptId; srvDoneStep(s, 'Project created.'); s = srvStep('Putting the script in your project...');
+      var manifest = { timeZone: 'Asia/Kolkata', exceptionLogging: 'STACKDRIVER', runtimeVersion: 'V8', webapp: { executeAs: 'USER_DEPLOYING', access: 'ANYONE_ANONYMOUS' } };
+      return srvApi('PUT', 'projects/' + SRV.pid + '/content', { files: [{ name: 'Code', type: 'SERVER_JS', source: code }, { name: 'appsscript', type: 'JSON', source: JSON.stringify(manifest) }] }); })
+    .then(function () { srvDoneStep(s, 'Script saved.'); s = srvStep('Making a version...'); return srvApi('POST', 'projects/' + SRV.pid + '/versions', { description: 'TF-Tracker ' + new Date().toISOString().slice(0, 10) }); })
+    .then(function (v) { ver = v.versionNumber; srvDoneStep(s, 'Version ' + ver + ' made.'); s = srvStep('Deploying as web app...'); return srvApi('POST', 'projects/' + SRV.pid + '/deployments', { versionNumber: ver, manifestFileName: 'appsscript', description: 'TF-Tracker web app' }); })
+    .then(function (d) {
+      var url = '', ep = (d.entryPoints || []).filter(function (e) { return e.entryPointType === 'WEB_APP'; })[0];
+      if (ep && ep.webApp && ep.webApp.url) url = ep.webApp.url; else if (d.deploymentId) url = 'https://script.google.com/macros/s/' + d.deploymentId + '/exec';
+      if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(url)) throw new Error('The web app link was not returned. Open the script editor > Deploy > Manage deployments and check.');
+      SRV.url = url; srvDoneStep(s, 'Deployed.'); srvStep('Installed. Now do the one-time authorization below.', 'ok');
+      $('srvedit').href = 'https://script.google.com/d/' + SRV.pid + '/edit'; $('srvdone').classList.remove('hide'); b.disabled = false;
+      try { google.accounts.oauth2.revoke(SRV.tok, function () {}); } catch (e) {} SRV.tok = '';
+    })
+    .catch(function (e) { srvStep(srvHint(e), 'er'); b.disabled = false; });
+}
+$('srvact').onclick = function () {
+  var b = $('srvact'); msg('srvmsg', ''); busy(b, true, 'Checking...');
+  call('srvActivate', TOKEN, SRV.url).then(function () {
+    busy(b, false); alert('Your own server is ON.\n\nPlease log in again now (you and your users).'); doLogout(true);
+  }).catch(function (e) { busy(b, false); msg('srvmsg', esc(e.message), 'err'); });
+};
+$('srvoff').onclick = function () {
+  if (!confirm('Switch back to the shared server?\n\nYou and your users will have to log in again. Your own server copy stays in your Google account but stops working.')) return;
+  var b = $('srvoff'); busy(b, true, 'Switching...');
+  call('adminSrvOff', TOKEN).then(function () { busy(b, false); alert('Done. Please log in again.'); doLogout(true); }).catch(function (e) { busy(b, false); msg('srvmsg', esc(e.message), 'err'); });
+};
 /* storage + moving to a new Google Sheet */
 function fmtCut(c) { return String(c).replace(/^(\d{4})(\d{2})(\d{2})$/, '$3.$2.$1'); }
 function loadStorage() {
@@ -3482,6 +3615,7 @@ $('mconv').onclick = function () {
   showScr('login');
   try { if (window.TT_API_URL) fetch(window.TT_API_URL, { mode: 'no-cors' }).catch(function () {}); } catch (e) {}   // wakes the server while the user types the ID
   var t = fetchStore('tk'); if (!t) return;
+  var sv = fetchStore('srv'); if (sv && /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(sv)) window.TT_API_URL = sv;      // the session belongs to the Admin's own server
   TOKEN = t; call('getMe', t).then(showApp).catch(function () { TOKEN = null; });
 })();
 </script>

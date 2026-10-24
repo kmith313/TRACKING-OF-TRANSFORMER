@@ -192,3 +192,19 @@ Switching tabs never asks for confirmation: pasted rows keep saving in the backg
   A hidden backup tab `DATA_backup_YYYYMMDD` is created (delete it later). At the first login of every new month the previous month is moved automatically.
 - Kitty: new tab **KittyDays** (1 day = 1 cell). The old `KittyDay` tab is copied once on first use and then left untouched.
 - Limits: complaint search and the Data sheet show only the hot DATA; an archived PR returns to DATA if its row is pasted/saved again.
+
+
+## Test: an Admin installs his own server copy (install-test.html)
+- Creator (once): Google Cloud Console > project of the OAuth client in config.js > enable **Apps Script API**; OAuth consent screen > Data access > add the scopes
+  `.../auth/script.projects` and `.../auth/script.deployments`; add the test Admin's Google e-mail as a *Test user*.
+- Admin: turn ON "Google Apps Script API" at script.google.com/home/usersettings, open `install-test.html` on the website, sign in, then in the script editor run `authorizeAll` once.
+- The page prints the Admin's own /exec link and an app link `index.html?api=<link>` (asks for a confirmation, nothing is saved).
+- The script is read from `apps-script/Code.gs` of the website, so keep the newest Code.gs there.
+
+## Admin's own server ("My server")
+Admin -> Users/Admin screen -> **My server**: installs a copy of Code.gs into the Admin's own Google account (same Google Sheet, nothing is moved).
+- Needs: `apps-script/Code.gs` (newest) on the website; Admin turns ON "Google Apps Script API" at script.google.com/home/usersettings; Creator enables the Apps Script API + the two scopes in the Cloud project.
+- Central script keeps a `Servers` tab in the Registry sheet (Sheet ID | URL | Key | Status). While Active, login answers `{route:[...]}` and the app switches to the Admin's server; central refuses all other calls for that sheet.
+- New User IDs created on an own server are sent to central (`regSync`, with the key); if central is unreachable they wait in a queue and are sent later.
+- "Switch back to the shared server" is in the same screen.
+- Limits: DISCOM / Creator views read the sheet directly (cache 2 min for such sheets); "move to new sheet" and "forgot password by e-mail" are not available on an own server yet.
