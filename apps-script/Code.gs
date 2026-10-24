@@ -33,14 +33,18 @@ function dupFix_(rec) {                                  // wrong / duplicate PR
 var G_ = this;
 var API = {   // only these functions can be called from outside
   checkSheet: 1, setupApp: 1, login: 1, getMe: 1, logout: 1, changePassword: 1,
-  adminUsers: 1, adminSetScope: 1, adminRenameWorkshop: 1, adminDeleteWorkshop: 1, adminStorage: 1, adminMigrateCheck: 1, adminMigrate: 1, adminReset: 1, adminSetActive: 1, adminAddUser: 1, adminAddWorkshop: 1, adminSetDivision: 1, adminBackupInfo: 1, adminRestoreOtp: 1, adminRestore: 1, restoreNewSheet: 1, creatorBackups: 1, creatorBackupOn: 1, creatorBackupNow: 1, getDiscomSummary: 1, dhDivs: 1, dhPick: 1, creatorSetTabs: 1, creatorLogin: 1, creatorHeads: 1, creatorAddHead: 1, creatorResetHead: 1, creatorSetActive: 1, adminInfo: 1, adminArchive: 1, adminConvert: 1, adminHealth: 1,
+  adminUsers: 1, adminSetScope: 1, adminRenameWorkshop: 1, adminDeleteWorkshop: 1, adminStorage: 1, adminMigrateCheck: 1, adminMigrate: 1, adminReset: 1, adminSetActive: 1, adminAddUser: 1, adminAddWorkshop: 1, adminSetDivision: 1, adminBackupInfo: 1, adminRestoreOtp: 1, adminRestore: 1, restoreNewSheet: 1, creatorBackups: 1, creatorBackupOn: 1, creatorBackupNow: 1, getDiscomSummary: 1, dhDivs: 1, dhPick: 1, creatorSetTabs: 1, creatorLogin: 1, creatorHeads: 1, creatorAddHead: 1, creatorResetHead: 1, creatorSetActive: 1, adminInfo: 1, adminArchive: 1, adminConvert: 1, adminHealth: 1, srvStatus: 1, srvPrepare: 1, srvActivate: 1, srvOff: 1, regSync: 1, adminSrvOff: 1,
   getData: 1, saveGrid: 1, saveRows: 1, deleteRecord: 1, saveRecord: 1,
   getSummary: 1, getKitty: 1, getKittyPrev: 1, kitSavePrev: 1, kitRequestOpen: 1, kitCancelReq: 1, kitPending: 1, kitDecide: 1, saveKitty: 1, getCompare: 1, getDiscomCompare: 1, getList: 1, getCols: 1, getDataRange: 1,
   getDrivers: 1, saveDrivers: 1, deleteDrivers: 1,
   discomList: 1, complainSearch: 1, complainIndex: 1, complainVersion: 1, complainDetail: 1, adminForgot: 1            // public (no login): complaint status page
 };
 function json_(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
-function doGet() { return json_({ ok: true, app: 'Transformer Tracking API', time: new Date().toISOString() }); }
+/* ---- Own server of an Admin ("copy"): the installer puts the central link and a secret key into the two lines below (only in the copy; the central script keeps them empty) ---- */
+var CENTRAL = '';
+var CENTRAL_KEY = '';
+function isCentral_() { return !CENTRAL; }
+function doGet() { return json_({ ok: true, app: 'Transformer Tracking API', time: new Date().toISOString(), central: CENTRAL ? 1 : 0 }); }
 var CUR_FN = '';                                          // name of the function being called (a DISCOM head may only reach the tabs the Creator allowed)
 function doPost(e) {
   try {
@@ -285,6 +289,7 @@ function auth_(token, allowMust) {
   if (se && se.dh) return dhView_(token, se);                // DISCOM head looking at one division (read only)
   if (!se || !se.s || !se.k) throw new Error('SESSION');
   useSheet_(se.s);
+  if (isCentral_() ? srvMap_()[se.s] : srvOffNow_()) throw new Error('SESSION');      // this sheet is served by the Admin's own server now (or this copy was switched off): log in again
   if (cfg_().movedTo) throw new Error('SESSION');            // this sheet was replaced by a new one: log in again
   var u = users_().filter(function (x) { return x.key === se.k; })[0];
   if (!u || !u.active) throw new Error('SESSION');
@@ -296,6 +301,12 @@ function login(sid, username, password, want) {
   var cache = CacheService.getScriptCache();
   var dh = !parseId_(sid) && /^dh/.test(username) && dhFind_(username); if (dh) return dhLogin_(dh, password);          // DISCOM head
   var cands = parseId_(sid) ? [parseId_(sid)] : (regUserSids_(username).length ? regUserSids_(username) : []);
+  var remote = [];                                      // sheets whose Admin runs an own server: the app is told where to log in
+  if (isCentral_() && cands.length) {
+    var sm = srvMap_(); remote = cands.filter(function (c) { return sm[c]; }).map(function (c) { return { sid: c, url: sm[c] }; });
+    cands = cands.filter(function (c) { return !sm[c]; });
+    if (!cands.length && remote.length) return { ok: false, route: remote };
+  }
   sid = cands[0] || '';
   var lk = 'fail_' + (sid || 'none') + '_' + username.slice(0, 40);
   if (+(cache.get(lk) || 0) >= 5) return { ok: false, msg: 'Too many wrong passwords. Try again after 10 minutes.' };
@@ -308,6 +319,7 @@ function login(sid, username, password, want) {
     var f = users_().filter(function (x) { return x.key === username; })[0];
     if (f && f.active && chk_(f.pass, String(password || ''))) { u = f; sid = cands[ci]; }
   }
+  if (!u && remote.length) return { ok: false, route: remote };
   if (!u && !anySheet) return { ok: false, msg: setupMiss ? 'This organisation has not been set up. Ask the Admin to set it up.' : NOSHEET };
   if (!u) {
     cache.put(lk, String(+(cache.get(lk) || 0) + 1), 600);
@@ -427,12 +439,12 @@ function canEdit_(u, rowArr) { return u.canEdit && inScope_(u, wsKey_(rowArr[I_W
 var IDX_MEM = null, IDX_CH = 1000, IDX_TTL = 900;
 function ver_() {                                      // DATA version: changes after every save (summary / list caches use it)
   var c = CacheService.getScriptCache(), k = 'dv_' + SS_ID, v = c.get(k);
-  if (!v) { v = Utilities.getUuid().slice(0, 8); c.put(k, v, 21600); }
+  if (!v) { v = Utilities.getUuid().slice(0, 8); c.put(k, v, srvTtl_()); }
   return v;
 }
 function ixv_() {                                      // INDEX generation: changes only when the whole index must be rebuilt (delete / paste / restore ...)
   var c = CacheService.getScriptCache(), k = 'iv_' + SS_ID, v = c.get(k);
-  if (!v) { v = Utilities.getUuid().slice(0, 8); c.put(k, v, 21600); }
+  if (!v) { v = Utilities.getUuid().slice(0, 8); c.put(k, v, srvTtl_()); }
   return v;
 }
 function bump_() {                                     // big change: data version AND index are both thrown away (the next reader rebuilds the index once)
@@ -1865,6 +1877,7 @@ function regUserSids_(id) {                              // one ID can exist in 
   return (map[k] || []).slice();
 }
 function regAddUser_(id, sid, role) {
+  if (!isCentral_()) { centralSync_([[String(id).trim(), String(role || '')]]); return; }      // own server: the central registry must learn the new ID (so that the login can find this server)
   if (regUserSids_(id).indexOf(String(sid).trim()) >= 0) return;
   regTab_('Users').appendRow([String(id).trim(), sid, role || '', Utilities.formatDate(new Date(), TZ, 'dd.MM.yyyy HH:mm')]);
   try { CacheService.getScriptCache().removeAll(['reg_users', 'reg_us2']); } catch (e) {}
@@ -1895,6 +1908,113 @@ function logAdmin_(token, id, title, org, ws, aid, discom) {
   regTab_('Admins').appendRow([Utilities.formatDate(new Date(), TZ, 'dd.MM.yyyy HH:mm'), googleEmail_(token), aid, discom, org, ws.join(', '), title, 'https://docs.google.com/spreadsheets/d/' + id + '/edit', id]);
   regAddUser_(aid, id, 'ADMIN');
   try { CacheService.getScriptCache().removeAll(['discoms', 'dsmap']); } catch (e) {}
+}
+
+/* ---------------- Admin's own server (routing) ----------------
+ * Central script: registry tab "Servers" (Sheet ID | Server URL | Key | Status | Time). While a sheet is "Active" there, login answers { route: [{sid, url}] }
+ * and the app talks to that Admin's own copy of this script (same Google Sheet, so no data is moved). Central refuses all other calls for that sheet.
+ * Own copy: only CENTRAL / CENTRAL_KEY are different. New User IDs are told to the central registry (centralSync_) so the login still finds the right server. */
+var SRVM = null, SRV_OFF = null;
+function srvTab_() {
+  var ss = regSS_(), sh = ss.getSheetByName('Servers');
+  if (!sh) { sh = ss.insertSheet('Servers'); sh.getRange(1, 1, 1, 5).setValues([['Sheet ID', 'Server URL', 'Key', 'Status', 'Time']]).setFontWeight('bold'); sh.setFrozenRows(1); sh.getRange(1, 1, 500, 5).setNumberFormat('@'); }
+  return sh;
+}
+function srvRows_() { var sh = srvTab_(), n = sh.getLastRow(); return n >= 2 ? sh.getRange(2, 1, n - 1, 5).getValues() : []; }
+function srvMap_() {                                   // { sheetId: url } of Active servers (central only; cached)
+  if (SRVM) return SRVM;
+  if (!isCentral_()) return (SRVM = {});
+  var c = CacheService.getScriptCache(), s = c.get('srv_map');
+  if (s) { try { return (SRVM = JSON.parse(s)); } catch (e) {} }
+  var m = {}; srvRows_().forEach(function (r) { if (String(r[3]) === 'Active' && r[1]) m[String(r[0]).trim()] = String(r[1]).trim(); });
+  try { c.put('srv_map', JSON.stringify(m), 600); } catch (e) {}
+  return (SRVM = m);
+}
+function srvForget_() { SRVM = null; try { CacheService.getScriptCache().remove('srv_map'); } catch (e) {} }
+function srvTtl_() { try { return (isCentral_() && srvMap_()[SS_ID]) ? 120 : 21600; } catch (e) { return 21600; } }   // central only reads such a sheet: its caches live 2 min (the own server does the writes)
+function srvOffNow_() {                                // own copy: true after the Admin switched it off
+  if (SRV_OFF !== null) return SRV_OFF;
+  var c = CacheService.getScriptCache(), v = c.get('srv_off');
+  if (v === null) { v = PropertiesService.getScriptProperties().getProperty('SRV_OFF') ? '1' : '0'; c.put('srv_off', v, 21600); }
+  return (SRV_OFF = v === '1');
+}
+function srvRow_(sid) { var rows = srvRows_(); for (var i = 0; i < rows.length; i++) if (String(rows[i][0]).trim() === sid) return { i: i + 2, r: rows[i] }; return null; }
+function srvStatus(token) {
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  if (!isCentral_()) return { own: true };
+  var f = srvRow_(SS_ID);
+  return { own: false, status: f ? String(f.r[3]) : 'None', url: f ? String(f.r[1]) : '' };
+}
+function srvPrepare(token, central) {                  // step 1 of the install: a secret key for this sheet (put into the Admin's copy)
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  if (!isCentral_()) throw new Error('You are already on your own server.');
+  central = String(central || '');
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(central)) throw new Error('The central link is not valid.');
+  var l = lock_();
+  try {
+    var key = rnd_(32), f = srvRow_(SS_ID), now = Utilities.formatDate(new Date(), TZ, 'dd.MM.yyyy HH:mm');
+    if (f && String(f.r[3]) === 'Active') throw new Error('Your own server is already ON.');
+    if (f) srvTab_().getRange(f.i, 1, 1, 5).setValues([[SS_ID, '', key, 'Pending', now]]);
+    else srvTab_().appendRow([SS_ID, '', key, 'Pending', now]);
+    srvForget_();
+  } finally { l.releaseLock(); }
+  return { key: key };
+}
+function srvActivate(token, url) {                     // last step: the copy must answer (this also proves the Admin did the one-time authorization), then the sheet is routed to it
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  if (!isCentral_()) throw new Error('You are already on your own server.');
+  url = String(url || '').trim();
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_\-]+\/exec$/.test(url)) throw new Error('The server link is not valid.');
+  var f = srvRow_(SS_ID); if (!f || String(f.r[3]) === 'Active') throw new Error('Start the install again.');
+  var ok = false, why = '';
+  try {
+    var r = UrlFetchApp.fetch(url, { muteHttpExceptions: true, followRedirects: true }), j = JSON.parse(r.getContentText());
+    ok = !!(j && j.ok && j.app === 'Transformer Tracking API' && j.central === 1);
+    if (!ok) why = 'The server answered, but it is not the TF-Tracker copy.';
+  } catch (e) { why = 'The server does not answer yet. Finish the one-time authorization (function authorizeAll > Run > Allow), then try again.'; }
+  if (!ok) throw new Error(why);
+  var l = lock_();
+  try { srvTab_().getRange(f.i, 1, 1, 5).setValues([[SS_ID, url, String(f.r[2]), 'Active', Utilities.formatDate(new Date(), TZ, 'dd.MM.yyyy HH:mm')]]); srvForget_(); } finally { l.releaseLock(); }
+  srvForget_(); srvMap_();
+  return { ok: true, url: url };
+}
+function srvKeyOk_(sid, key) { var f = srvRow_(String(sid || '').trim()); return !!(f && key && String(f.r[2]) === String(key)); }
+function regSync(sid, key, users) {                    // called by an own server: new User IDs
+  if (!isCentral_()) throw new Error('No.');
+  if (!srvKeyOk_(sid, key)) throw new Error('Not allowed.');
+  sid = String(sid).trim();
+  (users || []).slice(0, 200).forEach(function (u) { var id = String(u && u[0] || '').trim(); if (/^[A-Za-z0-9._@\-]{3,30}$/.test(id)) regAddUser_(id, sid, String(u[1] || '')); });
+  return true;
+}
+function srvOff(sid, key) {                            // called by an own server: switch back to the shared server
+  if (!isCentral_()) throw new Error('No.');
+  if (!srvKeyOk_(sid, key)) throw new Error('Not allowed.');
+  var f = srvRow_(String(sid).trim()), l = lock_();
+  try { srvTab_().getRange(f.i, 4).setValue('Off'); srvForget_(); } finally { l.releaseLock(); }
+  return true;
+}
+function adminSrvOff(token) {                          // own copy: stop it and go back to the shared server
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  if (isCentral_()) throw new Error('You are on the shared server.');
+  var r = centralPost_('srvOff', [SS_ID, CENTRAL_KEY]);
+  if (!r || !r.ok) throw new Error('The shared server could not be reached. Try again.');
+  PropertiesService.getScriptProperties().setProperty('SRV_OFF', '1'); CacheService.getScriptCache().put('srv_off', '1', 21600); SRV_OFF = true;
+  return true;
+}
+function centralPost_(fn, args) {
+  if (!CENTRAL) return null;
+  try {
+    var r = UrlFetchApp.fetch(CENTRAL, { method: 'post', contentType: 'text/plain;charset=utf-8', payload: JSON.stringify({ fn: fn, args: args }), muteHttpExceptions: true, followRedirects: true });
+    return JSON.parse(r.getContentText());
+  } catch (e) { Logger.log('central: ' + e); return null; }
+}
+function centralSync_(list) {                          // own copy: tell the central registry about new IDs; if it cannot be reached, keep them and try again later
+  var pr = PropertiesService.getScriptProperties(), q = [];
+  try { q = JSON.parse(pr.getProperty('SYNC_Q') || '[]'); } catch (e) { q = []; }
+  q = q.concat(list || []); if (!q.length) return;
+  var r = centralPost_('regSync', [SS_ID, CENTRAL_KEY, q.slice(0, 200)]);
+  if (r && r.ok) { q = q.slice(200); }
+  try { pr.setProperty('SYNC_Q', JSON.stringify(q)); } catch (e) {}
 }
 
 /* ---------------- Division name (EWD ...) of a Division Head ---------------- */
@@ -2276,6 +2396,7 @@ function adminRestore(token, otp, password) {
 }
 // The Google Sheet itself was deleted: Admin makes a new empty Sheet (Anyone with the link - Editor) and restores everything into it
 function restoreNewSheet(link, aid, password, gtoken) {
+  if (!isCentral_()) throw new Error('This is not available on your own server yet.');
   aid = String(aid || '').trim();
   if (!aid) throw new Error('Enter your Profit Center (Admin ID).');
   var c = CacheService.getScriptCache(), fk = 'rn_' + aid.toLowerCase(), tries = +(c.get(fk) || 0);
@@ -2527,6 +2648,7 @@ function adminMigrateCheck(token, link) {
   return { id: o.id, title: o.ss.getName(), cut: kitDs_(sp.cut), toNew: sp.keep.length, stay: sp.old + sp.arc, total: sp.total + sp.arc };
 }
 function adminMigrate(token, link, password) {
+  if (!isCentral_()) throw new Error('This is not available on your own server yet.');
   var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
   if (!chk_(a.pass, String(password || ''))) throw new Error('The password is wrong.');
   var o = migOpen_(link), dst = o.ss, id = o.id, oldSid = SS_ID, l = lock_();
@@ -2655,7 +2777,8 @@ function adminAddWorkshop(token, name) {
 }
 function adminInfo(token) {
   var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
-  return { sheet: 'https://docs.google.com/spreadsheets/d/' + SS_ID + '/edit', sid: SS_ID, workshops: ws_(), conv: !!cfg_().conv, ym: cfg_().ym || '' };
+  if (!isCentral_()) { try { centralSync_([]); } catch (e) {} }
+  return { sheet: 'https://docs.google.com/spreadsheets/d/' + SS_ID + '/edit', sid: SS_ID, workshops: ws_(), conv: !!cfg_().conv, ym: cfg_().ym || '', own: !isCentral_() };
 }
 function adminArchive(token) {
   var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
