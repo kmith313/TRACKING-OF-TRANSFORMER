@@ -3019,10 +3019,14 @@ function loadKitty(date) {
     .catch(function (e) { if (seq !== KSEQ) return; msg('kmsg', esc(e.message), 'err'); });
 }
 function kshift(n) { var d = parseD(kdv()); d.setDate(d.getDate() + n); if (d > new Date()) return; KED = {}; loadKitty(fmt(d)); }
-$('kprev').onclick = function () { kshift(-1); }; $('knext').onclick = function () { kshift(1); };
-$('ktoday').onclick = function () { KED = {}; loadKitty(fmt(new Date())); }; $('kit-ref').onclick = function () { loadKitty(); };
-$('kdate').addEventListener('change', function () { KED = {}; loadKitty(); });
-document.querySelector('input[data-c=kdate]').addEventListener('change', function () { setTimeout(function () { KED = {}; loadKitty(); }, 0); });
+// Kitty UI was removed from navigation. Keep legacy handlers inert when its controls are absent.
+[['kprev', function () { kshift(-1); }], ['knext', function () { kshift(1); }],
+ ['ktoday', function () { KED = {}; loadKitty(fmt(new Date())); }], ['kit-ref', function () { loadKitty(); }]]
+ .forEach(function (x) { var el = $(x[0]); if (el) el.onclick = x[1]; });
+var kdateEl = $('kdate');
+if (kdateEl) kdateEl.addEventListener('change', function () { KED = {}; loadKitty(); });
+var kdateInput = document.querySelector('input[data-c=kdate]');
+if (kdateInput) kdateInput.addEventListener('change', function () { setTimeout(function () { KED = {}; loadKitty(); }, 0); });
 document.addEventListener('input', function (e) {                    // live balance / difference while typing
   var t = e.target; if (!t.classList || !t.classList.contains('ki')) return;
   t.value = t.value.replace(/\D/g, '').slice(0, 6);
@@ -3052,7 +3056,7 @@ document.addEventListener('click', function (e) {
     call('kitCancelReq', TOKEN, w, date).then(function (r) { renderKitty(r); }).catch(function (er) { msg('kmsg', esc(er.message), 'err'); });
   }
 });
-$('kit-xl').onclick = function () {
+if ($('kit-xl')) $('kit-xl').onclick = function () {
   var sheets = []; document.querySelectorAll('#kout table.kt').forEach(function (t) {
     var tt = t.cloneNode(true); tt.querySelectorAll('input').forEach(function (i) { i.replaceWith(document.createTextNode(i.value || '0')); });
     var a = tableToAoa(tt), nm = t.dataset.name || 'Kitty';
@@ -3061,7 +3065,7 @@ $('kit-xl').onclick = function () {
   if (!sheets.length) return msg('kmsg', 'Nothing to download yet.', 'info');
   xlsxDownload('Kitty_' + fileSafe(KIT ? KIT.date : '') + '.xlsx', sheets);
 };
-$('kit-pr').onclick = function () {
+if ($('kit-pr')) $('kit-pr').onclick = function () {
   var c = $('kout').cloneNode(true); c.querySelectorAll('input').forEach(function (i) { i.replaceWith(document.createTextNode(i.value || '0')); }); c.querySelectorAll('button,.kmsg,.kbar,.kpend').forEach(function (x) { x.remove(); });
   printHtml('Kitty - ' + (KIT ? KIT.date : ''), '<div class="ps">' + c.innerHTML + '</div>');
 };
@@ -3167,12 +3171,15 @@ function kySave() {
   call('kitSavePrev', TOKEN, KYD, data).then(function () { KYBUSY = false; if (KYAGAIN) { KYAGAIN = false; return kySave(); } $('kystat').textContent = '✓ Saved ' + new Date().toTimeString().slice(0, 5); $('kystat').style.color = '#15803d'; })
     .catch(function (e) { KYBUSY = false; $('kystat').textContent = 'Not saved: ' + e.message; $('kystat').style.color = '#b91c1c'; });
 }
-$('kly').onclick = function () { $('kym').classList.remove('hide'); $('kyb').innerHTML = SKH; kyLoad(KIT && KIT.ly ? KIT.ly : ''); };
+if ($('kly')) $('kly').onclick = function () { $('kym').classList.remove('hide'); $('kyb').innerHTML = SKH; kyLoad(KIT && KIT.ly ? KIT.ly : ''); };
 $('kyx').onclick = function () { if (KYT) kySave(); $('kym').classList.add('hide'); setTimeout(function () { loadKitty(); }, 400); };
-$('kydate').addEventListener('change', function () { if (KYT) kySave(); kyLoad(); });
-document.querySelector('input[data-c=kydate]').addEventListener('change', function () { setTimeout(function () { if (KYT) kySave(); kyLoad(); }, 0); });
+var kydateEl = $('kydate');
+if (kydateEl) kydateEl.addEventListener('change', function () { if (KYT) kySave(); kyLoad(); });
+var kydateInput = document.querySelector('input[data-c=kydate]');
+if (kydateInput) kydateInput.addEventListener('change', function () { setTimeout(function () { if (KYT) kySave(); kyLoad(); }, 0); });
 function kyShift(n) { var d = parseD(KYD || $('kydate').value.trim()); d.setDate(d.getDate() + n); if (KYT) kySave(); kyLoad(fmt(d)); }
-$('kyprev').onclick = function () { kyShift(-1); }; $('kynext').onclick = function () { kyShift(1); };
+if ($('kyprev')) $('kyprev').onclick = function () { kyShift(-1); };
+if ($('kynext')) $('kynext').onclick = function () { kyShift(1); };
 /* Division Head: popup when a workshop asks to change its opening kitty */
 function kapRender(list) {
   var h = ''; list.forEach(function (r) {
@@ -3184,7 +3191,7 @@ function kapRender(list) {
   $('kapl').innerHTML = h;
 }
 function kapCheck() {
-  if (!ME || !ME.admin || !TOKEN) return;
+  if (!$('tkit') || !ME || !ME.admin || !TOKEN) return;
   call('kitPending', TOKEN).then(function (l) {
     var n = l.length; $('tkit').textContent = n ? 'Kitty (' + n + ')' : 'Kitty';
     if (!n) { $('kap').classList.add('hide'); KAPN = 0; return; }
@@ -3192,13 +3199,13 @@ function kapCheck() {
     KAPN = n;
   }).catch(function () {});
 }
-$('kapx').onclick = function () { $('kap').classList.add('hide'); };
-$('kapl').addEventListener('click', function (e) {
+if ($('kapx')) $('kapx').onclick = function () { $('kap').classList.add('hide'); };
+if ($('kapl')) $('kapl').addEventListener('click', function (e) {
   var b = e.target.closest('.kok,.kno'); if (!b) return; var id = b.closest('.kapr').dataset.id; b.disabled = true;
   call('kitDecide', TOKEN, id, b.classList.contains('kok')).then(function (l) { KAPN = l.length; $('tkit').textContent = l.length ? 'Kitty (' + l.length + ')' : 'Kitty'; if (l.length) kapRender(l); else $('kap').classList.add('hide'); if (!$('t-kit').classList.contains('hide')) loadKitty(); })
     .catch(function (er) { b.disabled = false; alert(er.message); });
 });
-setInterval(function () { if (!document.hidden) kapCheck(); }, 120000);
+// Kitty approval polling is disabled because its navigation and panel were removed.
 
 /* ---------- Summary: Excel / Print ---------- */
 var SNAMES = ['Workshop wise', 'Division wise', 'Capacity wise', 'Division x Capacity PR'];
