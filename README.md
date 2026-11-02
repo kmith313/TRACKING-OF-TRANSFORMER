@@ -3,6 +3,13 @@
 The frontend runs on GitHub Pages; the backend is a Google Apps Script that you deploy once.
 Each organisation gives its own Google Sheet link to the app, and the app builds everything else.
 
+## Latest requested changes (November 2026)
+- Kitty has been removed from the user-facing navigation and page.
+- Division-wise summary is collapsed by default; users open it only when clicked.
+- Admin manages Workshop → Circle → Division mappings in the app. The mapping is stored in a `Master` tab created in the same Google Sheet supplied during setup.
+- Comparison groups divisions under their mapped Circle and circles under their Workshop. Unmapped legacy divisions remain visible so data is not lost.
+- The Apps Script runs a daily cleanup that permanently removes records older than 24 months from the connected sheet; no new sheet is required. Back up important data before enabling/using automatic cleanup.
+
 ## Folder
 - All the files next to `index.html` (`index.html`, `complain.js`, `config.js`, `sw.js`, `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `emblem.png`) : upload them to GitHub, no sub-folder needed
 - `apps-script/Code.gs` : backend code to paste into Google Apps Script

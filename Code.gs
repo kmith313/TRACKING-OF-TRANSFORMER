@@ -6,7 +6,7 @@
  *****************************************************************/
 var SS_ID = '';                                         // set on every request from the token / login
 var TZ = 'Asia/Kolkata';
-var DATA = 'DATA', USERS = 'Users', DRV = 'Drivers', ARC = 'ARCHIVE', CONF = 'Config';
+var DATA = 'DATA', USERS = 'Users', DRV = 'Drivers', ARC = 'ARCHIVE', CONF = 'Config', MASTER = 'Master';
 var ARCH_YEARS = 2;                                     // completed data older than this many years moves to ARCHIVE
 var MAX_WS = 12;                                        // maximum workshops per app
 
@@ -25,7 +25,7 @@ var STD_CAPS = [10,16,25,63,100,160,250,400,630];
 var G_ = this;
 var API = {   // only these functions can be called from outside
   checkSheet: 1, setupApp: 1, login: 1, getMe: 1, logout: 1, changePassword: 1,
-  adminUsers: 1, adminReset: 1, adminSetActive: 1, adminAddUser: 1, adminAddWorkshop: 1, adminInfo: 1, adminArchive: 1, adminHealth: 1,
+  adminUsers: 1, adminReset: 1, adminSetActive: 1, adminAddUser: 1, adminAddWorkshop: 1, adminInfo: 1, adminArchive: 1, adminHealth: 1, adminGetMaster: 1, adminSaveMaster: 1,
   getData: 1, saveGrid: 1, saveRows: 1, deleteRecord: 1, saveRecord: 1,
   getSummary: 1, getList: 1, getCols: 1, getDataRange: 1,
   getDrivers: 1, saveDrivers: 1, deleteDrivers: 1
@@ -230,6 +230,7 @@ function login(sid, username, password) {
     return { ok: false, msg: 'The ID or password is wrong.' };
   }
   cache.remove(lk);
+  try { retentionDaily_(); } catch (retErr) { Logger.log('24-month retention cleanup: ' + retErr.message); }
   if (u.pass.indexOf('h1$') !== 0) setPass_(u, String(password), u.must);
   var t = Utilities.getUuid() + Utilities.getUuid();
   cache.put('s_' + t, JSON.stringify({ k: u.key, s: sid }), 21600);
@@ -669,18 +670,32 @@ function getSummary(token, p) {
   function sumV(keys) { var s = zero_(11); keys.forEach(function (k) { if (divMap[k]) addTo_(s, divMap[k]); }); return s; }
   function sumC(keys) { var s = {}; keys.forEach(function (k) { var d = divCap[k]; if (d) for (var cp in d) s[cp] = (s[cp] || 0) + d[cp]; }); return s; }
 
-  // layout: har workshop ke neeche uski divisions (data se apne aap), phir workshop ka total
+  // Layout follows the Admin-maintained hierarchy: Workshop > Circle > Division.
+  // Any data division not yet mapped is still shown under its workshop.
   var rowsD = [], rowsC = [], assigned = {}, allDivs = Object.keys(divMap).filter(Boolean);
   function natural(a, b) { return a.localeCompare(b, undefined, { numeric: true }); }
-  function push(t, label, keys) { rowsD.push({ t: t, label: label, keys: keys, v: sumV(keys) }); rowsC.push({ t: t, label: label, keys: keys, c: sumC(keys) }); }
+  function push(t, label, keys, circle) { rowsD.push({ t: t, label: label, keys: keys, circle: circle || '', v: sumV(keys) }); rowsC.push({ t: t, label: label, keys: keys, circle: circle || '', c: sumC(keys) }); }
+  var master = masterRows_();
   wsShown.forEach(function (w) {
-    var keys = allDivs.filter(function (d) { return divWs[d] === w; }).sort(natural);
-    keys.forEach(function (d) { push('d', d, [d]); assigned[d] = 1; });
-    push('w', w, keys);
+    var mapped = master.filter(function (m) { return m.workshop === w; }), circles = [];
+    mapped.forEach(function (m) { if (circles.indexOf(m.circle) < 0) circles.push(m.circle); });
+    var workshopKeys = [];
+    circles.forEach(function (circle) {
+      var ckeys = [];
+      mapped.filter(function (m) { return m.circle === circle; }).forEach(function (m) {
+        var d = m.division;
+        if (divMap[d] && divWs[d] === w && ckeys.indexOf(d) < 0) ckeys.push(d);
+      });
+      ckeys.sort(natural);
+      if (ckeys.length) { push('c', circle, ckeys, circle); ckeys.forEach(function (d) { push('d', d, [d], circle); assigned[d] = 1; workshopKeys.push(d); }); }
+    });
+    // Legacy/unmapped divisions remain visible instead of disappearing.
+    allDivs.filter(function (d) { return divWs[d] === w && !assigned[d]; }).sort(natural).forEach(function (d) { push('d', d, [d], ''); assigned[d] = 1; workshopKeys.push(d); });
+    push('w', w, workshopKeys);
   });
   var others = allDivs.filter(function (k) { return !assigned[k]; });
   var othersAny = others.some(function (k) { return divMap[k].some(function (x) { return x; }) || Object.keys(divCap[k] || {}).length; });
-  if (othersAny) push('o', 'OTHER / LIST ME NAHI', others);
+  if (othersAny) push('o', 'OTHER / LIST ME NAHI', others); 
   var allKeys = Object.keys(divMap);
 
   var topRows = wsShown.map(function (w) { return { label: w, ws: w, v: top[w] }; });
@@ -1010,6 +1025,7 @@ function build_(ss, org, ws, aid, adisp, apw) {
   var dr = mkTab_(ss, DRV, ['ID', 'Firm Name', 'Workshop', 'Driver Name', 'Mobile No.', 'Vehicle GPS URL', 'Vehicle No.']);
   dr.getRange(2, 1, dr.getMaxRows() - 1, 7).setNumberFormat('@');
   mkTab_(ss, ARC, ['Key (Workshop|PR NO)', 'Last date (YYYYMMDD)', 'Record (packed)']);
+  var ms = mkTab_(ss, MASTER, ['Workshop', 'Circle', 'Division']); ms.setColumnWidths(1, 3, 180);
   var cf = mkTab_(ss, CONF, ['Setting', 'Value']);
   cf.getRange(2, 1, 6, 2).setNumberFormat('@');
   cf.getRange(2, 1, 6, 2).setValues([
@@ -1019,7 +1035,7 @@ function build_(ss, org, ws, aid, adisp, apw) {
   cf.setColumnWidths(1, 2, 220);
   us.setColumnWidths(1, 9, 110); dr.setColumnWidths(1, 7, 130);
   ss.getSheets().forEach(function (s) {                                    // default khali "Sheet1" hata do
-    if ([DATA, USERS, DRV, ARC, CONF].indexOf(s.getName()) >= 0) return;
+    if ([DATA, USERS, DRV, ARC, CONF, MASTER].indexOf(s.getName()) >= 0) return;
     if (/^(sheet\s*\d*)$/i.test(s.getName()) && s.getLastRow() === 0 && ss.getSheets().length > 1) ss.deleteSheet(s);
   });
   try { ss.setActiveSheet(dt); ss.moveActiveSheet(1); } catch (e) {}
@@ -1082,7 +1098,7 @@ function setupApp(link, o) {
     catch (e) { throw new Error('The tabs could not be created in the Sheet. Set Share -> "Anyone with the link" to the "Editor" role, then try again. (' + e.message + ')'); }
     cfgBump_(); bump_();
     logAdmin_(o.gtoken, id, ss.getName(), org, ws, aid);
-    return { ok: true, sid: id, org: org, workshops: ws, tabs: [DATA, USERS, DRV, CONF, ARC] };
+    return { ok: true, sid: id, org: org, workshops: ws, tabs: [DATA, USERS, DRV, CONF, ARC, MASTER] };
   } finally { l.releaseLock(); }
 }
 
@@ -1107,11 +1123,68 @@ function adminAddWorkshop(token, name) {
 }
 function adminInfo(token) {
   var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
-  return { sheet: 'https://docs.google.com/spreadsheets/d/' + SS_ID + '/edit', sid: SS_ID, workshops: ws_() };
+  return { sheet: 'https://docs.google.com/spreadsheets/d/' + SS_ID + '/edit', sid: SS_ID, workshops: ws_(), master: masterRows_() };
 }
+/* ---------------- Workshop > Circle > Division master ----------------
+ * The mapping lives in the same user-provided spreadsheet; the app is the editor.
+ */
+function masterRows_() {
+  var sh = ss_().getSheetByName(MASTER);
+  if (!sh || sh.getLastRow() < 2) return [];
+  return sh.getRange(2, 1, sh.getLastRow() - 1, 3).getDisplayValues()
+    .filter(function (r) { return r[0] && r[1] && r[2]; })
+    .map(function (r) { return { workshop: String(r[0]).trim(), circle: String(r[1]).trim(), division: String(r[2]).trim() }; });
+}
+function adminGetMaster(token) {
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  return { workshops: ws_(), rows: masterRows_() };
+}
+function adminSaveMaster(token, rows) {
+  var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
+  if (!Array.isArray(rows)) throw new Error('Invalid master mapping.');
+  var validWs = {}; ws_().forEach(function (w) { validWs[nk_(w)] = w; });
+  var seen = {}, out = [];
+  rows.forEach(function (r) {
+    var w = String(r.workshop || '').trim(), c = String(r.circle || '').replace(/\s+/g, ' ').trim(), d = String(r.division || '').replace(/\s+/g, ' ').trim();
+    if (!w && !c && !d) return;
+    w = validWs[nk_(w)] || '';
+    if (!w || !c || !d) throw new Error('Har mapping me Workshop, Circle aur Division teeno bharna zaroori hai.');
+    if (c.length > 60 || d.length > 60) throw new Error('Circle aur Division ke naam 60 characters se chhote rakhein.');
+    var k = nk_(w) + '|' + nk_(c) + '|' + nk_(d);
+    if (seen[k]) throw new Error('Duplicate mapping: ' + w + ' / ' + c + ' / ' + d);
+    seen[k] = 1; out.push([w, c, d]);
+  });
+  var sh = ss_().getSheetByName(MASTER) || ss_().insertSheet(MASTER);
+  sh.clearContents(); sh.getRange(1, 1, 1, 3).setValues([['Workshop', 'Circle', 'Division']]).setFontWeight('bold').setBackground('#e3e9fb');
+  if (out.length) sh.getRange(2, 1, out.length, 3).setNumberFormat('@').setValues(out);
+  sh.setFrozenRows(1); sh.setColumnWidths(1, 3, 180);
+  try { CacheService.getScriptCache().remove('master_' + SS_ID); } catch (e) {}
+  bump_();
+  return masterRows_();
+}
+
 function adminArchive(token) {
   var a = auth_(token); if (!a.admin) throw new Error('Admin only.');
-  return archiveOld(true);
+  return purgeExpiredData_();
+}
+// Keep only the most recent 24 months in this same spreadsheet. No archive/new-sheet migration.
+function purgeExpiredData_() {
+  var l = lock_();
+  try {
+    var cut = cutoff_(), sh = ss_().getSheetByName(DATA), removed = 0;
+    if (sh && sh.getLastRow() > 1) {
+      var vals = sh.getRange(2, 1, sh.getLastRow() - 1, NC).getValues(), keep = [];
+      vals.forEach(function (r) { if (r.every(function (v) { return String(v == null ? '' : v).trim() === ''; })) return; var mx = maxDate_(r); if (mx > 0 && mx < cut) removed++; else keep.push(r); });
+      if (removed) { writeRows_(sh, 2, keep); var last = sh.getLastRow(); if (last > keep.length + 1) sh.getRange(keep.length + 2, 1, last - keep.length - 1, NC).clearContent(); }
+    }
+    var ar = ss_().getSheetByName(ARC); if (ar && ar.getLastRow() > 1) ar.getRange(2, 1, ar.getLastRow() - 1, Math.max(3, ar.getLastColumn())).clearContent();
+    ARCH_IX = null; bump_(); compactSheets(true); return removed;
+  } finally { l.releaseLock(); }
+}
+function retentionDaily_() {
+  var c = CacheService.getScriptCache(), key = 'ret24_' + SS_ID;
+  if (c.get(key)) return;
+  purgeExpiredData_(); c.put(key, '1', 86400);
 }
 // Data aur users ki sehat jaanchne ke liye (kuch badalta nahi)
 function adminHealth(token) {

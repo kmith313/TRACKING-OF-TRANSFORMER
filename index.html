@@ -421,6 +421,8 @@ body.on-home::before{content:"";position:fixed;inset:0;pointer-events:none;opaci
 :is(#sout,.soutp) table.xlt thead th.xdt{text-align:left}
 :is(#sout,.soutp) table.xlt thead a.n{color:#111;text-decoration:underline}
 :is(#sout,.soutp) table.xlt tr.xw td{background:#ffe0a3;font-weight:800}
+:is(#sout,.soutp) table.xlt tr.xc td{background:#e8efff;font-weight:800}
+:is(#sout,.soutp) table.xlt tr.xc td{background:#e8efff;font-weight:800}
 :is(#sout,.soutp) table.xlt tr.xo td{background:#fff6e5}
 :is(#sout,.soutp) table.xlt tr.xg td{background:#e2efda;font-weight:800}
 :is(#sout,.soutp) table.xlt tr.xt td{background:#fff200;font-weight:800}
@@ -848,6 +850,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 .btn.danger{color:#b91c1c;border-color:#f3c0c0}.btn.danger:hover{background:#fee2e2}
 .wchk{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}.wck{display:inline-flex;gap:6px;align-items:center;border:1px solid #d6defa;border-radius:999px;padding:5px 12px;font-size:13px;background:#fff;cursor:pointer;font-weight:600}.wck:has(input:checked){background:#e7edff;border-color:#4c6ef5;color:#243a9a}.wck.all{border-style:dashed}
 .sbanner{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#fff4e5;border:1px solid #fbc77a;color:#8a4b00;border-radius:12px;padding:9px 14px;margin:10px 12px 0;font-size:13px}.sbanner span{flex:1 1 260px}
+#sbanner,#st-card,#dold{display:none!important}
 </style>
 </head>
 <body>
@@ -857,7 +860,7 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
   <div class="card">
     <div class="brandlogo"><img src="data:image/png;base64,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" alt="" style="width:54px"></div>
     <h2 style="text-align:center">Division Head setup</h2>
-    <div class="muted">Enter the details below and press Create. Everything else (sharing the sheet, creating all tabs: DATA, Users, Drivers, Config, ARCHIVE) is done automatically.</div>
+    <div class="muted">Enter the details below and press Create. Everything else (sharing the sheet and creating DATA, Users, Drivers, Config, ARCHIVE and Master tabs) is done automatically. After first login, use Admin → Master Mapping to add each Circle and Division under its Workshop.</div>
 
     <div id="su-auth" class="hide">
       <div class="stp"><i>1</i> Sign in with Google</div>
@@ -967,7 +970,6 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
   <nav>
     <button data-t="sum" id="tsum" class="on">Summary</button>
     <button data-t="cmp" id="tcmp">Comparison</button>
-    <button data-t="kit" id="tkit">Kitty</button>
     <button data-t="data" id="tdata">Data Sheet</button>
     <button data-t="drv" id="tdrv">Driver Master</button>
     <button data-t="usr" id="tusr" class="hide">Admin</button>
@@ -1004,18 +1006,6 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
       </div>
       <div id="cmsg"></div>
       <div id="cout"></div>
-    </section>
-
-    <!-- KITTY -->
-    <section id="t-kit" class="hide">
-      <div class="card">
-        <div class="bar sbar"><div><label>Date</label><div class="dt kdt"><button class="btn sec kar" id="kprev" title="Previous day">&#9664;</button><input type="text" class="dtx" id="kdate" inputmode="numeric" placeholder="DD.MM.YYYY"><span class="calw">&#128197;<input type="date" data-c="kdate"></span><button class="btn sec kar" id="knext" title="Next day">&#9654;</button></div></div>
-          <button class="btn sec" id="ktoday">Today</button><button class="btn sec hide" id="kly">Last year kitty</button><button class="btn sec" id="kit-ref">Refresh</button><button class="btn sec" id="kit-xl">&#11015; Excel</button><button class="btn sec" id="kit-pr">Print</button></div>
-        <div class="muted" id="kit-sub" style="font-size:12px;margin-top:4px"></div>
-        <details class="dtl"><summary>How it works</summary>Choose the date and enter that day's <b>Issue</b>, <b>Repair</b>, <b>Issue to other workshop</b> and <b>Receive from other workshop</b>, then tap <b>Save</b>. <b>Balance kitty = Opening + Repair &minus; Issue &minus; Issue to other workshop + Receive from other workshop</b>. The balance of a day automatically becomes the <b>opening kitty of the next day</b>. To correct an opening kitty tap <b>Edit opening kitty</b> and <b>Send approval</b>: the Division Head gets a request and the change is made only after approval. <b>Kitty difference = Balance &minus; Previous year kitty.</b></details>
-      </div>
-      <div id="kmsg"></div>
-      <div id="kout"></div>
     </section>
 
     <!-- DATA SHEET -->
@@ -1078,11 +1068,11 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
     <!-- USERS -->
     <section id="t-usr" class="hide">
-      <div class="asub" id="asub"><button data-as="sheet" class="on">&#128451; Sheet &amp; storage</button><button data-as="ws">&#127981; Workshops</button><button data-as="users">&#128101; Users</button><button data-as="bk">&#128190; Backup</button><button data-as="mt">&#128295; Maintenance</button><button data-as="srv">&#9889; My server</button></div>
+      <div class="asub" id="asub"><button data-as="sheet" class="on">&#128451; Google Sheet</button><button data-as="ws">&#127981; Workshops</button><button data-as="master">&#128218; Master Mapping</button><button data-as="users">&#128101; Users</button><button data-as="bk">&#128190; Backup</button><button data-as="mt">&#128295; Maintenance</button><button data-as="srv">&#9889; My server</button></div>
 
       <div class="apane" data-as="sheet">
         <div class="card acard"><h3>Google Sheet &amp; sharing</h3>
-          <div class="muted">All data lives in your Google Sheet (tabs: DATA, Users, Drivers, Config, ARCHIVE, Kitty). Keep the sheet shared as "Anyone with the link - Editor", otherwise the app will not work.</div>
+          <div class="muted">All active data (latest 24 months), Users, Drivers, Config and the <b>Master</b> mapping live in the same Google Sheet you connected. Workshop → Circle → Division mapping is managed only in this app and saved automatically in the Master tab. Records older than 24 months are permanently cleaned up; no new Google Sheet is needed. Keep the sheet shared as "Anyone with the link - Editor", otherwise the app will not work.</div>
           <div class="bar" style="margin-top:8px"><a class="btn sec" id="lk-sheet" target="_blank" rel="noopener">Open Google Sheet</a><button class="btn sec" id="lk-copy">Copy app link</button></div>
           <div class="muted" id="lk-note" style="margin-top:6px">Give the app link, the User ID and the temporary password to each new user. They log in directly from the home page with just ID and password.</div>
         </div>
@@ -1107,6 +1097,14 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
           <div id="wslist" class="wsrows"></div>
           <div class="bar" style="margin-top:10px"><div><div class="lbl">New workshop</div><input type="text" id="nw" placeholder="Workshop name" maxlength="30" style="max-width:240px"></div><button class="btn" id="nwadd">Add workshop</button></div>
           <div id="nwmsg"></div>
+        </div>
+      </div>
+
+      <div class="apane hide" data-as="master">
+        <div class="card acard"><h3>Workshop → Circle → Division Mapping</h3>
+          <div class="muted">Mapping isi Google Sheet ke <b>Master</b> tab me save hogi. Comparison me Division Circle ke andar aur Circle Workshop ke andar dikhega.</div>
+          <div class="fg" style="margin-top:10px"><div><div class="lbl">Workshop</div><select id="mm-w"></select></div><div><div class="lbl">Circle name</div><input id="mm-c" maxlength="60" placeholder="Circle name"></div><div><div class="lbl">Division name</div><input id="mm-d" maxlength="60" placeholder="Division name"></div></div>
+          <div class="bar" style="margin-top:8px"><button class="btn" id="mm-add">Add mapping</button><button class="btn sec" id="mm-save">Save Master Mapping</button></div><div id="mm-msg"></div><div id="mm-list" class="wsrows" style="margin-top:10px"></div>
         </div>
       </div>
 
@@ -1140,10 +1138,10 @@ body.kdrag{user-select:none;-webkit-user-select:none;cursor:cell}
 
       <div class="apane hide" data-as="mt">
         <div class="card acard"><h3>Maintenance</h3>
-          <div class="muted">Data check: shows problems in the sheet (changes nothing). Archive: moves finished records of earlier months to the ARCHIVE tab (1 record = 1 cell).</div>
-          <div class="muted" style="margin-top:6px"><b>Convert (monthly mode):</b> the DATA tab keeps only the <b>current + previous month</b> and every unfinished record (pending for issue / replacement / return). Everything older goes to ARCHIVE and a monthly summary (STATS) is built so last year's comparison stays fast. After that, a new month starts automatically at the first login. A backup copy of DATA is kept in a hidden tab. Do it once, while nobody is entering data (takes 1-2 minutes).</div>
-          <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Archive old data</button><button class="btn" id="mconv">Convert to monthly mode</button></div>
-          <div class="muted" id="mconvst"></div>
+          <div class="muted">Data check: shows problems in the sheet (changes nothing). Cleanup permanently removes records older than 24 months; no new Google Sheet is created.</div>
+          <div class="muted" style="margin-top:6px"><b>Automatic 24-month retention:</b> the app keeps the latest 24 months of records in this same Google Sheet. Records older than 24 months are permanently removed during the daily cleanup. No new Google Sheet or monthly migration is required. Keep your regular backup enabled before cleanup runs.</div>
+          <div class="bar" style="margin-top:8px"><button class="btn sec" id="mchk">Data check</button><button class="btn sec" id="marc">Run 24-month cleanup now</button></div>
+          
           <div id="amsg"></div>
         </div>
       </div>
@@ -1536,12 +1534,12 @@ function showApp(me) {
   var DT = me.dh ? (me.tabs || ['summary', 'comparison']) : null, has = function (k) { return !DT || DT.indexOf(k) >= 0; };      // the DISCOM head sees only the tabs the app Creator allowed (never Admin)
   $('tsum').classList.toggle('hide', !has('summary'));
   $('tdata').classList.toggle('hide', me.dh ? !has('data') : !!me.admin);          // the Division Head does not need the Data Sheet
-  $('tdrv').classList.toggle('hide', me.dh ? !has('drivers') : false); $('tkit').classList.toggle('hide', me.dh ? !has('kitty') : false); $('tkit').textContent = 'Kitty'; KIT = null; KED = {}; KAPN = -1; if (me.admin && !me.dh) setTimeout(kapCheck, 600);
+  $('tdrv').classList.toggle('hide', me.dh ? !has('drivers') : false); KIT = null; KED = {}; KAPN = -1;
   $('tcmp').classList.toggle('hide', !has('comparison')); $('cmode').parentNode.classList.toggle('hide', !!me.dh); $('cdiv').parentNode.classList.toggle('hide', !!me.dh); if (me.dh) CMODE = 'day';
   $('dhbar').classList.add('hide');
   var t = new Date(); $('sd').value = fmt(t); $('st').value = fmt(t); $('sf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('dd').value = fmt(t); $('dto').value = fmt(t); $('dfrom').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear();
   $('cf').value = '01.' + p2(t.getMonth() + 1) + '.' + t.getFullYear(); $('ct').value = fmt(t);          // Comparison opens on the CURRENT MONTH until the user picks other dates
-  DTAB = me.dh ? (['sum', 'cmp', 'kit', 'data', 'drv'].filter(function (k) { return !$('t' + k).classList.contains('hide'); })[0] || 'sum') : 'sum';
+  DTAB = me.dh ? (['sum', 'cmp', 'data', 'drv'].filter(function (k) { return !$('t' + k).classList.contains('hide'); })[0] || 'sum') : 'sum';
   showTab(DTAB);
   if (me.must) { MUST = true; openPw(true); } else loadInitial();
   if (me.admin && !/^EWD/i.test(me.division || '')) openDiv();
@@ -1561,7 +1559,7 @@ function afterLogin(r) {
   showApp(r.me);
 }
 function loadInitial() {
-  DHP = (ME && ME.dh && ME.tabs && ME.tabs.some(function (k) { return k === 'data' || k === 'drivers' || k === 'kitty'; })) ? dhInit() : null;
+  DHP = (ME && ME.dh && ME.tabs && ME.tabs.some(function (k) { return k === 'data' || k === 'drivers'; })) ? dhInit() : null;
   if (ME && ME.dh && DTAB !== 'sum') return dhOpen(DTAB);
   loadSummary().then(function () { if (ME && ME.dh) return; loadDM(); if (ME && ME.canEdit !== false && !ME.admin) call('getData', TOKEN, { date: dsel(), all: false }).then(function (r) { cset('data|' + dsel(), r); }).catch(function () {}); });
 }
@@ -1600,10 +1598,10 @@ var CURTAB = 'sum';
 function showTab(t) {
   CURTAB = t;
   document.querySelectorAll('nav button').forEach(function (x) { x.classList.toggle('on', x.dataset.t === t); });
-  ['sum', 'cmp', 'kit', 'data', 'drv', 'usr'].forEach(function (k) { $('t-' + k).classList.toggle('hide', k !== t); });
-  $('dhbar').classList.toggle('hide', !(ME && ME.dh && (t === 'kit' || t === 'data' || t === 'drv')));
+  ['sum', 'cmp', 'data', 'drv', 'usr'].forEach(function (k) { $('t-' + k).classList.toggle('hide', k !== t); });
+  $('dhbar').classList.toggle('hide', !(ME && ME.dh && (t === 'data' || t === 'drv')));
 }
-/* DISCOM head: Data / Driver / Kitty tabs show one division at a time (read only) */
+/* DISCOM head: Data / Driver tabs show one division at a time (read only) */
 var DHP = null, DTAB = 'sum';
 function dhInit() {
   return call('dhDivs', TOKEN).then(function (r) {
@@ -1615,8 +1613,8 @@ function dhInit() {
 function dhOpen(t) {
   showTab(t);
   return (DHP || Promise.resolve()).then(function () {
-    if (!$('dhdiv').value) return msg(t === 'kit' ? 'kmsg' : t === 'data' ? 'dmsg' : 'mmsg', 'No division is registered under your DISCOM yet.', 'info');
-    if (t === 'kit') loadKitty(); else if (t === 'data') loadData(); else loadMaster();
+    if (!$('dhdiv').value) return msg(t === 'data' ? 'dmsg' : 'mmsg', 'No division is registered under your DISCOM yet.', 'info');
+    if (t === 'data') loadData(); else loadMaster();
   });
 }
 $('dhdiv').onchange = function () {
@@ -1629,8 +1627,7 @@ document.querySelectorAll('nav button').forEach(function (b) {
     showTab(t);
     if (t === 'sum') loadSummary();          // clicking Summary reloads it with the dates shown
     if (t === 'cmp') loadCompare();
-    if (ME && ME.dh && (t === 'kit' || t === 'data' || t === 'drv')) return dhOpen(t);
-    if (t === 'kit') loadKitty();
+    if (ME && ME.dh && (t === 'data' || t === 'drv')) return dhOpen(t);
     if (t === 'usr') { loadUsers(); adminPane(document.querySelector('#asub button.on').dataset.as); }
     if (t === 'data' && !D.dirty()) loadData();
     if (t === 'drv' && !M.dirty()) loadMaster();
@@ -1709,10 +1706,10 @@ function renderSummary(s, quiet) {
   s.top.rows.forEach(function (r) { h += '<tr class="xd"><td class="l">' + esc(r.label) + '</td>' + xtCells(r.v, S({ ws: r.ws }), r.label) + '</tr>'; });
   if (adm) h += '<tr class="xg"><td class="l">TOTAL</td>' + xtCells(s.top.total, S({}), 'TOTAL') + '</tr>';
   h += '</tbody></table></div></div>';
-  h += '<div class="card k-div"><h3>Division wise summary</h3><div class="wrap tbl11d"><table class="xlt">' + xtHead('DIVISION', s) + '<tbody>';
-  s.div.rows.forEach(function (r) { h += '<tr class="' + (r.t === 'w' ? 'xw' : r.t === 'o' ? 'xo' : 'xd') + '"><td class="l">' + esc(r.label) + '</td>' + xtCells(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
+  h += '<details class="card k-div opt"><summary><span class="oi">&#9638;</span><h3>Division summary</h3><span class="ot">click to expand</span></summary><div class="wrap tbl11d"><table class="xlt">' + xtHead('DIVISION', s) + '<tbody>';
+  s.div.rows.forEach(function (r) { h += '<tr class="' + (r.t === 'w' ? 'xw' : r.t === 'c' ? 'xc' : r.t === 'o' ? 'xo' : 'xd') + '"><td class="l">' + esc(r.label) + '</td>' + xtCells(r.v, S({ divs: r.keys }), r.label) + '</tr>'; });
   if (adm) h += '<tr class="xt"><td class="l">TOTAL</td>' + xtCells(s.div.total, S({}), 'TOTAL') + '</tr>';
-  h += '</tbody></table></div></div>';
+  h += '</tbody></table></div></details>';
   h += renderPend(s);
 
   h += capAll(s);
@@ -2253,7 +2250,18 @@ function makeGrid(cfg) {
     var opts = cfg.listFor ? cfg.listFor(g, r, p.c) : null;
     if (opts && opts.length) { $('gdl').innerHTML = optHtml(opts); inp.setAttribute('list', 'gdl'); g.ed.list = true; }
     inp.addEventListener('blur', function () { if (g.ed && g.ed.inp === inp) commitEdit(null); });
-    inp.addEventListener('input', function (ev) { if (g.ed && g.ed.list && ev.inputType === 'insertReplacementText') commitEdit(null); });
+    // Google-Sheets-like autosave: after the user pauses typing, commit the cell
+    // and queue the row save without requiring Enter, Tab, or a manual Save click.
+    // Dropdown fields are committed on selection/blur so suggestions are not cut off.
+    inp.addEventListener('input', function (ev) {
+      if (!g.ed || g.ed.inp !== inp) return;
+      if (g.ed.list && ev.inputType === 'insertReplacementText') { commitEdit(null); return; }
+      if (g.ed.list) return;
+      clearTimeout(g.ed.typeTimer);
+      g.ed.typeTimer = setTimeout(function () {
+        if (g.ed && g.ed.inp === inp) commitEdit(null);
+      }, 700);
+    });
     inp.focus(); try { inp.setSelectionRange(inp.value.length, inp.value.length); } catch (x) {}
   }
   function commitEdit(mv) {
@@ -2326,7 +2334,7 @@ function makeGrid(cfg) {
     var last = g.rows[g.rows.length - 1]; if (last && !blank(last.v)) g.addBlank(10);
     g.draw(); g.queueAuto();
     setSel({ vi: r.r1, c: map ? 0 : r.c1 }, { vi: Math.min(g.view.length - 1, r.r1 + done - 1), c: map ? NCOL - 1 : Math.min(NCOL - 1, r.c1 + (rows[0].length - off) - 1) });
-    msg(cfg.p + 'msg', done + ' rows pasted. Check them, then press <b>Save</b>.' + (cfg.pasteNote ? cfg.pasteNote(g, touched) : ''), 'info');
+    msg(cfg.p + 'msg', done + ' rows pasted. Saving automatically to your Google Sheet...' + (cfg.pasteNote ? cfg.pasteNote(g, touched) : ''), 'info');
   }
   /* ----- events ----- */
   function posOf(td) { return { vi: +td.parentNode.dataset.vi, c: +td.dataset.c }; }
@@ -2419,7 +2427,7 @@ function makeGrid(cfg) {
     }).catch(function (er) { msg(cfg.p + 'msg', esc(er.message), 'err'); });
   };
   /* ----- automatic save (a moment after the last edit) ----- */
-  g.queueAuto = function () { if (!cfg.auto || !g.canEdit) return; clearTimeout(g.at); g.at = setTimeout(g.autoSave, 150); };
+  g.queueAuto = function () { if (!cfg.auto || !g.canEdit) return; clearTimeout(g.at); g.at = setTimeout(g.autoSave, 80); };
   // a save that fails because the server is busy / the network dropped is tried again by itself (2, 4, 8, 15 seconds)
   function saveRetry(part) {
     var tries = 0;
@@ -3353,7 +3361,7 @@ $('go-creator').onclick = function (e) {
 };
 $('cr-close').onclick = function () { $('cr-ov').classList.add('hide'); CRT = null; };
 function crShow(r, what) { msg('cr-msg', what + ' <b>' + esc(r.id) + '</b> &middot; one-time password: <span style="font:700 18px ui-monospace,monospace">' + esc(r.otp) + '</span><br><span class="muted">' + (r.mailed ? 'It was also e-mailed to the DISCOM head.' : 'The e-mail could not be sent - please give this password to him yourself.') + '</span>', 'ok'); }
-var CRTABS = [['summary', 'Summary'], ['comparison', 'Comparison'], ['kitty', 'Kitty'], ['data', 'Data Sheet'], ['drivers', 'Driver Master']];
+var CRTABS = [['summary', 'Summary'], ['comparison', 'Comparison'], ['data', 'Data Sheet'], ['drivers', 'Driver Master']];
 function crBoxes(id, on) { return CRTABS.map(function (t) { return '<label class="crc"><input type="checkbox" data-tb="' + esc(id) + '" value="' + t[0] + '"' + (on.indexOf(t[0]) >= 0 ? ' checked' : '') + '> ' + t[1] + '</label>'; }).join(''); }
 function crPicked(sel) { return [].map.call(document.querySelectorAll(sel + ' input:checked'), function (i) { return i.value; }); }
 function crLoad() {
@@ -3433,11 +3441,21 @@ $('cb-all').onclick = function () { cbRun('', false); };
 $('cb-t').onclick = function (e) { var a = e.target.dataset.bk, f = e.target.dataset.bkf; if (a) cbRun(a, false); if (f && confirm('Overwrite the backup of ' + f + ' even if the sheet now has fewer records?')) cbRun(f, true); };
 
 /* ---------- admin: sheet link, workshops, maintenance ---------- */
-var ADM = null;
+var ADM = null, MASTER_ROWS = [];
+function renderMasterEditor() {
+  if (!$('mm-w')) return;
+  $('mm-w').innerHTML = (ADM.workshops || []).map(function(w){return '<option value="'+esc(w)+'">'+esc(w)+'</option>';}).join('');
+  $('mm-list').innerHTML = MASTER_ROWS.map(function(r,i){return '<div class="wsrow"><b>'+esc(r.workshop)+'</b><span style="flex:1 1 120px">'+esc(r.circle)+' → '+esc(r.division)+'</span><button class="btn sec sm danger" data-mm-del="'+i+'">Remove</button></div>';}).join('') || '<div class="muted">Abhi koi mapping nahi hai. Upar se mapping add karein.</div>';
+  $('mm-list').querySelectorAll('[data-mm-del]').forEach(function(b){b.onclick=function(){MASTER_ROWS.splice(+b.dataset.mmDel,1);renderMasterEditor();};});
+}
+function loadMasterEditor(){call('adminGetMaster',TOKEN).then(function(r){MASTER_ROWS=r.rows||[];if(ADM)ADM.workshops=r.workshops||ADM.workshops;renderMasterEditor();}).catch(function(e){msg('mm-msg',esc(e.message),'err');});}
+$('mm-add').onclick=function(){var w=$('mm-w').value,c=$('mm-c').value.trim(),d=$('mm-d').value.trim();if(!w||!c||!d)return msg('mm-msg','Workshop, Circle aur Division teeno bharein.','err');if(MASTER_ROWS.some(function(r){return r.workshop===w&&r.circle.toLowerCase()===c.toLowerCase()&&r.division.toLowerCase()===d.toLowerCase();}))return msg('mm-msg','Yeh mapping pehle se maujood hai.','err');MASTER_ROWS.push({workshop:w,circle:c,division:d});$('mm-c').value='';$('mm-d').value='';renderMasterEditor();msg('mm-msg','Mapping add ho gayi. Ab Save Master Mapping dabayein.','info');};
+$('mm-save').onclick=function(){var b=$('mm-save');busy(b,true,'Saving...');call('adminSaveMaster',TOKEN,MASTER_ROWS).then(function(r){MASTER_ROWS=r;busy(b,false);renderMasterEditor();msg('mm-msg','Master mapping save ho gayi.','ok');cclear('sum|');if(SUM)loadSummary();}).catch(function(e){busy(b,false);msg('mm-msg',esc(e.message),'err');});};
+
 function loadAdminInfo() {
   bkInfo();
   call('adminInfo', TOKEN).then(function (r) {
-    ADM = r; $('lk-sheet').href = r.sheet;
+    ADM = r; MASTER_ROWS = r.master || []; $('lk-sheet').href = r.sheet;
     if ($('mconvst')) { $('mconvst').textContent = r.conv ? 'Monthly mode is ON (last month roll: ' + (r.ym || '-') + ').' : 'Monthly mode is OFF - press Convert once.'; }
     r.userLink = location.origin + location.pathname; $('lk-copy').classList.remove('hide');
     $('wslist').innerHTML = r.workshops.map(function (w, i) { return '<div class="wsrow"><b>' + esc(w) + '</b><button class="btn sec sm" data-wr="' + i + '">Rename</button><button class="btn sec sm danger" data-wd="' + i + '">Delete</button></div>'; }).join('');
@@ -3450,11 +3468,11 @@ function wsAfter(list) { fillWs(list); ME.wsAll = list; cclear(); loadAdminInfo(
 function wsRename(w) {
   var n = prompt('New name for the workshop "' + w + '":', w); if (n === null) return; n = n.trim(); if (!n || n.toUpperCase() === w) return;
   msg('nwmsg', 'Renaming...', 'info');
-  call('adminRenameWorkshop', TOKEN, w, n).then(function (l) { wsAfter(l); msg('nwmsg', 'Renamed. All records, drivers, kitty and users were updated.', 'ok'); })
+  call('adminRenameWorkshop', TOKEN, w, n).then(function (l) { wsAfter(l); msg('nwmsg', 'Renamed. All records, drivers and users were updated.', 'ok'); })
     .catch(function (e) { msg('nwmsg', esc(e.message), 'err'); });
 }
 function wsDelete(w) {
-  if (!confirm('Delete the workshop "' + w + '"? Its drivers, kitty entries and user access will be removed. This cannot be undone.')) return;
+  if (!confirm('Delete the workshop "' + w + '"? Its drivers and user access will be removed. This cannot be undone.')) return;
   call('adminDeleteWorkshop', TOKEN, w).then(function (l) { wsAfter(l); msg('nwmsg', 'Workshop deleted.', 'ok'); })
     .catch(function (e) { msg('nwmsg', esc(e.message), 'err'); });
 }
@@ -3463,6 +3481,7 @@ function adminPane(k) {
   document.querySelectorAll('#asub button').forEach(function (b) { b.classList.toggle('on', b.dataset.as === k); });
   document.querySelectorAll('#t-usr .apane').forEach(function (p) { p.classList.toggle('hide', p.dataset.as !== k); });
   if (k === 'sheet') loadStorage();
+  if (k === 'master') loadMasterEditor();
   if (k === 'srv') srvLoad();
 }
 $('asub').onclick = function (e) { var b = e.target.closest('button'); if (b) adminPane(b.dataset.as); };
@@ -3601,14 +3620,7 @@ $('marc').onclick = function () {
   var b = $('marc'); msg('amsg', ''); busy(b, true, 'Archive...');
   call('adminArchive', TOKEN).then(function (n) { busy(b, false); msg('amsg', n ? n + ' old records were moved to ARCHIVE.' : 'No old data eligible for archiving was found.', 'ok'); }).catch(function (e) { busy(b, false); msg('amsg', esc(e.message), 'err'); });
 };
-$('mconv').onclick = function () {
-  if (!confirm('Convert to monthly mode?\n\nDATA will keep only the current + previous month and all unfinished records. Older finished records go to ARCHIVE. A backup copy of DATA is saved in a hidden tab.\nIt can take 1-2 minutes. Nobody should enter data meanwhile. Continue?')) return;
-  var b = $('mconv'); msg('amsg', ''); busy(b, true, 'Converting... please wait');
-  call('adminConvert', TOKEN).then(function (r) {
-    busy(b, false); $('mconvst').textContent = 'Monthly mode is ON.';
-    msg('amsg', 'Done. ' + r.moved + ' records moved to ARCHIVE. DATA now has ' + r.hot + ' rows. Backup tab: ' + esc(r.backup) + ' (you may delete it later).', 'ok');
-  }).catch(function (e) { busy(b, false); msg('amsg', esc(e.message), 'err'); });
-};
+
 
 /* ---------- start: saved sheet / ?s= link / old session ---------- */
 (function boot() {
